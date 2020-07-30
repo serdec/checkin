@@ -1,0 +1,2 @@
+export const QUESTION_ACCEPTED = 'ACCEPTED';
+export const QUESTION_REJECTED = 'REJECTED';

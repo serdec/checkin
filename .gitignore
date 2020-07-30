@@ -1,0 +1,12 @@
+# Node
+node_modules/
+
+# Next
+.next 
+.env
+.env.local
+.env.production
+.env.development
+.now
+
+.vercel
