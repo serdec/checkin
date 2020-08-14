@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
-import CheckinForm from './CheckboxContent/checkbox-form';
+import CheckboxForm from './CheckboxContent/checkbox-form';
 
 import styles from '../../checkin-content.module.css';
 
@@ -23,7 +23,7 @@ const CheckboxCard = ({
           <h1 className={styles.cardTitle}>{title}</h1>
         </Header>
         <Content className={styles.cardContent}>
-          <CheckinForm
+          <CheckboxForm
             checkList={checkList}
             img={img}
             onAddClick={onAddClick}

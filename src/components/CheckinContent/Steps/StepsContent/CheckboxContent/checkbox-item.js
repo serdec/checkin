@@ -10,10 +10,15 @@ const noop = () => {
   return;
 };
 
-const CheckboxItem = ({ onDeleteClick = noop, id = '', label = '' }) => {
+const CheckboxItem = ({
+  onDeleteClick = noop,
+  id = '',
+  label = '',
+  enabled = true,
+}) => {
   return (
     <>
-      <Checkbox id={id} name="checkin">
+      <Checkbox id={id} name="checkin" enabled={enabled}>
         <label className={styles.labelValue}>{label}</label>
       </Checkbox>
       <MinusCircleOutlined
@@ -29,6 +34,7 @@ CheckboxItem.propTypes = {
   onDeleteClick: PropTypes.func,
   id: PropTypes.string,
   label: PropTypes.string,
+  enabled: PropTypes.bool,
 };
 
 export default CheckboxItem;

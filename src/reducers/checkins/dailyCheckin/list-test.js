@@ -1,11 +1,16 @@
 import { describe } from 'riteway';
 import {
-  dailyCheckinReducer,
+  listReducer,
   addItem,
   deleteItem,
   toggleItem,
   getActiveItems,
-} from './daily-checkin';
+} from './list';
+
+const reducer = listReducer();
+const addItemToDefaultList = addItem();
+const deleteItemFromDefaultList = deleteItem();
+const toggleItemInDefaultList = toggleItem();
 
 const newItem = ({ id = '', active = true, value = '' } = {}) => ({
   id,
@@ -15,12 +20,12 @@ const newItem = ({ id = '', active = true, value = '' } = {}) => ({
 
 const initialState = [];
 
-describe('dailyCheckin', async (assert) => {
+describe('list', async (assert) => {
   {
     assert({
       given: 'no arguments',
       should: 'return the valid initial state',
-      actual: dailyCheckinReducer(),
+      actual: reducer(),
       expected: initialState,
     });
   }
@@ -28,41 +33,35 @@ describe('dailyCheckin', async (assert) => {
     assert({
       given: 'an add item action',
       should: 'return the state with the new item',
-      actual: dailyCheckinReducer(dailyCheckinReducer(), addItem(newItem())),
+      actual: reducer(reducer(), addItemToDefaultList(newItem())),
       expected: [newItem()],
     });
   }
 
   {
     const id = '1';
-    const actualState = dailyCheckinReducer(
-      dailyCheckinReducer(),
-      addItem({ id })
-    );
+    const actualState = reducer(reducer(), addItemToDefaultList({ id }));
     assert({
       given: 'the current state',
       should: 'delete the selected item',
-      actual: dailyCheckinReducer(actualState, deleteItem(id)),
-      expected: dailyCheckinReducer(),
+      actual: reducer(actualState, deleteItemFromDefaultList(id)),
+      expected: reducer(),
     });
   }
 
   {
     const id = '1';
     const active = false;
-    const actualState = dailyCheckinReducer(
-      dailyCheckinReducer(),
-      addItem({ id, active })
+    const actualState = reducer(
+      reducer(),
+      addItemToDefaultList({ id, active })
     );
 
     assert({
       given: 'a disabled item ',
       should: 'return the new state with the active item',
-      actual: dailyCheckinReducer(actualState, toggleItem(id)),
-      expected: dailyCheckinReducer(
-        dailyCheckinReducer(),
-        addItem({ id, active: true })
-      ),
+      actual: reducer(actualState, toggleItemInDefaultList(id)),
+      expected: reducer(reducer(), addItemToDefaultList({ id, active: true })),
     });
   }
 
@@ -70,10 +69,7 @@ describe('dailyCheckin', async (assert) => {
     const id = '1';
     const active = true;
     const item = newItem({ id, active });
-    const actualState = dailyCheckinReducer(
-      dailyCheckinReducer(),
-      addItem(item)
-    );
+    const actualState = reducer(reducer(), addItemToDefaultList(item));
     assert({
       given: 'an active item ',
       should: 'return a list containing it',

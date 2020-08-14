@@ -8,37 +8,74 @@ const noop = () => {
 };
 
 const StepsContent = ({
+  current = 0,
   tasks = [],
   blockers = [],
-  addInputField = noop,
-  onDeleteClick = noop,
+  addTasks = noop,
+  addBlockers = noop,
+  deleteTasks = noop,
+  deleteBlockers = noop,
 }) => {
   return (
     <div className={styles.stepsContent}>
-      <div className={styles.dayView}>
-        <CheckboxCard
-          title={'Tasks'}
-          img={'tasks.png'}
-          checkList={tasks}
-          onAddClick={addInputField}
-          onDeleteClick={onDeleteClick}
-        />
-        <CheckboxCard
-          title={'Blockers'}
-          img={'blockers.png'}
-          checkList={blockers}
-          onAddClick={addInputField}
-          onDeleteClick={onDeleteClick}
-        />
-      </div>
+      {current < 2 && (
+        <div className={styles.dayView}>
+          <CheckboxCard
+            title={'Tasks'}
+            img={'tasks.png'}
+            checkList={tasks}
+            onAddClick={addTasks}
+            onDeleteClick={deleteTasks}
+          />
+          <CheckboxCard
+            title={'Blockers'}
+            img={'blockers.png'}
+            checkList={blockers}
+            onAddClick={addBlockers}
+            onDeleteClick={deleteBlockers}
+          />
+        </div>
+      )}
+      {current === 2 && (
+        <div className={styles.dayView}>
+          <CheckboxCard
+            title={'Doing Well'}
+            img={'doingWell.png'}
+            checkList={tasks}
+            onAddClick={addTasks}
+            onDeleteClick={deleteTasks}
+          />
+          <CheckboxCard
+            title={'Needs Improvement'}
+            img={'improvements.png'}
+            checkList={blockers}
+            onAddClick={addBlockers}
+            onDeleteClick={deleteBlockers}
+          />
+        </div>
+      )}
+      {current >= 3 && (
+        <div className={styles.dayView}>
+          <CheckboxCard
+            title={'Done'}
+            img={'done.png'}
+            checkList={[]}
+            onAddClick={addTasks}
+            onDeleteClick={deleteTasks}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 StepsContent.propTypes = {
+  current: PropTypes.number,
   tasks: PropTypes.array,
   blockers: PropTypes.array,
-  addInputField: PropTypes.func,
-  onDeleteClick: PropTypes.func,
+  addTasks: PropTypes.func,
+  addBlockers: PropTypes.func,
+  deleteTasks: PropTypes.func,
+  deleteBlockers: PropTypes.func,
 };
 export default StepsContent;

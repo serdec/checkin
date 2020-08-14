@@ -41,11 +41,13 @@ describe('checkin list', async (assert) => {
   }
 
   {
+    const id = '1';
+    const date = 0;
     assert({
       given: 'a new checkin',
       should: 'add it to the current state',
-      actual: checkinsCollectionReducer(undefined, addCheckin()),
-      expected: [newCheckin()],
+      actual: checkinsCollectionReducer(undefined, addCheckin({ id, date })),
+      expected: [newCheckin({ id, date })],
     });
   }
 

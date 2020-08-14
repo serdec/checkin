@@ -23,61 +23,63 @@ const steps = [
     title: 'Feedback',
     content: 'Last-content',
   },
+  {
+    title: 'Finish',
+  },
 ];
 
 const CheckinContent = ({
-  latestCheckin = {},
-  tasks = [],
-  blockers = [],
-  addInputField = noop,
-  onDeleteClick = noop,
+  yesterdayTasks = [],
+  yesterdayBlockers = [],
+  todayTasks = [],
+  todayBlockers = [],
+  doingWell = '',
+  needsImprovements = '',
+  addYesterdayTasks = noop,
+  addYesterdayBlockers = noop,
+  addTodayTasks = noop,
+  addTodayBlockers = noop,
+  deleteYesterdayTasks = noop,
+  deleteYesterdayBlockers = noop,
+  deleteTodayTasks = noop,
+  deleteTodayBlockers = noop,
   submitForm = noop,
+  latestCheckin = {},
 } = {}) => {
   const [current, setCurrent] = useState(0);
 
   const next = () => {
-    const _current = current + 1;
-    setCurrent(_current);
+    setCurrent((current) => current + 1);
   };
 
   const prev = () => {
-    const _current = current - 1;
-    setCurrent(_current);
+    setCurrent((current) => current - 1);
   };
 
-  // let tasksToPass = [
-  //   {
-  //     id: 1,
-  //     value: 'value3',
-  //     active: false,
-  //   },
-  //   {
-  //     id: 2,
-  //     value: 'value4',
-  //     active: false,
-  //   },
-  // ];
+  let addTasks;
+  let addBlockers;
+  let deleteTasks;
+  let deleteBlockers;
+  let tasks;
+  let blockers;
+  if (current === 0) {
+    addTasks = addYesterdayTasks;
+    addBlockers = addYesterdayBlockers;
+    deleteTasks = deleteYesterdayTasks;
+    deleteBlockers = deleteYesterdayBlockers;
+    tasks = yesterdayTasks;
+    blockers = yesterdayBlockers;
+  }
+  if (current === 1) {
+    addTasks = addTodayTasks;
+    addBlockers = addTodayBlockers;
+    deleteTasks = deleteTodayTasks;
+    deleteBlockers = deleteTodayBlockers;
+    tasks = todayTasks;
+    blockers = todayBlockers;
+  }
 
-  // if (current === 0) {
-  //   tasksToPass = [
-  //     {
-  //       id: 1,
-  //       value: 'value1',
-  //       active: false,
-  //     },
-  //     {
-  //       id: 2,
-  //       value: 'value2',
-  //       active: true,
-  //     },
-  //   ];
-  // }
-
-  // if (current === 0) {
-  //   tasks = latestCheckin.todayTasks;
-  //   blockers = latestCheckin.todayBlockers;
-  // }
-
+  console.log(latestCheckin);
   return (
     <div className={styles.stepsContainer}>
       <Steps current={current}>
@@ -86,16 +88,28 @@ const CheckinContent = ({
         ))}
       </Steps>
       <StepsContent
+        current={current}
         tasks={tasks}
         blockers={blockers}
-        addInputField={addInputField}
-        onDeleteClick={onDeleteClick}
+        addTasks={addTasks}
+        addBlockers={addBlockers}
+        deleteTasks={deleteTasks}
+        deleteBlockers={deleteBlockers}
       />
       <StepsActions
         current={current}
         next={next}
         prev={prev}
-        submitForm={submitForm}
+        submitForm={() =>
+          submitForm({
+            yesterdayTasks,
+            yesterdayBlockers,
+            todayTasks,
+            todayBlockers,
+            doingWell,
+            needsImprovements,
+          })
+        }
         steps={steps}
       />
     </div>
@@ -103,11 +117,20 @@ const CheckinContent = ({
 };
 
 CheckinContent.propTypes = {
-  latestCheckin: PropTypes.object,
-  tasks: PropTypes.array,
-  blockers: PropTypes.array,
-  addInputField: PropTypes.func,
-  onDeleteClick: PropTypes.func,
+  yesterdayTasks: PropTypes.array,
+  yesterdayBlockers: PropTypes.array,
+  todayTasks: PropTypes.array,
+  todayBlockers: PropTypes.array,
+  doingWell: PropTypes.string,
+  needsImprovements: PropTypes.string,
+  addYesterdayTasks: PropTypes.func,
+  addYesterdayBlockers: PropTypes.func,
+  addTodayTasks: PropTypes.func,
+  addTodayBlockers: PropTypes.func,
+  deleteYesterdayTasks: PropTypes.func,
+  deleteYesterdayBlockers: PropTypes.func,
+  deleteTodayTasks: PropTypes.func,
+  deleteTodayBlockers: PropTypes.func,
   submitForm: PropTypes.func,
 };
 export default CheckinContent;

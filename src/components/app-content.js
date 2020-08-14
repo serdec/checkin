@@ -6,7 +6,7 @@ import {
   getItems,
   addItem,
   deleteItem,
-} from '../reducers/checkins/dailyCheckin/daily-checkin';
+} from '../reducers/checkins/dailyCheckin/list';
 import {
   getLatestCheckin,
   addCheckin,
@@ -15,25 +15,33 @@ import CheckinContent from './CheckinContent/checkin-content';
 
 const { Content } = Layout;
 
-const addInputField = (dispatch) => (value) => {
+const addField = (dispatch) => (listName) => (value) => {
   if (value === '') {
     return;
   }
-  dispatch(addItem({ value }));
+  dispatch(addItem(listName)({ value }));
 };
-
+const deleteField = (dispatch) => (listName) => (id) => {
+  dispatch(deleteItem(listName)(id));
+};
 const mapStateToProps = (state) => ({
-  latestCheckin: getLatestCheckin(state),
-  tasks: getItems(state),
+  yesterdayTasks: getItems(state.current.yesterdayTasks),
+  yesterdayBlockers: getItems(state.current.yesterdayBlockers),
+  todayTasks: getItems(state.current.todayTasks),
+  todayBlockers: getItems(state.current.todayBlockers),
+  latestCheckin: state.checkins,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addInputField: addInputField(dispatch),
-
-    onDeleteClick: (id) => {
-      dispatch(deleteItem(id));
-    },
+    addYesterdayTasks: addField(dispatch)('yesterdayTasks'),
+    addYesterdayBlockers: addField(dispatch)('yesterdayBlockers'),
+    addTodayTasks: addField(dispatch)('todayTasks'),
+    addTodayBlockers: addField(dispatch)('todayBlockers'),
+    deleteYesterdayTasks: deleteField(dispatch)('yesterdayTasks'),
+    deleteYesterdayBlockers: deleteField(dispatch)('yesterdayBlockers'),
+    deleteTodayTasks: deleteField(dispatch)('todayTasks'),
+    deleteTodayBlockers: deleteField(dispatch)('todayBlockers'),
 
     submitForm: ({
       id = '',

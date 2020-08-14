@@ -1,9 +1,10 @@
+import cuid from 'cuid';
 const ADD_CHECKIN = 'CHECKIN:: ADD_CHECKIN';
 const DELETE_CHECKIN = 'CHECKIN:: DELETE_CHECKIN';
 
 export const addCheckin = ({
-  id = '',
-  date = 0,
+  id = cuid(),
+  date = new Date(),
   user = 'user1',
   team = 'my-team',
   yesterdayTasks = [],
