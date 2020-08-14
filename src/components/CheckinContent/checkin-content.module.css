@@ -1,0 +1,81 @@
+.card {
+  margin: 1%;
+  display: flex;
+  flex-flow: column;
+  max-width: 100%;
+  width: 40em;
+  height: 70vh;
+  border: 3px solid #5c1eed;
+  border-radius: 1em;
+  overflow: auto;
+}
+.cardTitle{
+  text-align: center;
+  font-size: 2em;
+  color: white;
+}
+.checkin_form {
+  margin-top: 2em;
+}
+.cardLayout{
+  border-top-right-radius: 2em;
+  border-top-left-radius: 2em;
+  background: white;
+}
+.cardHeader{
+  border-top-right-radius: 0.3em;
+  border-top-left-radius: 0.3em;
+  background: #5c1eed;
+}
+.cardContent{
+  background: #fff;
+}
+.cardFooter{
+  background: #fff;
+}
+.cardImg{
+  display: block;
+  margin: auto;
+  width: 50%;
+}
+
+.stepsContainer {
+  padding: 0.5em 1em 0 1em;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+.stepsContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding-top: 0.5em;
+}
+.stepsAction {
+  margin: 2em 0 2em 0;
+  display: flex;
+  justify-content: center;
+  width: 90vw;
+  max-width: 100%;
+}
+
+.dayView {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  max-width: 100%;
+  width: 90vw;
+  overflow: auto;
+}
+
+.labelValue {
+  display: inline-block;
+  width: 16em;
+  word-break: break-all;
+  font-size: 1.3em;
+}
+
+.addBtn {
+  border-radius: 0.5em;
+}

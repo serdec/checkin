@@ -1,19 +1,36 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": [
-          "last 2 versions",
-          "safari >= 7"
-        ]
-      }
-    ],
-    "@babel/preset-react"
+    "next/babel"
   ],
   "plugins": [
     [
-      "@babel/transform-runtime"
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "lib",
+        "style": "index.css"
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "@ant-design/icons",
+        "libraryDirectory": "lib/icons",
+        "camel2DashComponentName": false
+      },
+      "@ant-design/icons"
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "next/babel"
+      ],
+      "plugins": [
+        [
+          "css-modules-transform"
+        ]
+      ]
+    }
+  }
 }

@@ -1,19 +1,13 @@
 import React from 'react';
-import Layout from '../components/layout';
-import withUser from '../lib/magic/with-user';
 import PropTypes from 'prop-types';
-import CheckinForm from '../components/CheckinForm/checkin-form';
+import App from '../components/App';
 
-const Home = ({ user }) => {
-  return (
-    <Layout>
-      <CheckinForm />
-    </Layout>
-  );
+const Home = () => {
+  return <App />;
 };
 
 Home.propTypes = {
-  user: PropTypes.object,
+  db: PropTypes.object,
 };
 
-export default withUser(Home);
+export default Home;
