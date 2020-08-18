@@ -7,10 +7,7 @@ import {
   addItem,
   deleteItem,
 } from '../reducers/checkins/dailyCheckin/list';
-import {
-  getLatestCheckin,
-  addCheckin,
-} from '../reducers/checkins/checkinsCollection/checkins-collection';
+import { addCheckin } from '../reducers/checkins/checkinsCollection/checkins-collection';
 import CheckinContent from './CheckinContent/checkin-content';
 
 const { Content } = Layout;

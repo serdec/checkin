@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "lint": "eslint --fix . && echo 'Lint complete.'",
-    "test": "NODE_ENV=test riteway -r @babel/register 'src/**/*-test.js' | tap-nirvana ",
+    "test": "NODE_ENV=test nyc riteway -r @babel/register 'src/**/*-test.js' | tap-nirvana ",
     "watch": "watch 'clear && npm run -s test && npm run -s lint' src",
     "dev": "next",
     "build": "next build",
@@ -45,6 +45,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
+    "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
     "riteway": "^6.1.2",
