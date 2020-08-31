@@ -7,11 +7,11 @@ import styles from '../../../checkin-content.module.css';
 const noop = () => {
   return;
 };
-const AddFieldInput = ({ onAddClick = noop }) => {
+const InputFieldWithAddButton = ({ onAddClick = noop }) => {
   const [tasksInput, setTasksInput] = useState('');
 
   return (
-    <>
+    <div className="inputFieldWithAddButtonSelector">
       <Input
         style={{ width: '80%', borderRadius: '0.5em' }}
         type="text"
@@ -38,11 +38,11 @@ const AddFieldInput = ({ onAddClick = noop }) => {
       >
         +
       </Button>
-    </>
+    </div>
   );
 };
 
-AddFieldInput.propTypes = {
+InputFieldWithAddButton.propTypes = {
   onAddClick: PropTypes.func,
 };
-export default AddFieldInput;
+export default InputFieldWithAddButton;

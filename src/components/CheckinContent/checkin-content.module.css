@@ -14,9 +14,6 @@
   font-size: 2em;
   color: white;
 }
-.checkin_form {
-  margin-top: 2em;
-}
 .cardLayout{
   border-top-right-radius: 2em;
   border-top-left-radius: 2em;
@@ -38,6 +35,9 @@
   margin: auto;
   width: 50%;
 }
+.checkinForm {
+  margin-top: 2em;
+}
 
 .stepsContainer {
   padding: 0.5em 1em 0 1em;
@@ -52,7 +52,7 @@
   background-color: white;
   padding-top: 0.5em;
 }
-.stepsAction {
+.stepsActions {
   margin: 2em 0 2em 0;
   display: flex;
   justify-content: center;

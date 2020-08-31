@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer);
 
 const App = () => {
+  console.log(store.getState());
   return (
     <Provider store={store}>
       <AppHeader />

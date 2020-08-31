@@ -4,11 +4,10 @@ import { Form } from 'antd';
 import AddFieldInput from './input-field';
 import CheckboxItem from './checkbox-item';
 
-import styles from '../../../checkin-content.module.css';
-
 const noop = () => {
   return;
 };
+
 const layout = {
   labelCol: { xs: { span: 20 }, sm: { span: 8 } },
   wrapperCol: { span: 0 },
@@ -22,14 +21,12 @@ const tailLayout = {
 
 const CheckboxForm = ({
   checkList = [],
-  img = '',
   onAddClick = noop,
   onDeleteClick = noop,
 }) => {
   return (
     <div className="checkboxForm">
       <Form {...layout}>
-        <img className={styles.cardImg} src={img} />
         {checkList.map((el) => {
           return (
             <Form.Item {...tailLayout} key={el.id}>
@@ -51,7 +48,6 @@ const CheckboxForm = ({
 
 CheckboxForm.propTypes = {
   checkList: PropTypes.array,
-  img: PropTypes.string,
   onAddClick: PropTypes.func,
   onDeleteClick: PropTypes.func,
 };

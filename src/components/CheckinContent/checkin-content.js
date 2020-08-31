@@ -3,7 +3,7 @@ import { Steps } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './checkin-content.module.css';
 import StepsContent from './Steps/steps-content';
-import StepsActions from './Steps/steps-action';
+import StepsActions from './Steps/steps-actions';
 
 const noop = () => {
   return;
@@ -33,18 +33,19 @@ const CheckinContent = ({
   yesterdayBlockers = [],
   todayTasks = [],
   todayBlockers = [],
-  doingWell = '',
-  needsImprovements = '',
+  doingWellFeedback = '',
+  needsImprovementFeedback = '',
   addYesterdayTasks = noop,
   addYesterdayBlockers = noop,
   addTodayTasks = noop,
   addTodayBlockers = noop,
+  setDoingWellFeedback = noop,
+  setNeedsImprovementFeedback = noop,
   deleteYesterdayTasks = noop,
   deleteYesterdayBlockers = noop,
   deleteTodayTasks = noop,
   deleteTodayBlockers = noop,
   submitForm = noop,
-  latestCheckin = {},
 } = {}) => {
   const [current, setCurrent] = useState(0);
 
@@ -79,7 +80,6 @@ const CheckinContent = ({
     blockers = todayBlockers;
   }
 
-  console.log(latestCheckin);
   return (
     <div className={styles.stepsContainer}>
       <Steps current={current}>
@@ -93,6 +93,10 @@ const CheckinContent = ({
         blockers={blockers}
         addTasks={addTasks}
         addBlockers={addBlockers}
+        doingWellFeedback={doingWellFeedback}
+        setDoingWellFeedback={setDoingWellFeedback}
+        needsImprovementFeedback={needsImprovementFeedback}
+        setNeedsImprovementFeedback={setNeedsImprovementFeedback}
         deleteTasks={deleteTasks}
         deleteBlockers={deleteBlockers}
       />
@@ -106,8 +110,8 @@ const CheckinContent = ({
             yesterdayBlockers,
             todayTasks,
             todayBlockers,
-            doingWell,
-            needsImprovements,
+            doingWellFeedback,
+            needsImprovementFeedback,
           })
         }
         steps={steps}
@@ -121,8 +125,10 @@ CheckinContent.propTypes = {
   yesterdayBlockers: PropTypes.array,
   todayTasks: PropTypes.array,
   todayBlockers: PropTypes.array,
-  doingWell: PropTypes.string,
-  needsImprovements: PropTypes.string,
+  doingWellFeedback: PropTypes.string,
+  setDoingWellFeedback: PropTypes.func,
+  needsImprovementFeedback: PropTypes.string,
+  setNeedsImprovementFeedback: PropTypes.func,
   addYesterdayTasks: PropTypes.func,
   addYesterdayBlockers: PropTypes.func,
   addTodayTasks: PropTypes.func,

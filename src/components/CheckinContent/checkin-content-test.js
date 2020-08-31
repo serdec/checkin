@@ -2,15 +2,15 @@ import { describe } from 'riteway';
 import render from 'riteway/render-component';
 import React from 'react';
 
-import CheckboxForm from './Steps/StepsContent/CheckboxContent/checkbox-form';
-
+import CheckinContent from './checkin-content';
+import styles from './checkin-content.module.css';
 describe('Checkin form', async (assert) => {
-  const $ = render(<CheckboxForm />);
+  const $ = render(<CheckinContent />);
 
   assert({
     given: 'no arguments',
     should: 'Render a form ',
-    actual: $('.checkboxForm').length,
+    actual: $(`.${styles.stepsContainer}`).length,
     expected: 1,
   });
 });

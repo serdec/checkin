@@ -17,7 +17,7 @@ const CheckboxItem = ({
   enabled = true,
 }) => {
   return (
-    <>
+    <div className="checkboxItemSelector">
       <Checkbox id={id} name="checkin" enabled={enabled}>
         <label className={styles.labelValue}>{label}</label>
       </Checkbox>
@@ -26,7 +26,7 @@ const CheckboxItem = ({
           onDeleteClick(id);
         }}
       />
-    </>
+    </div>
   );
 };
 

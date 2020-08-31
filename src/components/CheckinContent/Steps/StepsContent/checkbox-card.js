@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
-import CheckboxForm from './CheckboxContent/checkbox-form';
 
 import styles from '../../checkin-content.module.css';
 
 const { Header, Content } = Layout;
-const noop = () => {
-  return;
-};
-const CheckboxCard = ({
-  title = '',
-  img = '',
-  checkList = [],
-  onAddClick = noop,
-  onDeleteClick = noop,
-} = {}) => {
+
+const CheckboxCard = ({ title = '', img = '', children = [] } = {}) => {
   return (
     <div className={styles.card}>
       <Layout className={styles.cardLayout}>
@@ -23,12 +14,8 @@ const CheckboxCard = ({
           <h1 className={styles.cardTitle}>{title}</h1>
         </Header>
         <Content className={styles.cardContent}>
-          <CheckboxForm
-            checkList={checkList}
-            img={img}
-            onAddClick={onAddClick}
-            onDeleteClick={onDeleteClick}
-          />
+          <img className={styles.cardImg} src={img} />
+          {children}
         </Content>
       </Layout>
     </div>
@@ -37,8 +24,6 @@ const CheckboxCard = ({
 CheckboxCard.propTypes = {
   title: PropTypes.string,
   img: PropTypes.string,
-  checkList: PropTypes.array,
-  onAddClick: PropTypes.func,
-  onDeleteClick: PropTypes.func,
+  children: PropTypes.any,
 };
 export default CheckboxCard;
