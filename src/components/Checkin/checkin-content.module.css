@@ -3,7 +3,7 @@
   display: flex;
   flex-flow: column;
   max-width: 100%;
-  width: 40em;
+  width: 30em;
   height: 70vh;
   border: 3px solid #5c1eed;
   border-radius: 1em;
@@ -41,9 +41,12 @@
 
 .stepsContainer {
   padding: 0.5em 1em 0 1em;
+  margin: 0 5vw;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  width:70vw;
+  overflow: auto;
 }
 .stepsContent {
   display: flex;
@@ -51,12 +54,13 @@
   align-items: center;
   background-color: white;
   padding-top: 0.5em;
+
 }
 .stepsActions {
   margin: 2em 0 2em 0;
   display: flex;
   justify-content: center;
-  width: 90vw;
+  width: 80%;
   max-width: 100%;
 }
 
@@ -64,8 +68,7 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  max-width: 100%;
-  width: 90vw;
+  width: 60vw;
   overflow: auto;
 }
 

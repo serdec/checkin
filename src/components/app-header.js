@@ -1,8 +1,5 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
-import styles from './app.module.css';
-
-const { Header } = Layout;
+import { Menu } from 'antd';
 
 const menuStyle = {
   position: 'relative',
@@ -13,13 +10,11 @@ const menuStyle = {
 
 const AppHeader = () => {
   return (
-    <Header className={styles.header}>
-      <Menu style={menuStyle} theme="light" mode="horizontal">
-        <Menu.Item key="1">
-          <a href="/login">Login</a>
-        </Menu.Item>
-      </Menu>
-    </Header>
+    <Menu style={menuStyle} theme="light" mode="horizontal">
+      <Menu.Item key="1">
+        <a href="/login">Login</a>
+      </Menu.Item>
+    </Menu>
   );
 };
 

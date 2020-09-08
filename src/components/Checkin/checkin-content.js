@@ -8,6 +8,7 @@ import StepsActions from './Steps/steps-actions';
 const noop = () => {
   return;
 };
+
 const { Step } = Steps;
 
 const steps = [
