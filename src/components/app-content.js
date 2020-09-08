@@ -1,6 +1,4 @@
 import React from 'react';
-import { Layout } from 'antd';
-import styles from './app.module.css';
 import { connect } from 'react-redux';
 import {
   getItems,
@@ -12,9 +10,9 @@ import {
   getFeedback,
 } from '../reducers/checkins/dailyCheckin/feedback';
 import { addCheckin } from '../reducers/checkins/checkinsCollection/checkins-collection';
-import CheckinContent from './CheckinContent/checkin-content';
-
-const { Content } = Layout;
+import CheckinContent from './Checkin/checkin-content';
+import ConnectedDateLog from './DateLog/connected-date-log';
+import cuid from 'cuid';
 
 const addField = (dispatch) => (listName) => (value) => {
   if (value === '') {
@@ -53,8 +51,8 @@ const mapDispatchToProps = (dispatch) => ({
   deleteTodayBlockers: deleteField(dispatch)('todayBlockers'),
 
   submitForm: ({
-    id = '',
-    date = 0,
+    id = cuid(),
+    date = new Date().getFullYear(),
     user = 'user1',
     team = 'my-team',
     yesterdayTasks = [],
@@ -86,12 +84,11 @@ const ConnectedCheckinContent = connect(
   mapDispatchToProps
 )(CheckinContent);
 
-const AppContent = () => {
-  return (
-    <Content className={styles.sitLayoutContent}>
-      <ConnectedCheckinContent />
-    </Content>
-  );
-};
+const AppContent = () => (
+  <>
+    <ConnectedDateLog />
+    <ConnectedCheckinContent />
+  </>
+);
 
 export default AppContent;

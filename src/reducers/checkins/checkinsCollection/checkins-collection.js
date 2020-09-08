@@ -45,7 +45,7 @@ export const getLatestCheckin = (state) => {
   return state[state.length - 1];
 };
 export const getCheckinByDay = (state, date) => {
-  return state.filter((checkin) => checkin.date == date);
+  return state.filter((checkin) => checkin.date === date);
 };
 
 export const checkinsCollectionReducer = (
