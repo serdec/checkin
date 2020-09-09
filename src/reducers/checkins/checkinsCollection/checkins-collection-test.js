@@ -6,6 +6,7 @@ import {
   getCheckinByDay,
   getLatestCheckin,
 } from './checkins-collection';
+import { getDateString } from '../../../lib/date/date';
 
 const newCheckin = ({
   id = '',
@@ -16,8 +17,8 @@ const newCheckin = ({
   yesterdayBlockers = [],
   todayTasks = [],
   todayBlockers = [],
-  doingWell = '',
-  needsImprovements = '',
+  doingWellFeedback = '',
+  needsImprovementFeedback = '',
 } = {}) => ({
   id,
   date,
@@ -26,11 +27,11 @@ const newCheckin = ({
   checkin: {
     yesterday: { yesterdayTasks, yesterdayBlockers },
     today: { todayTasks, todayBlockers },
-    feedback: { doingWell, needsImprovements },
+    feedback: { doingWellFeedback, needsImprovementFeedback },
   },
 });
 
-describe('checkin list', async (assert) => {
+describe('checkins collection', async (assert) => {
   {
     assert({
       given: 'no arguments',
@@ -71,14 +72,11 @@ describe('checkin list', async (assert) => {
 
   {
     const checkinId = '1';
-    const date = new Date();
-    date.setFullYear(2020, 6, 31);
-    const date2 = new Date();
-    date2.setFullYear(2020, 0, 31);
-
+    const date = getDateString(new Date());
+    const date2 = getDateString(new Date('2020-12-25'));
     const actions = [
-      newCheckin({ id: checkinId, date: date.getTime() }),
-      newCheckin({ id: checkinId, date: date2.getTime() }),
+      newCheckin({ id: checkinId, date: date }),
+      newCheckin({ id: checkinId, date: date2 }),
     ].map(addCheckin);
     const actualState = actions.reduce(
       checkinsCollectionReducer,
@@ -87,8 +85,8 @@ describe('checkin list', async (assert) => {
     assert({
       given: 'the current state and a date',
       should: 'return the checkins for the given date',
-      actual: getCheckinByDay(actualState, date2.getTime()),
-      expected: [newCheckin({ id: checkinId, date: date2.getTime() })],
+      actual: getCheckinByDay(actualState, date2),
+      expected: [newCheckin({ id: checkinId, date: date2 })],
     });
   }
 

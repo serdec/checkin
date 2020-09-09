@@ -1,3 +1,13 @@
 .dateLog{
-  width:10em;
+ 
+}
+.teamDayCheckins{
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  margin: 2em 2em;
+}
+
+.checkinPreview{
+  margin: 0 1em;
 }
