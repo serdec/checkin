@@ -1,5 +1,8 @@
 import React from 'react';
-import { Menu } from 'antd';
+import Link from 'next/link';
+import { Menu, Button } from 'antd';
+import PropTypes from 'prop-types';
+import withUser from '../lib/magic/with-user';
 
 const menuStyle = {
   position: 'relative',
@@ -7,15 +10,42 @@ const menuStyle = {
   justifyContent: 'flex-end',
   marginRight: '',
 };
+const LOGOUT = 'logout';
+const SIGNIN = 'SignIn';
 
-const AppHeader = () => {
+const AppHeader = ({ isSignedIn, isUserReady, signOut, user }) => {
+  const handleClick = async ({ key }) => {
+    if (key === LOGOUT) {
+      console.log('signing out');
+      signOut();
+    }
+  };
   return (
-    <Menu style={menuStyle} theme="light" mode="horizontal">
-      <Menu.Item key="1">
-        <a href="/login">Login</a>
-      </Menu.Item>
-    </Menu>
+    <div>
+      <Menu
+        style={menuStyle}
+        theme="light"
+        mode="horizontal"
+        onClick={handleClick}
+      >
+        {isUserReady && isSignedIn ? (
+          <Menu.Item key={LOGOUT}>Logout</Menu.Item>
+        ) : (
+            <Menu.Item key={SIGNIN}>
+              <Link href="/login">
+                <a>Login</a>
+              </Link>
+            </Menu.Item>
+          )}
+      </Menu>
+    </div>
   );
 };
 
+AppHeader.propTypes = {
+  isSignedIn: PropTypes.bool,
+  isUserReady: PropTypes.bool,
+  signOut: PropTypes.func,
+  user: PropTypes.object,
+};
 export default AppHeader;

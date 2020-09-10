@@ -3,27 +3,44 @@ import PropTypes from 'prop-types';
 import AppHeader from './app-header';
 import AppContent from './app-content';
 import AppSider from './app-sider';
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
+import withUser from '../lib/magic/with-user';
+
 import styles from './app.module.css';
 
 const { Header, Content } = Layout;
-const App = () => (
+const App = ({ isSignedIn, isUserReady, signOut, user }) => (
   <Layout>
     <Header className={styles.header}>
-      <AppHeader />
+      <AppHeader
+        isSignedIn={isSignedIn}
+        isUserReady={isUserReady}
+        signOut={signOut}
+        user={user}
+      />
     </Header>
     <Layout>
-      <AppSider />
-      <Content theme="light" className={styles.siteLayoutContent}>
-        <AppContent />
-      </Content>
+      {isUserReady && isSignedIn ? (
+        <>
+          <AppSider />
+          <Content theme="light" className={styles.siteLayoutContent}>
+            <AppContent />
+          </Content>
+        </>
+      ) : (
+          <div></div>
+        )}
     </Layout>
   </Layout>
 );
 
 App.propTypes = {
-  teams: PropTypes.array,
   createTeam: PropTypes.func,
+  isSignedIn: PropTypes.bool,
+  isUserReady: PropTypes.bool,
+  signOut: PropTypes.func,
+  teams: PropTypes.array,
+  user: PropTypes.obj,
 };
 
-export default App;
+export default withUser(App);

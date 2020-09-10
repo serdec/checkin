@@ -10,9 +10,20 @@ import {
   getFeedback,
 } from '../reducers/checkins/dailyCheckin/feedback';
 import { addCheckin } from '../reducers/checkins/checkinsCollection/checkins-collection';
+import { getDateString } from '../lib/date/date';
 import CheckinContent from './Checkin/checkin-content';
-import ConnectedDateLog from './DateLog/connected-date-log';
+import DateLog from './DateLog/date-log';
 import cuid from 'cuid';
+
+const mapStateToProps = (state) => ({
+  yesterdayTasks: getItems(state.current.yesterdayTasks),
+  yesterdayBlockers: getItems(state.current.yesterdayBlockers),
+  todayTasks: getItems(state.current.todayTasks),
+  todayBlockers: getItems(state.current.todayBlockers),
+  doingWellFeedback: getFeedback(state.current.doingWellFeedback),
+  needsImprovementFeedback: getFeedback(state.current.needsImprovementFeedback),
+  latestCheckin: state.checkins,
+});
 
 const addField = (dispatch) => (listName) => (value) => {
   if (value === '') {
@@ -26,16 +37,6 @@ const deleteField = (dispatch) => (listName) => (id) => {
 const setFeedbackValue = (dispatch) => (feedbackName) => (value) => {
   dispatch(setFeedback(feedbackName)(value));
 };
-const mapStateToProps = (state) => ({
-  yesterdayTasks: getItems(state.current.yesterdayTasks),
-  yesterdayBlockers: getItems(state.current.yesterdayBlockers),
-  todayTasks: getItems(state.current.todayTasks),
-  todayBlockers: getItems(state.current.todayBlockers),
-  doingWellFeedback: getFeedback(state.current.doingWellFeedback),
-  needsImprovementFeedback: getFeedback(state.current.needsImprovementFeedback),
-  latestCheckin: state.checkins,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   addYesterdayTasks: addField(dispatch)('yesterdayTasks'),
   addYesterdayBlockers: addField(dispatch)('yesterdayBlockers'),
@@ -52,7 +53,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   submitForm: ({
     id = cuid(),
-    date = new Date().getFullYear(),
+    date = getDateString(new Date()),
     user = 'user1',
     team = 'my-team',
     yesterdayTasks = [],
@@ -86,7 +87,7 @@ const ConnectedCheckinContent = connect(
 
 const AppContent = () => (
   <>
-    <ConnectedDateLog />
+    <DateLog />
     <ConnectedCheckinContent />
   </>
 );
