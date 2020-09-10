@@ -9,28 +9,38 @@ import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 
 const { Header, Content } = Layout;
-const App = ({ isSignedIn, isUserReady }) => {
-  const handle = () => console.log({ isSignedIn });
-  return (
+const App = ({ isSignedIn, isUserReady, signOut, user }) => (
+  <Layout>
+    <Header className={styles.header}>
+      <AppHeader
+        isSignedIn={isSignedIn}
+        isUserReady={isUserReady}
+        signOut={signOut}
+        user={user}
+      />
+    </Header>
     <Layout>
-      <Button onClick={handle}>isSignedIn</Button>
-      <Header className={styles.header}>
-        <AppHeader />
-      </Header>
-      <Layout>
-        <AppSider />
-        <Content theme="light" className={styles.siteLayoutContent}>
-          {isUserReady && isSignedIn ? <AppContent /> : <div></div>}
-        </Content>
-      </Layout>
+      {isUserReady && isSignedIn ? (
+        <>
+          <AppSider />
+          <Content theme="light" className={styles.siteLayoutContent}>
+            <AppContent />
+          </Content>
+        </>
+      ) : (
+          <div></div>
+        )}
     </Layout>
-  );
-};
+  </Layout>
+);
+
 App.propTypes = {
+  createTeam: PropTypes.func,
   isSignedIn: PropTypes.bool,
   isUserReady: PropTypes.bool,
+  signOut: PropTypes.func,
   teams: PropTypes.array,
-  createTeam: PropTypes.func,
+  user: PropTypes.obj,
 };
 
 export default withUser(App);

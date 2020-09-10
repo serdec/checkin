@@ -13,16 +13,15 @@ const menuStyle = {
 const LOGOUT = 'logout';
 const SIGNIN = 'SignIn';
 
-const AppHeader = ({ isSignedIn, isUserReady, signOut }) => {
+const AppHeader = ({ isSignedIn, isUserReady, signOut, user }) => {
   const handleClick = async ({ key }) => {
     if (key === LOGOUT) {
       console.log('signing out');
-      await signOut();
+      signOut();
     }
   };
   return (
     <div>
-      <Button onClick={() => console.log({ isSignedIn })}>headerButton</Button>
       <Menu
         style={menuStyle}
         theme="light"
@@ -32,12 +31,12 @@ const AppHeader = ({ isSignedIn, isUserReady, signOut }) => {
         {isUserReady && isSignedIn ? (
           <Menu.Item key={LOGOUT}>Logout</Menu.Item>
         ) : (
-          <Menu.Item key={SIGNIN}>
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </Menu.Item>
-        )}
+            <Menu.Item key={SIGNIN}>
+              <Link href="/login">
+                <a>Login</a>
+              </Link>
+            </Menu.Item>
+          )}
       </Menu>
     </div>
   );
@@ -47,5 +46,6 @@ AppHeader.propTypes = {
   isSignedIn: PropTypes.bool,
   isUserReady: PropTypes.bool,
   signOut: PropTypes.func,
+  user: PropTypes.object,
 };
-export default withUser(AppHeader);
+export default AppHeader;
