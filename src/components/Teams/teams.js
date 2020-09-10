@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import styles from '../app.module.css';
-import TeamPreview from './team-preview';
-import { addTeam } from '../../reducers/teams/teamsCollection/teams-collection';
-import { updateTeam } from '../../reducers/teams/team/team';
+import { createTeam } from './team-reducer';
+import { updateTeam } from './team-reducer';
 
 let lastUpdate;
 
@@ -25,7 +24,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createTeam: () => {
-    dispatch(addTeam({ name: 'MyTeam', img: 'team.png' }));
+    dispatch(createTeam({ name: 'MyTeam', img: 'team.png' }));
   },
   updateTeamName: teamUpdateName(dispatch),
 });

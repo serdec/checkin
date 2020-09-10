@@ -31,12 +31,12 @@ const AppHeader = ({ isSignedIn, isUserReady, signOut, user }) => {
         {isUserReady && isSignedIn ? (
           <Menu.Item key={LOGOUT}>Logout</Menu.Item>
         ) : (
-            <Menu.Item key={SIGNIN}>
-              <Link href="/login">
-                <a>Login</a>
-              </Link>
-            </Menu.Item>
-          )}
+          <Menu.Item key={SIGNIN}>
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
+          </Menu.Item>
+        )}
       </Menu>
     </div>
   );
