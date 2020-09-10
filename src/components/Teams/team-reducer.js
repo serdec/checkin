@@ -1,4 +1,5 @@
 import cuid from 'cuid';
+import { getDateString } from '../../lib/date/date';
 
 const CREATE_TEAM = 'TEAM::CREATE_TEAM';
 const DELETE_TEAM = 'TEAM::DELETE_TEAM';
@@ -8,7 +9,7 @@ const REMOVE_MEMBER = 'TEAM::REMOVE_MEMBER';
 
 export const createTeam = ({
   id = cuid(),
-  creationDate = new Date(),
+  creationDate = getDateString(new Date()),
   name = '',
   owner = '',
   members = [owner],

@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Input, Layout, Menu, Dropdown } from 'antd';
-import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
-import { addTeam } from '../reducers/teams/teamsCollection/teams-collection';
-import { updateTeam } from '../reducers/teams/team/team';
+import { Button, Layout, Menu } from 'antd';
+
+import { createTeam, updateTeam } from './Teams/team-reducer';
 
 import styles from './app.module.css';
+import TeamCreationInput from './Sider/team-creation-input';
 
 const { Sider } = Layout;
 let lastUpdate;
@@ -35,27 +27,23 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createTeam: () => {
-    dispatch(addTeam({ name: 'MyTeam', img: 'team.png' }));
+    dispatch(createTeam({ name: 'MyTeam', img: 'team.png' }));
   },
   updateTeamName: teamUpdateName(dispatch),
 });
 
-const AppSider = ({ teams, createTeam }) => {
+const AppSider = ({ teams = [], createTeam } = {}) => {
   const [collapsed, setCollapsed] = useState(false);
-
+  const [inputTeamName, setInputTeamName] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
+  const handleCreate = () => {
+    setInputTeamName(true);
+  };
   return (
     <div className={styles.siteLayoutSider}>
-      {/* <Button
-        type="primary"
-        onClick={toggleCollapsed}
-        style={{ marginBottom: 16 }}
-      >
-        {collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
-      </Button> */}
       <Sider theme="light">
         <Menu
           mode="inline"
@@ -67,7 +55,13 @@ const AppSider = ({ teams, createTeam }) => {
             <Menu.Item key={team.id}>{team.name}</Menu.Item>
           ))}
         </Menu>
-        <Button onClick={createTeam}>Create New Team</Button>
+        {inputTeamName ? (
+          <TeamCreationInput onDone={() => setInputTeamName(false)} />
+        ) : (
+          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+            Create New Team
+          </Button>
+        )}
       </Sider>
     </div>
   );

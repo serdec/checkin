@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppHeader from './app-header';
 import AppContent from './app-content';
 import AppSider from './app-sider';
-import { Layout, Button } from 'antd';
+import { Layout } from 'antd';
 import withUser from '../lib/magic/with-user';
 
 import styles from './app.module.css';
@@ -28,8 +28,8 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => (
           </Content>
         </>
       ) : (
-          <div></div>
-        )}
+        <div></div>
+      )}
     </Layout>
   </Layout>
 );
@@ -40,7 +40,7 @@ App.propTypes = {
   isUserReady: PropTypes.bool,
   signOut: PropTypes.func,
   teams: PropTypes.array,
-  user: PropTypes.obj,
+  user: PropTypes.object,
 };
 
 export default withUser(App);

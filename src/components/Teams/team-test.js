@@ -7,7 +7,7 @@ import {
   removeMember,
   getMembers,
   updateTeam,
-} from './team';
+} from './team-reducer';
 
 const createState = () => {
   return [];
