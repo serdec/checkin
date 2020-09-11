@@ -5,7 +5,7 @@ import React from 'react';
 import PropType from 'prop-types';
 import withUser from '../lib/magic/with-user';
 
-const Login = ({ isUserReady, signIn, user }) => {
+const Login = ({ isUserReady, signIn }) => {
   // useUser({ redirectTo: '/', redirectIfFound: true });
 
   const [errorMsg, setErrorMsg] = useState('');

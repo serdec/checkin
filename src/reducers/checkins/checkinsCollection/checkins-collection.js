@@ -7,7 +7,8 @@ export const addCheckin = ({
   id = cuid(),
   date = getDateString(new Date()),
   user = 'user1',
-  team = 'my-team',
+  teamId = cuid(),
+  teamName = teamId,
   yesterdayTasks = [],
   yesterdayBlockers = [],
   todayTasks = [],
@@ -20,7 +21,8 @@ export const addCheckin = ({
     id,
     date,
     user,
-    team,
+    teamId,
+    teamName,
     checkin: {
       yesterday: {
         yesterdayTasks,
@@ -45,8 +47,14 @@ export const deleteCheckin = (id) => ({
 export const getLatestCheckin = (state) => {
   return state[state.length - 1];
 };
-export const getCheckinByDay = (state = [], date = '') => {
-  return state.filter((checkin) => checkin.date === date);
+export const getCheckinByDay = ({
+  state = [],
+  date = getDateString(new Date()),
+  teamId = addCheckin().teamId,
+} = {}) => {
+  return state.filter(
+    (checkin) => checkin.date === date && checkin.teamId === teamId
+  );
 };
 
 export const checkinsCollectionReducer = (

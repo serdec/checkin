@@ -5,19 +5,29 @@ import { combineReducers, createStore } from 'redux';
 import { checkinsCollectionReducer } from '../reducers/checkins/checkinsCollection/checkins-collection';
 import { dailyCheckinReducer } from '../reducers/checkins/dailyCheckin/daily-checkin';
 import { teamReducer } from '../components/Teams/team-reducer';
+import { activeTeamReducer } from '../components/Teams/active-team-reducer';
 
 import '../styles/vars.css';
 import '../styles/global.css';
 import '../styles/css/antd.css';
 
 const initialState = {
+  activeTeam: 'ckewf5fc200sz2c6cdxg6wmtc',
   teams: [
     {
       id: 'ckewf5fc200sz2c6cdxg6wmtc',
       creationDate: '09/09/2020',
-      name: 'MyTeam',
+      name: 'FrontEnd',
       owner: 'sdecri',
       members: ['sdecri'],
+      checkIns: ['ckewf2knt00cu2c6cjfva0gge'],
+    },
+    {
+      id: 'ckewf5fc200sz2c7afzy7znsd',
+      creationDate: '09/09/2020',
+      name: 'DevOps',
+      owner: 'Jack',
+      members: ['jack'],
       checkIns: ['ckewf2knt00cu2c6cjfva0gge'],
     },
   ],
@@ -26,7 +36,8 @@ const initialState = {
       id: 'ckewf2knt00cu2c6cjfva0gge',
       date: '09/09/2020',
       user: 'sdecri',
-      team: 'MyTeam',
+      teamId: 'ckewf5fc200sz2c6cdxg6wmtc',
+      teamName: 'FrontEnd',
       checkin: {
         yesterday: {
           yesterdayTasks: [
@@ -66,7 +77,8 @@ const initialState = {
       id: 'ckewf4am500ss2c6cwkjogtic',
       date: '09/10/2020',
       user: 'user1',
-      team: 'my-team',
+      teamId: 'ckewf5fc200sz2c7afzy7znsd',
+      teamName: 'DevOps',
       checkin: {
         yesterday: {
           yesterdayTasks: [
@@ -125,6 +137,7 @@ const initialState = {
   },
 };
 const rootReducer = combineReducers({
+  activeTeam: activeTeamReducer,
   teams: teamReducer,
   checkins: checkinsCollectionReducer,
   current: dailyCheckinReducer,

@@ -2,61 +2,59 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
-
-import { createTeam, updateTeam } from './Teams/team-reducer';
-
+import { createTeam } from './Teams/team-reducer';
+import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
-
+import { setActiveTeam } from './Teams/active-team-reducer';
 const { Sider } = Layout;
-let lastUpdate;
 
-const teamUpdateName = (dispatch) => (team, newName) => {
-  const newTeam = {
-    ...team,
-    name: newName,
-  };
-  clearTimeout(lastUpdate);
-  lastUpdate = setTimeout(() => {
-    dispatch(updateTeam(newTeam));
-  }, 2000);
-};
 const mapStateToProps = (state) => ({
   teams: state.teams,
+  activeTeam: state.activeTeam,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createTeam: () => {
-    dispatch(createTeam({ name: 'MyTeam', img: 'team.png' }));
-  },
-  updateTeamName: teamUpdateName(dispatch),
+  createTeam: (owner) => (teamName) =>
+    dispatch(createTeam({ name: teamName, owner })),
+  setActiveTeam: (team) => dispatch(setActiveTeam(team)),
 });
 
-const AppSider = ({ teams = [], createTeam } = {}) => {
-  const [collapsed, setCollapsed] = useState(false);
+const AppSider = ({
+  createTeam,
+  setActiveTeam,
+  activeTeam,
+  teams = [],
+  user,
+} = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
 
   const handleCreate = () => {
     setInputTeamName(true);
   };
+
+  const handleMenuClick = ({ key }) => {
+    setActiveTeam(key);
+  };
+
   return (
     <div className={styles.siteLayoutSider}>
       <Sider theme="light">
         <Menu
           mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          defaultSelectedKeys={activeTeam}
           style={{ height: '100%', borderRight: 0 }}
+          onClick={handleMenuClick}
         >
           {teams.map((team) => (
             <Menu.Item key={team.id}>{team.name}</Menu.Item>
           ))}
         </Menu>
         {inputTeamName ? (
-          <TeamCreationInput onDone={() => setInputTeamName(false)} />
+          <TeamCreationInput
+            onDone={() => setInputTeamName(false)}
+            createTeam={createTeam(user.email)}
+          />
         ) : (
           <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
             Create New Team
@@ -68,9 +66,11 @@ const AppSider = ({ teams = [], createTeam } = {}) => {
 };
 
 AppSider.propTypes = {
-  teams: PropTypes.array,
+  activeTeam: PropTypes.string,
   createTeam: PropTypes.func,
-  updateTeamName: PropTypes.func,
+  setActiveTeam: PropTypes.func,
+  teams: PropTypes.array,
+  user: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppSider);
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(AppSider));
