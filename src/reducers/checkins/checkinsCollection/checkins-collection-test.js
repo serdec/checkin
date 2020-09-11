@@ -12,7 +12,8 @@ const newCheckin = ({
   id = '',
   date = 0,
   user = 'user1',
-  team = 'my-team',
+  teamId = 'my-team',
+  teamName = teamId,
   yesterdayTasks = [],
   yesterdayBlockers = [],
   todayTasks = [],
@@ -23,7 +24,8 @@ const newCheckin = ({
   id,
   date,
   user,
-  team,
+  teamId,
+  teamName,
   checkin: {
     yesterday: { yesterdayTasks, yesterdayBlockers },
     today: { todayTasks, todayBlockers },
@@ -42,13 +44,17 @@ describe('checkins collection', async (assert) => {
   }
 
   {
+    const teamId = 'my-team';
     const id = '1';
     const date = 0;
     assert({
       given: 'a new checkin',
       should: 'add it to the current state',
-      actual: checkinsCollectionReducer(undefined, addCheckin({ id, date })),
-      expected: [newCheckin({ id, date })],
+      actual: checkinsCollectionReducer(
+        undefined,
+        addCheckin({ id, date, teamId })
+      ),
+      expected: [newCheckin({ id, date, teamId })],
     });
   }
 
@@ -71,22 +77,26 @@ describe('checkins collection', async (assert) => {
   }
 
   {
+    const teamId = 'my-team';
+    const teamId2 = 'my-team2';
     const checkinId = '1';
     const date = getDateString(new Date());
     const date2 = getDateString(new Date('2020-12-25'));
     const actions = [
-      newCheckin({ id: checkinId, date: date }),
-      newCheckin({ id: checkinId, date: date2 }),
+      newCheckin({ id: checkinId, date: date, teamId }),
+      newCheckin({ id: checkinId, date: date2, teamId }),
+      newCheckin({ id: checkinId, date: date, teamId: teamId2 }),
+      newCheckin({ id: checkinId, date: date2, teamId: teamId2 }),
     ].map(addCheckin);
     const actualState = actions.reduce(
       checkinsCollectionReducer,
       checkinsCollectionReducer()
     );
     assert({
-      given: 'the current state and a date',
-      should: 'return the checkins for the given date',
-      actual: getCheckinByDay(actualState, date2),
-      expected: [newCheckin({ id: checkinId, date: date2 })],
+      given: 'the current state, a date and a teamId',
+      should: 'return the checkins for the given date and the given teamId',
+      actual: getCheckinByDay({ state: actualState, date: date2, teamId }),
+      expected: [newCheckin({ id: checkinId, date: date2, teamId })],
     });
   }
 

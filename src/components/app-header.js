@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { Menu, Button } from 'antd';
+import { Menu } from 'antd';
 import PropTypes from 'prop-types';
-import withUser from '../lib/magic/with-user';
 
 const menuStyle = {
   position: 'relative',
@@ -13,7 +12,7 @@ const menuStyle = {
 const LOGOUT = 'logout';
 const SIGNIN = 'SignIn';
 
-const AppHeader = ({ isSignedIn, isUserReady, signOut, user }) => {
+const AppHeader = ({ isSignedIn, isUserReady, signOut }) => {
   const handleClick = async ({ key }) => {
     if (key === LOGOUT) {
       console.log('signing out');
@@ -46,6 +45,5 @@ AppHeader.propTypes = {
   isSignedIn: PropTypes.bool,
   isUserReady: PropTypes.bool,
   signOut: PropTypes.func,
-  user: PropTypes.object,
 };
 export default AppHeader;
