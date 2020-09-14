@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
-import { checkinsCollectionReducer } from '../reducers/checkins/checkinsCollection/checkins-collection';
-import { dailyCheckinReducer } from '../reducers/checkins/dailyCheckin/daily-checkin';
-import { teamReducer } from '../components/Teams/team-reducer';
-import { activeTeamReducer } from '../components/Teams/active-team-reducer';
+import { wrapper } from '../store/store';
 
 import '../styles/vars.css';
 import '../styles/global.css';
@@ -136,24 +131,14 @@ const initialState = {
     needsImprovementFeedback: 'we need to start mentorship programs',
   },
 };
-const rootReducer = combineReducers({
-  activeTeam: activeTeamReducer,
-  teams: teamReducer,
-  checkins: checkinsCollectionReducer,
-  current: dailyCheckinReducer,
-});
 
-const store = createStore(rootReducer, initialState);
-
-export default function MyApp({ Component, pageProps }) {
-  return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
-  );
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
 }
 
 MyApp.propTypes = {
   Component: PropTypes.any,
   pageProps: PropTypes.any,
 };
+
+export default wrapper.withRedux(MyApp);

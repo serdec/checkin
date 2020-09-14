@@ -9,7 +9,6 @@ import TeamDayCheckins from './team-day-checkins';
 
 const mapStateToProps = (state) => ({
   getCheckin: (date) => {
-    console.log(JSON.stringify(state));
     //TODO remove state shape
     return getCheckinByDay({
       state: state.checkins,

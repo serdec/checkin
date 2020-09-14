@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import { logger } from 'redux-logger';
 
 import { configurePersist } from './localstorage-middleware.js';
-import reducer from './root-reducer.js';
+import rootReducer from './root-reducer.js';
 import rootSaga from './root-saga.js';
 
 const devMode = process.env.NODE_ENV === `development`;
@@ -25,8 +25,8 @@ if (devMode) {
 
 const makeStore = () => {
   const store = createStore(
-    reducer,
-    load(reducer()),
+    rootReducer,
+    load(rootReducer()),
     composeEnhancers(applyMiddleware(...middlewares))
   );
 
