@@ -56,10 +56,10 @@ const AppSider = ({
             createTeam={createTeam(user.email)}
           />
         ) : (
-          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-            Create New Team
-          </Button>
-        )}
+            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+              Create New Team
+            </Button>
+          )}
       </Sider>
     </div>
   );
@@ -70,7 +70,7 @@ AppSider.propTypes = {
   createTeam: PropTypes.func,
   setActiveTeam: PropTypes.func,
   teams: PropTypes.array,
-  user: PropTypes.func,
+  user: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withUser(AppSider));

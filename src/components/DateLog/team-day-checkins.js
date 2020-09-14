@@ -10,6 +10,7 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
         return (
           <div key={checkin.id} className={styles.checkinPreview}>
             <Button type="secondary">{checkin.user}</Button>
+            {JSON.stringify(checkin)}
           </div>
         );
       })}

@@ -22,7 +22,6 @@ const mapStateToProps = (state) => ({
   todayBlockers: getItems(state.current.todayBlockers),
   doingWellFeedback: getFeedback(state.current.doingWellFeedback),
   needsImprovementFeedback: getFeedback(state.current.needsImprovementFeedback),
-  latestCheckin: state.checkins,
 });
 
 const addField = (dispatch) => (listName) => (value) => {
@@ -54,8 +53,9 @@ const mapDispatchToProps = (dispatch) => ({
   submitForm: ({
     id = cuid(),
     date = getDateString(new Date()),
-    user = 'user1',
-    team = 'my-team',
+    user = '',
+    teamId = '',
+    teamName = '',
     yesterdayTasks = [],
     yesterdayBlockers = [],
     todayTasks = [],
@@ -68,7 +68,8 @@ const mapDispatchToProps = (dispatch) => ({
         id,
         date,
         user,
-        team,
+        teamId,
+        teamName,
         yesterdayTasks,
         yesterdayBlockers,
         todayTasks,
