@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 import moment from 'moment';
-import { getDateString, getCurrentDateString } from './date';
+import { getDateString, getCurrentDateString, getDateMoment } from './date';
 
 describe('date', async (assert) => {
   {
@@ -29,6 +29,23 @@ describe('date', async (assert) => {
       should: 'return the current date as string',
       actual: getCurrentDateString(),
       expected: moment(new Date()).format('L'),
+    });
+  }
+  {
+    assert({
+      given: 'a date',
+      should: 'return the date as a moment',
+      actual: getDateMoment(),
+      expected: undefined,
+    });
+  }
+  {
+    const date = new Date('12-25-2020');
+    assert({
+      given: 'a date',
+      should: 'return the date as a moment',
+      actual: getDateMoment(date),
+      expected: moment(date),
     });
   }
 });

@@ -56,10 +56,10 @@ const AppSider = ({
             createTeam={createTeam(user.email)}
           />
         ) : (
-            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-              Create New Team
-            </Button>
-          )}
+          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+            Create New Team
+          </Button>
+        )}
       </Sider>
     </div>
   );

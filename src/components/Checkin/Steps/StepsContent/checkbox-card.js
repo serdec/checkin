@@ -6,9 +6,14 @@ import styles from '../../checkin-content.module.css';
 
 const { Header, Content } = Layout;
 
-const CheckboxCard = ({ title = '', img = '', children = [] } = {}) => {
+const CheckboxCard = ({
+  title = '',
+  img = '',
+  children = [],
+  size = 'big',
+} = {}) => {
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${styles[size]}`}>
       <Layout className={styles.cardLayout}>
         <Header className={styles.cardHeader}>
           <h1 className={styles.cardTitle}>{title}</h1>
@@ -22,8 +27,9 @@ const CheckboxCard = ({ title = '', img = '', children = [] } = {}) => {
   );
 };
 CheckboxCard.propTypes = {
-  title: PropTypes.string,
-  img: PropTypes.string,
   children: PropTypes.any,
+  img: PropTypes.string,
+  size: PropTypes.string,
+  title: PropTypes.string,
 };
 export default CheckboxCard;

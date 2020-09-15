@@ -3,11 +3,17 @@
   display: flex;
   flex-flow: column;
   max-width: 100%;
-  width: 30em;
   height: 70vh;
+  width: 30em;
   border: 3px solid #5c1eed;
   border-radius: 1em;
   overflow: auto;
+}
+.card .big{
+  height: 70vh;
+}
+.card.small{
+  height: 30vh;
 }
 .cardTitle{
   text-align: center;

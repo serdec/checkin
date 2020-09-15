@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getDateString } from '../../lib/date/date';
+import { getDateString, getDateMoment } from '../../lib/date/date';
 import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
 import { getCheckinByDay } from '../../reducers/checkins/checkinsCollection/checkins-collection';
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => ({
 
 const DateLog = ({ getCheckin }) => {
   const [checkins, setVisibleCheckin] = useState([]);
-  const [dateValue, setDateValue] = useState();
+  const [dateValue, setDateValue] = useState(getDateMoment());
 
   useEffect(() => {
     setVisibleCheckin(getCheckin(getDateString(dateValue)));
@@ -32,7 +32,11 @@ const DateLog = ({ getCheckin }) => {
   };
   return (
     <div className={styles.dateLog}>
-      <DatePicker value={dateValue} onChange={(date) => onDateChange(date)} />
+      <DatePicker
+        value={dateValue}
+        onChange={(date) => onDateChange(date)}
+        highlightDates={getDateMoment()}
+      />
       <TeamDayCheckins checkins={checkins} />
     </div>
   );

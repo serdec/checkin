@@ -1,12 +1,12 @@
 import cuid from 'cuid';
 import { getDateString } from '../../../lib/date/date';
-const ADD_CHECKIN = 'CHECKIN:: ADD_CHECKIN';
-const DELETE_CHECKIN = 'CHECKIN:: DELETE_CHECKIN';
+const ADD_CHECKIN = 'CHECKIN::ADD_CHECKIN';
+const DELETE_CHECKIN = 'CHECKIN::DELETE_CHECKIN';
 
 export const addCheckin = ({
   id = cuid(),
   date = getDateString(new Date()),
-  user = 'user1',
+  user = '',
   teamId = cuid(),
   teamName = teamId,
   yesterdayTasks = [],
@@ -49,7 +49,7 @@ export const getLatestCheckin = (state) => {
 };
 export const getCheckinByDay = ({
   state = [],
-  date = getDateString(new Date()),
+  date = '',
   teamId = addCheckin().teamId,
 } = {}) => {
   return state.filter(

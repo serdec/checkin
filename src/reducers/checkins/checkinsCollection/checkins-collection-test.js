@@ -11,8 +11,8 @@ import { getDateString } from '../../../lib/date/date';
 const newCheckin = ({
   id = '',
   date = 0,
-  user = 'user1',
-  teamId = 'my-team',
+  user = '',
+  teamId = '',
   teamName = teamId,
   yesterdayTasks = [],
   yesterdayBlockers = [],

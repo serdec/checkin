@@ -6,8 +6,15 @@
   flex-flow: row;
   justify-content: flex-start;
   margin: 2em 2em;
+  overflow: auto;
 }
 
 .checkinPreview{
   margin: 0 1em;
+}
+
+.checkinHistoryView{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
 }
