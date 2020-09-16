@@ -9,10 +9,10 @@ export const addCheckin = ({
   user = '',
   teamId = cuid(),
   teamName = teamId,
-  yesterdayTasks = [],
-  yesterdayBlockers = [],
-  todayTasks = [],
-  todayBlockers = [],
+  previousTasks = [],
+  previousBlockers = [],
+  currentTasks = [],
+  currentBlockers = [],
   doingWellFeedback = '',
   needsImprovementFeedback = '',
 } = {}) => ({
@@ -24,13 +24,13 @@ export const addCheckin = ({
     teamId,
     teamName,
     checkin: {
-      yesterday: {
-        yesterdayTasks,
-        yesterdayBlockers,
+      tasks: {
+        previousTasks,
+        currentTasks,
       },
-      today: {
-        todayTasks,
-        todayBlockers,
+      blockers: {
+        previousBlockers,
+        currentBlockers,
       },
       feedback: {
         doingWellFeedback,

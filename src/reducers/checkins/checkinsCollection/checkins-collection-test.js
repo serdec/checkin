@@ -14,10 +14,10 @@ const newCheckin = ({
   user = '',
   teamId = '',
   teamName = teamId,
-  yesterdayTasks = [],
-  yesterdayBlockers = [],
-  todayTasks = [],
-  todayBlockers = [],
+  previousTasks = [],
+  previousBlockers = [],
+  currentTasks = [],
+  currentBlockers = [],
   doingWellFeedback = '',
   needsImprovementFeedback = '',
 } = {}) => ({
@@ -27,8 +27,8 @@ const newCheckin = ({
   teamId,
   teamName,
   checkin: {
-    yesterday: { yesterdayTasks, yesterdayBlockers },
-    today: { todayTasks, todayBlockers },
+    tasks: { previousTasks, currentTasks },
+    blockers: { previousBlockers, currentBlockers },
     feedback: { doingWellFeedback, needsImprovementFeedback },
   },
 });

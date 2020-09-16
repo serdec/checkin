@@ -7,6 +7,11 @@ import styles from './checkin-content.module.css';
 import StepsContent from './Steps/steps-content';
 import StepsActions from './Steps/steps-actions';
 import {
+  tasks,
+  blockers,
+  feedbacks,
+} from '../../reducers/checkins/dailyCheckin/daily-checkin';
+import {
   getItems,
   addItem,
   deleteItem,
@@ -26,12 +31,12 @@ const noop = () => {
 
 //TODO remove state shape dependency
 const mapStateToProps = (state) => ({
-  yesterdayTasks: getItems(state.current.yesterdayTasks),
-  yesterdayBlockers: getItems(state.current.yesterdayBlockers),
-  todayTasks: getItems(state.current.todayTasks),
-  todayBlockers: getItems(state.current.todayBlockers),
-  doingWellFeedback: getFeedback(state.current.doingWellFeedback),
-  needsImprovementFeedback: getFeedback(state.current.needsImprovementFeedback),
+  previousTasks: getItems(state.current[tasks[0]]),
+  previousBlockers: getItems(state.current[blockers[0]]),
+  currentTasks: getItems(state.current[tasks[1]]),
+  currentBlockers: getItems(state.current[blockers[1]]),
+  doingWellFeedback: getFeedback(state.current[feedbacks[0]]),
+  needsImprovementFeedback: getFeedback(state.current[feedbacks[1]]),
   teamId: state.activeTeam,
   teamName: getTeamName({ state: state.teams, teamId: state.activeTeam }),
 });
@@ -49,18 +54,16 @@ const setFeedbackValue = (dispatch) => (feedbackName) => (value) => {
   dispatch(setFeedback(feedbackName)(value));
 };
 const mapDispatchToProps = (dispatch) => ({
-  addYesterdayTasks: addField(dispatch)('yesterdayTasks'),
-  addYesterdayBlockers: addField(dispatch)('yesterdayBlockers'),
-  addTodayTasks: addField(dispatch)('todayTasks'),
-  addTodayBlockers: addField(dispatch)('todayBlockers'),
-  setDoingWellFeedback: setFeedbackValue(dispatch)('doingWellFeedback'),
-  setNeedsImprovementFeedback: setFeedbackValue(dispatch)(
-    'needsImprovementFeedback'
-  ),
-  deleteYesterdayTasks: deleteField(dispatch)('yesterdayTasks'),
-  deleteYesterdayBlockers: deleteField(dispatch)('yesterdayBlockers'),
-  deleteTodayTasks: deleteField(dispatch)('todayTasks'),
-  deleteTodayBlockers: deleteField(dispatch)('todayBlockers'),
+  addPreviousTasks: addField(dispatch)(tasks[0]),
+  addPreviousBlockers: addField(dispatch)(blockers[0]),
+  addCurrentTasks: addField(dispatch)(tasks[1]),
+  addCurrentBlockers: addField(dispatch)(blockers[1]),
+  setDoingWellFeedback: setFeedbackValue(dispatch)(feedbacks[0]),
+  setNeedsImprovementFeedback: setFeedbackValue(dispatch)(feedbacks[1]),
+  deletePreviousTasks: deleteField(dispatch)(tasks[0]),
+  deletePreviousBlockers: deleteField(dispatch)(blockers[0]),
+  deleteCurrentTasks: deleteField(dispatch)(tasks[1]),
+  deleteCurrentBlockers: deleteField(dispatch)(blockers[1]),
 
   submitForm: ({
     id = cuid(),
@@ -68,10 +71,10 @@ const mapDispatchToProps = (dispatch) => ({
     user = '',
     teamId = '',
     teamName = '',
-    yesterdayTasks = [],
-    yesterdayBlockers = [],
-    todayTasks = [],
-    todayBlockers = [],
+    previousTasks = [],
+    previousBlockers = [],
+    currentTasks = [],
+    currentBlockers = [],
     doingWellFeedback = '',
     needsImprovementFeedback = '',
   } = {}) => {
@@ -82,10 +85,10 @@ const mapDispatchToProps = (dispatch) => ({
         user,
         teamId,
         teamName,
-        yesterdayTasks,
-        yesterdayBlockers,
-        todayTasks,
-        todayBlockers,
+        previousTasks,
+        previousBlockers,
+        currentTasks,
+        currentBlockers,
         doingWellFeedback,
         needsImprovementFeedback,
       })
@@ -97,11 +100,11 @@ const { Step } = Steps;
 
 const steps = [
   {
-    title: 'Yesterday',
+    title: 'Previous',
     content: 'First-content',
   },
   {
-    title: 'Today',
+    title: 'Current',
     content: 'Second-content',
   },
   {
@@ -114,25 +117,25 @@ const steps = [
 ];
 
 const CheckinContent = ({
-  yesterdayTasks = [],
-  yesterdayBlockers = [],
-  todayTasks = [],
-  todayBlockers = [],
+  previousTasks = [],
+  previousBlockers = [],
+  currentTasks = [],
+  currentBlockers = [],
   doingWellFeedback = '',
   needsImprovementFeedback = '',
   teamId = '',
   teamName = '',
   user = {},
-  addYesterdayTasks = noop,
-  addYesterdayBlockers = noop,
-  addTodayTasks = noop,
-  addTodayBlockers = noop,
+  addPreviousTasks = noop,
+  addPreviousBlockers = noop,
+  addCurrentTasks = noop,
+  addCurrentBlockers = noop,
   setDoingWellFeedback = noop,
   setNeedsImprovementFeedback = noop,
-  deleteYesterdayTasks = noop,
-  deleteYesterdayBlockers = noop,
-  deleteTodayTasks = noop,
-  deleteTodayBlockers = noop,
+  deletePreviousTasks = noop,
+  deletePreviousBlockers = noop,
+  deleteCurrentTasks = noop,
+  deleteCurrentBlockers = noop,
   submitForm = noop,
 } = {}) => {
   const [current, setCurrent] = useState(0);
@@ -152,20 +155,20 @@ const CheckinContent = ({
   let tasks;
   let blockers;
   if (current === 0) {
-    addTasks = addYesterdayTasks;
-    addBlockers = addYesterdayBlockers;
-    deleteTasks = deleteYesterdayTasks;
-    deleteBlockers = deleteYesterdayBlockers;
-    tasks = yesterdayTasks;
-    blockers = yesterdayBlockers;
+    addTasks = addPreviousTasks;
+    addBlockers = addPreviousBlockers;
+    deleteTasks = deletePreviousTasks;
+    deleteBlockers = deletePreviousBlockers;
+    tasks = previousTasks;
+    blockers = previousBlockers;
   }
   if (current === 1) {
-    addTasks = addTodayTasks;
-    addBlockers = addTodayBlockers;
-    deleteTasks = deleteTodayTasks;
-    deleteBlockers = deleteTodayBlockers;
-    tasks = todayTasks;
-    blockers = todayBlockers;
+    addTasks = addCurrentTasks;
+    addBlockers = addCurrentBlockers;
+    deleteTasks = deleteCurrentTasks;
+    deleteBlockers = deleteCurrentBlockers;
+    tasks = currentTasks;
+    blockers = currentBlockers;
   }
 
   return (
@@ -194,10 +197,10 @@ const CheckinContent = ({
         prev={prev}
         submitForm={() =>
           submitForm({
-            yesterdayTasks,
-            yesterdayBlockers,
-            todayTasks,
-            todayBlockers,
+            previousTasks,
+            previousBlockers,
+            currentTasks,
+            currentBlockers,
             doingWellFeedback,
             needsImprovementFeedback,
             teamId,
@@ -212,10 +215,10 @@ const CheckinContent = ({
 };
 
 CheckinContent.propTypes = {
-  yesterdayTasks: PropTypes.array,
-  yesterdayBlockers: PropTypes.array,
-  todayTasks: PropTypes.array,
-  todayBlockers: PropTypes.array,
+  previousTasks: PropTypes.array,
+  previousBlockers: PropTypes.array,
+  currentTasks: PropTypes.array,
+  currentBlockers: PropTypes.array,
   doingWellFeedback: PropTypes.string,
   teamId: PropTypes.string,
   teamName: PropTypes.string,
@@ -223,14 +226,14 @@ CheckinContent.propTypes = {
   setDoingWellFeedback: PropTypes.func,
   needsImprovementFeedback: PropTypes.string,
   setNeedsImprovementFeedback: PropTypes.func,
-  addYesterdayTasks: PropTypes.func,
-  addYesterdayBlockers: PropTypes.func,
-  addTodayTasks: PropTypes.func,
-  addTodayBlockers: PropTypes.func,
-  deleteYesterdayTasks: PropTypes.func,
-  deleteYesterdayBlockers: PropTypes.func,
-  deleteTodayTasks: PropTypes.func,
-  deleteTodayBlockers: PropTypes.func,
+  addPreviousTasks: PropTypes.func,
+  addPreviousBlockers: PropTypes.func,
+  addCurrentTasks: PropTypes.func,
+  addCurrentBlockers: PropTypes.func,
+  deletePreviousTasks: PropTypes.func,
+  deletePreviousBlockers: PropTypes.func,
+  deleteCurrentTasks: PropTypes.func,
+  deleteCurrentBlockers: PropTypes.func,
   submitForm: PropTypes.func,
 };
 export default connect(

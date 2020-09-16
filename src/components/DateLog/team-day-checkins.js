@@ -16,11 +16,11 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
             <TabPane key={checkin.id} tab={checkin.user}>
               <div className={styles.checkinHistoryView}>
                 <CheckboxCard title="Previous Tasks" size="small">
-                  {checkin.checkin.yesterday.yesterdayTasks.map((item) => (
+                  {/* {checkin.checkin.yesterday.yesterdayTasks.map((item) => (
                     <li key={item.id}>
                       <CheckOutlined /> {item.value}
                     </li>
-                  ))}
+                  ))} */}
                 </CheckboxCard>
                 <CheckboxCard
                   title="Previous Blockers"
