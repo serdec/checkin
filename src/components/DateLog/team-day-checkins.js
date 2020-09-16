@@ -10,34 +10,19 @@ const { TabPane } = Tabs;
 const TeamDayCheckins = ({ checkins = [] } = {}) => {
   return (
     <div className={styles.teamDayCheckins}>
-      <Tabs>
+      <Tabs tabPosition={'left'}>
         {checkins.map((checkin) => {
           return (
             <TabPane key={checkin.id} tab={checkin.user}>
               <div className={styles.checkinHistoryView}>
                 <CheckboxCard title="Previous Tasks" size="small">
-                  {/* {checkin.checkin.yesterday.yesterdayTasks.map((item) => (
+                  {checkin.checkin.tasks.previous.map((item) => (
                     <li key={item.id}>
                       <CheckOutlined /> {item.value}
                     </li>
-                  ))} */}
+                  ))}
                 </CheckboxCard>
-                <CheckboxCard
-                  title="Previous Blockers"
-                  size="small"
-                ></CheckboxCard>
-                <CheckboxCard title="Current Tasks" size="small"></CheckboxCard>
-                <CheckboxCard
-                  title="Current Blockers"
-                  size="small"
-                ></CheckboxCard>
-                <CheckboxCard title="Doing Well" size="small"></CheckboxCard>
-                <CheckboxCard
-                  title="Needs Improvement"
-                  size="small"
-                ></CheckboxCard>
               </div>
-              <div>{JSON.stringify(checkin)}</div>
             </TabPane>
           );
         })}

@@ -6,8 +6,8 @@ import styles from '../checkin-content.module.css';
 import StepsContent from './steps-content';
 
 describe('steps content', async (assert) => {
-  const createStepsContent = ({ current = 0 } = {}) =>
-    render(<StepsContent current={current} />);
+  const createStepsContent = ({ step = 0 } = {}) =>
+    render(<StepsContent step={step} />);
 
   {
     const $ = createStepsContent();
@@ -21,8 +21,8 @@ describe('steps content', async (assert) => {
   }
 
   {
-    const current = 2;
-    const $ = createStepsContent({ current });
+    const step = 2;
+    const $ = createStepsContent({ step });
     const contains = match($.html().trim());
     assert({
       given: 'the current step',
@@ -33,8 +33,8 @@ describe('steps content', async (assert) => {
   }
 
   {
-    const current = 1;
-    const $ = createStepsContent({ current });
+    const step = 1;
+    const $ = createStepsContent({ step });
     const contains = match($.html().trim());
     assert({
       given: 'the current step',

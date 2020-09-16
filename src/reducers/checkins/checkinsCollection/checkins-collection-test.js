@@ -3,7 +3,7 @@ import {
   checkinsCollectionReducer,
   addCheckin,
   deleteCheckin,
-  getCheckinByDay,
+  getCheckinsByDay,
   getLatestCheckin,
 } from './checkins-collection';
 import { getDateString } from '../../../lib/date/date';
@@ -14,12 +14,9 @@ const newCheckin = ({
   user = '',
   teamId = '',
   teamName = teamId,
-  previousTasks = [],
-  previousBlockers = [],
-  currentTasks = [],
-  currentBlockers = [],
-  doingWellFeedback = '',
-  needsImprovementFeedback = '',
+  tasks = {},
+  blockers = {},
+  feedbacks = {},
 } = {}) => ({
   id,
   date,
@@ -27,9 +24,9 @@ const newCheckin = ({
   teamId,
   teamName,
   checkin: {
-    tasks: { previousTasks, currentTasks },
-    blockers: { previousBlockers, currentBlockers },
-    feedback: { doingWellFeedback, needsImprovementFeedback },
+    tasks,
+    blockers,
+    feedbacks,
   },
 });
 
@@ -95,7 +92,7 @@ describe('checkins collection', async (assert) => {
     assert({
       given: 'the current state, a date and a teamId',
       should: 'return the checkins for the given date and the given teamId',
-      actual: getCheckinByDay({ state: actualState, date: date2, teamId }),
+      actual: getCheckinsByDay({ state: actualState, date: date2, teamId }),
       expected: [newCheckin({ id: checkinId, date: date2, teamId })],
     });
   }

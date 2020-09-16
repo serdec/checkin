@@ -9,12 +9,9 @@ export const addCheckin = ({
   user = '',
   teamId = cuid(),
   teamName = teamId,
-  previousTasks = [],
-  previousBlockers = [],
-  currentTasks = [],
-  currentBlockers = [],
-  doingWellFeedback = '',
-  needsImprovementFeedback = '',
+  tasks = {},
+  blockers = {},
+  feedbacks = {},
 } = {}) => ({
   type: ADD_CHECKIN,
   payload: {
@@ -24,18 +21,9 @@ export const addCheckin = ({
     teamId,
     teamName,
     checkin: {
-      tasks: {
-        previousTasks,
-        currentTasks,
-      },
-      blockers: {
-        previousBlockers,
-        currentBlockers,
-      },
-      feedback: {
-        doingWellFeedback,
-        needsImprovementFeedback,
-      },
+      tasks,
+      blockers,
+      feedbacks,
     },
   },
 });
@@ -47,7 +35,7 @@ export const deleteCheckin = (id) => ({
 export const getLatestCheckin = (state) => {
   return state[state.length - 1];
 };
-export const getCheckinByDay = ({
+export const getCheckinsByDay = ({
   state = [],
   date = '',
   teamId = addCheckin().teamId,

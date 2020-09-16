@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { getDateString, getDateMoment } from '../../lib/date/date';
 import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
-import { getCheckinByDay } from '../../reducers/checkins/checkinsCollection/checkins-collection';
+import { getCheckinsByDay } from '../../reducers/checkins/checkinsCollection/checkins-collection';
 import styles from './date-log.module.css';
 import TeamDayCheckins from './team-day-checkins';
 
 const mapStateToProps = (state) => ({
   getCheckin: (date) => {
     //TODO remove state shape
-    return getCheckinByDay({
+    return getCheckinsByDay({
       state: state.checkins,
       date,
       teamId: state.activeTeam,
@@ -19,24 +19,20 @@ const mapStateToProps = (state) => ({
 });
 
 const DateLog = ({ getCheckin }) => {
-  const [checkins, setVisibleCheckin] = useState([]);
-  const [dateValue, setDateValue] = useState(getDateMoment());
+  const [checkins, setVisibleCheckins] = useState([]);
+  const [dateValue, setDateValue] = useState(getDateMoment(new Date()));
 
   useEffect(() => {
-    setVisibleCheckin(getCheckin(getDateString(dateValue)));
+    setVisibleCheckins(getCheckin(getDateString(dateValue)));
   }, [getCheckin, dateValue]);
 
   const onDateChange = (date) => {
     setDateValue(date);
-    setVisibleCheckin(getCheckin(getDateString(date)));
+    setVisibleCheckins(getCheckin(getDateString(date)));
   };
   return (
     <div className={styles.dateLog}>
-      <DatePicker
-        value={dateValue}
-        onChange={(date) => onDateChange(date)}
-        highlightDates={getDateMoment()}
-      />
+      <DatePicker value={dateValue} onChange={(date) => onDateChange(date)} />
       <TeamDayCheckins checkins={checkins} />
     </div>
   );

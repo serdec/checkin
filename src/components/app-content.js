@@ -13,7 +13,11 @@ const AppContent = () => {
       <Button onClick={() => setVisibleCheckinHistory(false)}>
         New Checkin
       </Button>
-      {visibleCheckinHistory ? <DateLog /> : <CheckinContent />}
+      {visibleCheckinHistory ? (
+        <DateLog />
+      ) : (
+        <CheckinContent onDone={() => setVisibleCheckinHistory(true)} />
+      )}
     </>
   );
 };
