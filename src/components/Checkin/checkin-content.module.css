@@ -41,6 +41,14 @@
   margin: auto;
   width: 50%;
 }
+
+.cardSummary{
+  /* display: flex;
+  flex-flow: row wrap;
+  justify-content: center; */
+  padding: 1em;
+  font-size: 1.5em;
+}
 .checkinForm {
   margin-top: 2em;
 }

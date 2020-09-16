@@ -4,10 +4,11 @@ import { teamReducer } from '../components/Teams/team-reducer';
 import { activeTeamReducer } from '../components/Teams/active-team-reducer';
 import { combineReducers } from 'redux';
 
-export const getActiveTeam = (state) => state.activeTeam;
-export const getTeams = (state) => state.teams;
-export const getCheckins = (state) => state.checkins;
-export const getCurrentCheckin = (state) => state.currentCheckin;
+export const getActiveTeam = ({ activeTeam = '' } = {}) => activeTeam;
+export const getTeams = ({ teams = [] } = {}) => teams;
+export const getCheckins = ({ checkins = {} } = {}) => checkins;
+export const getCurrentCheckin = ({ currentCheckin = {} } = {}) =>
+  currentCheckin;
 
 const rootReducer = combineReducers({
   activeTeam: activeTeamReducer,
