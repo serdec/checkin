@@ -7,7 +7,7 @@ const noop = () => {
   return;
 };
 const StepsActions = ({
-  current = 0,
+  step = 0,
   prev = noop,
   next = noop,
   submitForm = noop,
@@ -15,17 +15,17 @@ const StepsActions = ({
 } = {}) => {
   return (
     <div className={styles.stepsActions}>
-      {current > 0 && (
+      {step > 0 && (
         <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
           Previous
         </Button>
       )}
-      {current < steps.length - 1 && (
+      {step < steps.length - 1 && (
         <Button type="primary" onClick={() => next()}>
           Next
         </Button>
       )}
-      {current === steps.length - 1 && (
+      {step === steps.length - 1 && (
         <Button type="primary" onClick={submitForm}>
           Done
         </Button>
@@ -35,7 +35,7 @@ const StepsActions = ({
 };
 
 StepsActions.propTypes = {
-  current: PropTypes.number,
+  step: PropTypes.number,
   prev: PropTypes.func,
   next: PropTypes.func,
   steps: PropTypes.array,

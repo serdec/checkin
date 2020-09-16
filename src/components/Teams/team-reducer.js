@@ -52,8 +52,16 @@ export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
   },
 });
 
-export const getTeam = (state, teamId) => {
+export const getTeam = (state = [], teamId = '') => {
   return { ...state.filter((team) => team.id === teamId) };
+};
+
+export const getTeamName = (state = [], teamId = '') => {
+  const teamArr = state.filter((team) => team.id === teamId);
+
+  if (teamArr.length === 0) return '';
+
+  return teamArr[0].name;
 };
 
 export const getMembers = (state, teamId) => {

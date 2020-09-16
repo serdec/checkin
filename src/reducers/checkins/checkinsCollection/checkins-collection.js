@@ -1,20 +1,17 @@
 import cuid from 'cuid';
 import { getDateString } from '../../../lib/date/date';
-const ADD_CHECKIN = 'CHECKIN:: ADD_CHECKIN';
-const DELETE_CHECKIN = 'CHECKIN:: DELETE_CHECKIN';
+const ADD_CHECKIN = 'CHECKIN::ADD_CHECKIN';
+const DELETE_CHECKIN = 'CHECKIN::DELETE_CHECKIN';
 
 export const addCheckin = ({
   id = cuid(),
   date = getDateString(new Date()),
-  user = 'user1',
+  user = '',
   teamId = cuid(),
   teamName = teamId,
-  yesterdayTasks = [],
-  yesterdayBlockers = [],
-  todayTasks = [],
-  todayBlockers = [],
-  doingWellFeedback = '',
-  needsImprovementFeedback = '',
+  tasks = {},
+  blockers = {},
+  feedbacks = {},
 } = {}) => ({
   type: ADD_CHECKIN,
   payload: {
@@ -24,18 +21,9 @@ export const addCheckin = ({
     teamId,
     teamName,
     checkin: {
-      yesterday: {
-        yesterdayTasks,
-        yesterdayBlockers,
-      },
-      today: {
-        todayTasks,
-        todayBlockers,
-      },
-      feedback: {
-        doingWellFeedback,
-        needsImprovementFeedback,
-      },
+      tasks,
+      blockers,
+      feedbacks,
     },
   },
 });
@@ -47,9 +35,9 @@ export const deleteCheckin = (id) => ({
 export const getLatestCheckin = (state) => {
   return state[state.length - 1];
 };
-export const getCheckinByDay = ({
+export const getCheckinsByDay = ({
   state = [],
-  date = getDateString(new Date()),
+  date = '',
   teamId = addCheckin().teamId,
 } = {}) => {
   return state.filter(

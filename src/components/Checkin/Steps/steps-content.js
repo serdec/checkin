@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import styles from '../checkin-content.module.css';
 import CheckboxForm from './StepsContent/CheckboxContent/checkbox-form';
 import { Input } from 'antd';
-
+import {
+  tasksActions,
+  blockersActions,
+  feedbacksActions,
+  DOING_WELL,
+  NEEDS_IMPROVEMENT,
+} from '../../../reducers/checkins/dailyCheckin/daily-checkin';
 const { TextArea } = Input;
 
 const noop = () => {
@@ -12,48 +18,45 @@ const noop = () => {
 };
 
 const StepsContent = ({
-  current = 0,
-  tasks = [],
-  blockers = [],
-  doingWellFeedback = '',
-  setDoingWellFeedback = noop,
-  needsImprovementFeedback = '',
-  setNeedsImprovementFeedback = noop,
-  addTasks = noop,
-  addBlockers = noop,
-  deleteTasks = noop,
-  deleteBlockers = noop,
+  step = 0,
+  tasks = {},
+  blockers = {},
+  feedbacks = {},
+  addItem = noop,
+  deleteItem = noop,
+  setFeedback = noop,
 }) => {
+  let period = step === 0 ? 'previous' : 'current';
   return (
     <div className={styles.stepsContent}>
-      {current < 2 && (
+      {step < 2 && (
         <div className={styles.dayView}>
           <CheckboxCard title={'Tasks'} img={'tasks.png'}>
             <CheckboxForm
-              checkList={tasks}
-              onAddClick={addTasks}
-              onDeleteClick={deleteTasks}
+              checkList={tasks[period]}
+              onAddClick={addItem(tasksActions[step])}
+              onDeleteClick={deleteItem(tasksActions[step])}
             />
           </CheckboxCard>
           <CheckboxCard title={'Blockers'} img={'blockers.png'}>
             <CheckboxForm
-              checkList={blockers}
-              onAddClick={addBlockers}
-              onDeleteClick={deleteBlockers}
+              checkList={blockers[period]}
+              onAddClick={addItem(blockersActions[step])}
+              onDeleteClick={deleteItem(blockersActions[step])}
             />
           </CheckboxCard>
         </div>
       )}
-      {current === 2 && (
+      {step === 2 && (
         <div className={styles.dayView}>
           <CheckboxCard title={'Doing Well'} img={'doingWell.png'}>
             <TextArea
               style={{ padding: '30px 30px' }}
               onChange={(e) => {
                 const value = e.target.value;
-                setDoingWellFeedback(value);
+                setFeedback(feedbacksActions[DOING_WELL])(value);
               }}
-              value={doingWellFeedback}
+              value={feedbacks['doingWell']}
             />
           </CheckboxCard>
 
@@ -62,14 +65,14 @@ const StepsContent = ({
               style={{ padding: '30px 30px' }}
               onChange={(e) => {
                 const value = e.target.value;
-                setNeedsImprovementFeedback(value);
+                setFeedback(feedbacksActions[NEEDS_IMPROVEMENT])(value);
               }}
-              value={needsImprovementFeedback}
+              value={feedbacks['needsImprovement']}
             />
           </CheckboxCard>
         </div>
       )}
-      {current >= 3 && (
+      {step >= 3 && (
         <div className={styles.dayView}>
           <CheckboxCard title={'Done'} img={'done.png'}></CheckboxCard>
         </div>
@@ -79,16 +82,12 @@ const StepsContent = ({
 };
 
 StepsContent.propTypes = {
-  current: PropTypes.number,
-  tasks: PropTypes.array,
-  blockers: PropTypes.array,
-  addTasks: PropTypes.func,
-  addBlockers: PropTypes.func,
-  deleteTasks: PropTypes.func,
-  deleteBlockers: PropTypes.func,
-  doingWellFeedback: PropTypes.string,
-  setDoingWellFeedback: PropTypes.func,
-  needsImprovementFeedback: PropTypes.string,
-  setNeedsImprovementFeedback: PropTypes.func,
+  step: PropTypes.number,
+  tasks: PropTypes.object,
+  blockers: PropTypes.object,
+  feedbacks: PropTypes.object,
+  addItem: PropTypes.func,
+  deleteItem: PropTypes.func,
+  setFeedback: PropTypes.func,
 };
 export default StepsContent;
