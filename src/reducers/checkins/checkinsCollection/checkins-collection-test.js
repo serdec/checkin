@@ -23,7 +23,7 @@ const newCheckin = ({
   user,
   teamId,
   teamName,
-  checkin: {
+  contributions: {
     tasks,
     blockers,
     feedbacks,

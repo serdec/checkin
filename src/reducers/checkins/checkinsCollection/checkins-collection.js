@@ -20,7 +20,7 @@ export const addCheckin = ({
     user,
     teamId,
     teamName,
-    checkin: {
+    contributions: {
       tasks,
       blockers,
       feedbacks,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
@@ -7,11 +7,12 @@ import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
 import { setActiveTeam } from './Teams/active-team-reducer';
+import { getTeams, getActiveTeam } from '../store/root-reducer';
 const { Sider } = Layout;
 
 const mapStateToProps = (state) => ({
-  teams: state.teams,
-  activeTeam: state.activeTeam,
+  teams: getTeams(state),
+  activeTeam: getActiveTeam(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -23,11 +24,17 @@ const mapDispatchToProps = (dispatch) => ({
 const AppSider = ({
   createTeam,
   setActiveTeam,
-  activeTeam,
   teams = [],
-  user,
+  activeTeam = '',
+  user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
+
+  useEffect(() => {
+    if (teams.length > 0 && activeTeam.length === 0) {
+      setActiveTeam(teams[0].id);
+    }
+  }, [teams, setActiveTeam, activeTeam]);
 
   const handleCreate = () => {
     setInputTeamName(true);
@@ -42,7 +49,7 @@ const AppSider = ({
       <Sider theme="light">
         <Menu
           mode="inline"
-          defaultSelectedKeys={activeTeam}
+          selectedKeys={activeTeam}
           style={{ height: '100%', borderRight: 0 }}
           onClick={handleMenuClick}
         >
@@ -52,14 +59,16 @@ const AppSider = ({
         </Menu>
         {inputTeamName ? (
           <TeamCreationInput
-            onDone={() => setInputTeamName(false)}
             createTeam={createTeam(user.email)}
+            onDone={() => {
+              setInputTeamName(false);
+            }}
           />
         ) : (
-          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-            Create New Team
-          </Button>
-        )}
+            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+              Create New Team
+            </Button>
+          )}
       </Sider>
     </div>
   );
