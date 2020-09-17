@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu } from 'antd';
 import PropTypes from 'prop-types';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const menuStyle = {
   position: 'relative',
@@ -12,10 +13,12 @@ const menuStyle = {
 const LOGOUT = 'logout';
 const SIGNIN = 'SignIn';
 
-const AppHeader = ({ isSignedIn, isUserReady, signOut }) => {
+const AppHeader = ({ isSignedIn, signOut }) => {
+  const [isLoggingOut, setLoggingOut] = useState(false);
+
   const handleClick = async ({ key }) => {
     if (key === LOGOUT) {
-      console.log('signing out');
+      setLoggingOut(true);
       signOut();
     }
   };
@@ -27,15 +30,20 @@ const AppHeader = ({ isSignedIn, isUserReady, signOut }) => {
         mode="horizontal"
         onClick={handleClick}
       >
-        {isUserReady && isSignedIn ? (
-          <Menu.Item key={LOGOUT}>Logout</Menu.Item>
-        ) : (
-          <Menu.Item key={SIGNIN}>
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
+        {isSignedIn ? (
+          <Menu.Item
+            key={LOGOUT}
+            icon={isLoggingOut ? <LoadingOutlined /> : undefined}
+          >
+            Logout
           </Menu.Item>
-        )}
+        ) : (
+            <Menu.Item key={SIGNIN}>
+              <Link href="/login">
+                <a>Login</a>
+              </Link>
+            </Menu.Item>
+          )}
       </Menu>
     </div>
   );
@@ -43,7 +51,6 @@ const AppHeader = ({ isSignedIn, isUserReady, signOut }) => {
 
 AppHeader.propTypes = {
   isSignedIn: PropTypes.bool,
-  isUserReady: PropTypes.bool,
   signOut: PropTypes.func,
 };
 export default AppHeader;

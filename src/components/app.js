@@ -20,7 +20,7 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => (
       />
     </Header>
     <Layout>
-      {isUserReady && isSignedIn ? (
+      {isSignedIn ? (
         <>
           <AppSider />
           <Content theme="light" className={styles.siteLayoutContent}>
@@ -28,8 +28,8 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => (
           </Content>
         </>
       ) : (
-        <div></div>
-      )}
+          <div></div>
+        )}
     </Layout>
   </Layout>
 );

@@ -11,7 +11,7 @@ const Login = ({ isUserReady, signIn }) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   async function handleSubmit(e) {
-    event.preventDefault();
+    e.preventDefault();
 
     if (errorMsg) setErrorMsg('');
 

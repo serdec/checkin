@@ -7,11 +7,7 @@ let db;
 
 export const initDB = () => {
   try {
-    console.log(`FIND ME: ${process.env.FIREBASE_PROJECT_ID}`);
-    console.log(`FIND ME: ${firebaseConfig.projectId}`);
-    firebase.initializeApp({
-      ...firebaseConfig,
-    });
+    firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
   } catch (err) {
     // ignore 'already exists' message
