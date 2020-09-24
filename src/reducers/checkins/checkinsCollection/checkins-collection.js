@@ -1,7 +1,16 @@
 import cuid from 'cuid';
 import { getDateString } from '../../../lib/date/date';
-const ADD_CHECKIN = 'CHECKIN::ADD_CHECKIN';
-const DELETE_CHECKIN = 'CHECKIN::DELETE_CHECKIN';
+import {
+  getCurrentBlockers,
+  getCurrentTasks,
+  getDoingWellFeedback,
+  getNeedsImprovementFeedback,
+  getPreviousBlockers,
+  getPreviousTasks,
+} from '../dailyCheckin/daily-checkin';
+const ADD_CHECKIN = 'CHECKINS::ADD_CHECKIN';
+const DELETE_CHECKIN = 'CHECKINS::DELETE_CHECKIN';
+const LOAD_CHECKINS = 'CHECKINS::LOAD_CHECKINS';
 
 export const addCheckin = ({
   id = cuid(),
@@ -35,14 +44,37 @@ export const deleteCheckin = (id) => ({
 export const getLatestCheckin = (state) => {
   return state[state.length - 1];
 };
+
+export const loadCheckins = ({ payload = [] } = {}) => ({
+  type: LOAD_CHECKINS,
+  payload,
+});
+
+const getCheckinId = ({ id = '' }) => {
+  return id;
+};
+const getCheckinUser = ({ user = '' }) => {
+  return user;
+};
 export const getCheckinsByDay = ({
   state = [],
   date = '',
   teamId = addCheckin().teamId,
 } = {}) => {
-  return state.filter(
-    (checkin) => checkin.date === date && checkin.teamId === teamId
-  );
+  return state
+    .filter((checkin) => checkin.date === date && checkin.teamId === teamId)
+    .map((checkin) => ({
+      id: getCheckinId(checkin),
+      user: getCheckinUser(checkin),
+      previousTasks: getPreviousTasks(checkin.contributions),
+      currentTasks: getCurrentTasks(checkin.contributions),
+      previousBlockers: getPreviousBlockers(checkin.contributions),
+      currentBlockers: getCurrentBlockers(checkin.contributions),
+      doingWellFeedback: getDoingWellFeedback(checkin.contributions),
+      needsImprovementFeedback: getNeedsImprovementFeedback(
+        checkin.contributions
+      ),
+    }));
 };
 
 export const checkinsCollectionReducer = (
@@ -59,6 +91,8 @@ export const checkinsCollectionReducer = (
       ];
     case deleteCheckin().type:
       return state.filter((checkin) => checkin.id != payload);
+    case loadCheckins().type:
+      return payload;
     default:
       return state;
   }

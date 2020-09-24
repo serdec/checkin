@@ -1,28 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Router from 'next/router';
 import LoginForm from '../components/Login/login-form';
 import React from 'react';
 import PropType from 'prop-types';
 import withUser from '../lib/magic/with-user';
+import { loginUser } from '../store/root-reducer';
 
-const Login = ({ isUserReady, signIn }) => {
+const mapDispatchToProps = {
+  onLogin: loginUser,
+};
+const Login = ({ isUserReady, isSignedIn, onLogin, signIn, user }) => {
   // useUser({ redirectTo: '/', redirectIfFound: true });
 
   const [errorMsg, setErrorMsg] = useState('');
 
+  useEffect(() => {
+    if (isSignedIn) {
+      onLogin({ user: user.email });
+      Router.push('/');
+    } else {
+      console.log('user is not signed in');
+    }
+  }, [isSignedIn, onLogin, user]);
+
   async function handleSubmit(e) {
     e.preventDefault();
-
     if (errorMsg) setErrorMsg('');
-
     const email = e.currentTarget.email.value;
-
     try {
       if (isUserReady) {
-        console.log('signing in...');
         await signIn(email);
       }
-      Router.push('/');
     } catch (error) {
       console.error('An unexpected error happened occurred:', error);
       setErrorMsg(error.message);
@@ -47,9 +56,11 @@ const Login = ({ isUserReady, signIn }) => {
 
 Login.propTypes = {
   isUserReady: PropType.bool,
+  isSignedIn: PropType.bool,
+  onLogin: PropType.func,
   signIn: PropType.func,
   user: PropType.object,
   publicAddress: PropType.string,
 };
 
-export default withUser(Login);
+export default connect(null, mapDispatchToProps)(withUser(Login));

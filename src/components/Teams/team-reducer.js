@@ -6,12 +6,14 @@ const DELETE_TEAM = 'TEAM::DELETE_TEAM';
 const CHANGE_NAME = 'TEAM::CHANGE_NAME';
 const ADD_MEMBER = 'TEAM::ADD_MEMBER';
 const REMOVE_MEMBER = 'TEAM::REMOVE_MEMBER';
+const LOAD_TEAMS = 'TEAMS::LOAD_TEAMS';
 
 export const createTeam = ({
   id = cuid(),
   creationDate = getDateString(new Date()),
   name = '',
   owner = '',
+  user = owner,
   members = [owner],
   checkIns = [],
 } = {}) => ({
@@ -21,6 +23,7 @@ export const createTeam = ({
     creationDate,
     name,
     owner,
+    user,
     members,
     checkIns,
   },
@@ -30,12 +33,10 @@ export const deleteTeam = (id) => ({
   type: DELETE_TEAM,
   payload: id,
 });
-
 export const updateTeam = (team = {}) => ({
   type: CHANGE_NAME,
   payload: team,
 });
-
 export const addMember = ({ teamId = '', userId = '' } = {}) => ({
   type: ADD_MEMBER,
   payload: {
@@ -43,7 +44,6 @@ export const addMember = ({ teamId = '', userId = '' } = {}) => ({
     userId,
   },
 });
-
 export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
   type: REMOVE_MEMBER,
   payload: {
@@ -51,11 +51,13 @@ export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
     userId,
   },
 });
-
 export const getTeam = (state = [], teamId = '') => {
   return { ...state.filter((team) => team.id === teamId) };
 };
-
+export const loadTeams = ({ payload = [] } = {}) => ({
+  type: LOAD_TEAMS,
+  payload,
+});
 export const getTeamName = (state = [], teamId = '') => {
   const teamArr = state.filter((team) => team.id === teamId);
 
@@ -63,7 +65,6 @@ export const getTeamName = (state = [], teamId = '') => {
 
   return teamArr[0].name;
 };
-
 export const getMembers = (state, teamId) => {
   const [team] = state.filter((team) => team.id === teamId);
   return team.members;
@@ -108,6 +109,8 @@ export const teamReducer = (state = [], { type = '', payload = {} } = {}) => {
         }
         return team;
       });
+    case loadTeams().type:
+      return payload;
     default:
       return state;
   }

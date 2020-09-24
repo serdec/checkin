@@ -14,9 +14,9 @@ const needsImprovementFeedback = 'FEEDBACK::NEEDS_IMPROVEMENT';
 export const DOING_WELL = 0;
 export const NEEDS_IMPROVEMENT = 1;
 
-export const tasksActions = [previousTasks, currentTasks];
-export const blockersActions = [previousBlockers, currentBlockers];
-export const feedbacksActions = [doingWellFeedback, needsImprovementFeedback];
+export const tasksLists = [previousTasks, currentTasks];
+export const blockersLists = [previousBlockers, currentBlockers];
+export const feedbacksFields = [doingWellFeedback, needsImprovementFeedback];
 
 const tasksReducers = combineReducers({
   previous: listReducer(previousTasks),
@@ -37,6 +37,14 @@ const reducer = combineReducers({
   blockers: blokersReducers,
   feedbacks: feedbacksReducers,
 });
+
+export const getPreviousTasks = (state) => state.tasks.previous;
+export const getCurrentTasks = (state) => state.tasks.current;
+export const getPreviousBlockers = (state) => state.blockers.previous;
+export const getCurrentBlockers = (state) => state.blockers.current;
+export const getDoingWellFeedback = (state) => state.feedbacks.doingWell;
+export const getNeedsImprovementFeedback = (state) =>
+  state.feedbacks.needsImprovement;
 
 export const getTasks = (state) => state.tasks;
 export const getBlockers = (state) => state.blockers;

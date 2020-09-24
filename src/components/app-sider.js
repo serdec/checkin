@@ -50,7 +50,7 @@ const AppSider = ({
         <Menu
           mode="inline"
           selectedKeys={activeTeam}
-          style={{ height: '100%', borderRight: 0 }}
+          style={{ height: '100%', borderRight: 0, backgroundColor: 'white' }}
           onClick={handleMenuClick}
         >
           {teams.map((team) => (
@@ -65,10 +65,10 @@ const AppSider = ({
             }}
           />
         ) : (
-            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-              Create New Team
-            </Button>
-          )}
+          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+            Create New Team
+          </Button>
+        )}
       </Sider>
     </div>
   );

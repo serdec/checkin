@@ -8,7 +8,7 @@ import styles from './date-log.module.css';
 import TeamDayCheckins from './team-day-checkins';
 
 const mapStateToProps = (state) => ({
-  getCheckin: (date) => {
+  getCheckins: (date) => {
     //TODO remove state shape
     return getCheckinsByDay({
       state: state.checkins,
@@ -18,17 +18,17 @@ const mapStateToProps = (state) => ({
   },
 });
 
-const DateLog = ({ getCheckin }) => {
+const DateLog = ({ getCheckins }) => {
   const [checkins, setVisibleCheckins] = useState([]);
   const [dateValue, setDateValue] = useState(getDateMoment(new Date()));
 
   useEffect(() => {
-    setVisibleCheckins(getCheckin(getDateString(dateValue)));
-  }, [getCheckin, dateValue]);
+    setVisibleCheckins(getCheckins(getDateString(dateValue)));
+  }, [getCheckins, dateValue]);
 
   const onDateChange = (date) => {
     setDateValue(date);
-    setVisibleCheckins(getCheckin(getDateString(date)));
+    setVisibleCheckins(getCheckins(getDateString(date)));
   };
   return (
     <div className={styles.dateLog}>
@@ -39,6 +39,6 @@ const DateLog = ({ getCheckin }) => {
 };
 
 DateLog.propTypes = {
-  getCheckin: PropTypes.func,
+  getCheckins: PropTypes.func,
 };
 export default connect(mapStateToProps)(DateLog);

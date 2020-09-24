@@ -15,32 +15,17 @@ import {
   getTasks,
   getBlockers,
   getFeedbacks,
-  clearCurrentCheckin,
 } from '../../reducers/checkins/dailyCheckin/daily-checkin';
 import { addItem, deleteItem } from '../../reducers/checkins/dailyCheckin/list';
 import { setFeedback } from '../../reducers/checkins/dailyCheckin/feedback';
 import { getTeamName } from '../Teams/team-reducer';
 import { addCheckin } from '../../reducers/checkins/checkinsCollection/checkins-collection';
-import { getDateString } from '../../lib/date/date';
-import cuid from 'cuid';
 
 const noop = () => {
   return;
 };
 
-//TODO remove state shape dependency
-const mapStateToProps = (state) => ({
-  tasks: getTasks(getCurrentCheckin(state)),
-  blockers: getBlockers(getCurrentCheckin(state)),
-  feedbacks: getFeedbacks(getCurrentCheckin(state)),
-  teamId: getActiveTeam(state),
-  teamName: getTeamName(getTeams(state), getActiveTeam(state)),
-});
-
 const addField = (dispatch) => (listName) => (value) => {
-  if (value === '') {
-    return;
-  }
   dispatch(addItem(listName)({ value }));
 };
 const deleteField = (dispatch) => (listName) => (id) => {
@@ -49,35 +34,22 @@ const deleteField = (dispatch) => (listName) => (id) => {
 const setFeedbackValue = (dispatch) => (feedbackName) => (value) => {
   dispatch(setFeedback(feedbackName)(value));
 };
+const submitForm = (dispatch) => (obj) => {
+  dispatch(addCheckin(obj));
+};
 const mapDispatchToProps = (dispatch) => ({
   addItem: addField(dispatch),
   deleteItem: deleteField(dispatch),
   setFeedback: setFeedbackValue(dispatch),
+  submitForm: submitForm(dispatch),
+});
 
-  submitForm: ({
-    id = cuid(),
-    date = getDateString(new Date()),
-    user = '',
-    teamId = '',
-    teamName = '',
-    tasks = {},
-    blockers = {},
-    feedbacks = {},
-  } = {}) => {
-    dispatch(
-      addCheckin({
-        id,
-        date,
-        user,
-        teamId,
-        teamName,
-        tasks,
-        blockers,
-        feedbacks,
-      })
-    );
-    dispatch(clearCurrentCheckin());
-  },
+const mapStateToProps = (state) => ({
+  tasks: getTasks(getCurrentCheckin(state)),
+  blockers: getBlockers(getCurrentCheckin(state)),
+  feedbacks: getFeedbacks(getCurrentCheckin(state)),
+  teamId: getActiveTeam(state),
+  teamName: getTeamName(getTeams(state), getActiveTeam(state)),
 });
 
 const { Step } = Steps;

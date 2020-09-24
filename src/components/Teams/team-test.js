@@ -17,6 +17,7 @@ const newTeam = ({
   creationDate = 0,
   name = '',
   owner = '',
+  user = owner,
   members = [owner],
   checkIns = [],
 } = {}) => ({
@@ -24,6 +25,7 @@ const newTeam = ({
   creationDate,
   name,
   owner,
+  user,
   members,
   checkIns,
 });

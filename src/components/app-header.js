@@ -23,29 +23,27 @@ const AppHeader = ({ isSignedIn, signOut }) => {
     }
   };
   return (
-    <div>
-      <Menu
-        style={menuStyle}
-        theme="light"
-        mode="horizontal"
-        onClick={handleClick}
-      >
-        {isSignedIn ? (
-          <Menu.Item
-            key={LOGOUT}
-            icon={isLoggingOut ? <LoadingOutlined /> : undefined}
-          >
-            Logout
-          </Menu.Item>
-        ) : (
-            <Menu.Item key={SIGNIN}>
-              <Link href="/login">
-                <a>Login</a>
-              </Link>
-            </Menu.Item>
-          )}
-      </Menu>
-    </div>
+    <Menu
+      style={menuStyle}
+      theme="light"
+      mode="horizontal"
+      onClick={handleClick}
+    >
+      {isSignedIn ? (
+        <Menu.Item
+          key={LOGOUT}
+          icon={isLoggingOut ? <LoadingOutlined /> : undefined}
+        >
+          Logout
+        </Menu.Item>
+      ) : (
+        <Menu.Item key={SIGNIN}>
+          <Link href="/login">
+            <a>Login</a>
+          </Link>
+        </Menu.Item>
+      )}
+    </Menu>
   );
 };
 

@@ -12,7 +12,7 @@ const addItemToDefaultList = addItem();
 const deleteItemFromDefaultList = deleteItem();
 const toggleItemInDefaultList = toggleItem();
 
-const newItem = ({ id = '', active = true, value = '' } = {}) => ({
+const newItem = ({ id = '', active = true, value = 'NOT_EMPTY' } = {}) => ({
   id,
   active,
   value,

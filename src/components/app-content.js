@@ -21,13 +21,13 @@ const AppContent = ({ teams = [] } = {}) => {
           New Checkin
         </Button>
       ) : (
-          <h3 style={{ display: 'inline' }}> Create a team...</h3>
-        )}
+        <h3 style={{ display: 'inline' }}> Create a team...</h3>
+      )}
       {visibleCheckinHistory ? (
         <DateLog />
       ) : (
-          <CheckinContent onDone={() => setVisibleCheckinHistory(true)} />
-        )}
+        <CheckinContent onDone={() => setVisibleCheckinHistory(true)} />
+      )}
     </>
   );
 };

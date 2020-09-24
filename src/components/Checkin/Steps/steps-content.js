@@ -5,9 +5,9 @@ import styles from '../checkin-content.module.css';
 import CheckboxForm from './StepsContent/CheckboxContent/checkbox-form';
 import { Input } from 'antd';
 import {
-  tasksActions,
-  blockersActions,
-  feedbacksActions,
+  tasksLists,
+  blockersLists,
+  feedbacksFields,
   DOING_WELL,
   NEEDS_IMPROVEMENT,
 } from '../../../reducers/checkins/dailyCheckin/daily-checkin';
@@ -34,15 +34,15 @@ const StepsContent = ({
           <CheckboxCard title={'Tasks'} img={'tasks.png'}>
             <CheckboxForm
               checkList={tasks[period]}
-              onAddClick={addItem(tasksActions[step])}
-              onDeleteClick={deleteItem(tasksActions[step])}
+              onAddClick={addItem(tasksLists[step])}
+              onDeleteClick={deleteItem(tasksLists[step])}
             />
           </CheckboxCard>
           <CheckboxCard title={'Blockers'} img={'blockers.png'}>
             <CheckboxForm
               checkList={blockers[period]}
-              onAddClick={addItem(blockersActions[step])}
-              onDeleteClick={deleteItem(blockersActions[step])}
+              onAddClick={addItem(blockersLists[step])}
+              onDeleteClick={deleteItem(blockersLists[step])}
             />
           </CheckboxCard>
         </div>
@@ -54,7 +54,7 @@ const StepsContent = ({
               style={{ padding: '30px 30px' }}
               onChange={(e) => {
                 const value = e.target.value;
-                setFeedback(feedbacksActions[DOING_WELL])(value);
+                setFeedback(feedbacksFields[DOING_WELL])(value);
               }}
               value={feedbacks['doingWell']}
             />
@@ -65,7 +65,7 @@ const StepsContent = ({
               style={{ padding: '30px 30px' }}
               onChange={(e) => {
                 const value = e.target.value;
-                setFeedback(feedbacksActions[NEEDS_IMPROVEMENT])(value);
+                setFeedback(feedbacksFields[NEEDS_IMPROVEMENT])(value);
               }}
               value={feedbacks['needsImprovement']}
             />
