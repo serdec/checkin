@@ -1,7 +1,7 @@
 import { describe } from 'riteway';
-import { dailyCheckinReducer, clearCurrentCheckin } from './daily-checkin';
+import { currentCheckinReducer, clearCurrentCheckin } from './reducer';
 
-describe('daily checkin', async (assert) => {
+describe('current checkin', async (assert) => {
   const initialState = {
     tasks: { previous: [], current: [] },
     blockers: { previous: [], current: [] },
@@ -12,7 +12,7 @@ describe('daily checkin', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'return the valid initial state',
-      actual: dailyCheckinReducer(),
+      actual: currentCheckinReducer(),
       expected: initialState,
     });
   }
@@ -35,8 +35,8 @@ describe('daily checkin', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'return the valid initial state',
-      actual: dailyCheckinReducer(state, clearCurrentCheckin()),
-      expected: dailyCheckinReducer(),
+      actual: currentCheckinReducer(state, clearCurrentCheckin()),
+      expected: currentCheckinReducer(),
     });
   }
 });

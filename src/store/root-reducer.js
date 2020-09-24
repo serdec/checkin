@@ -1,7 +1,7 @@
-import { checkinsCollectionReducer } from '../reducers/checkins/checkinsCollection/checkins-collection';
-import { dailyCheckinReducer } from '../reducers/checkins/dailyCheckin/daily-checkin';
-import { teamReducer } from '../components/Teams/team-reducer';
-import { activeTeamReducer } from '../components/Teams/active-team-reducer';
+import { checkinsCollectionReducer } from '../components/Checkins/Collection/reducer';
+import { currentCheckinReducer } from '../components/Checkins/CurrentCheckin/reducer';
+import { teamReducer } from '../components/Teams/reducer';
+import { activeTeamReducer } from '../components/ActiveTeam/reducer';
 import { combineReducers } from 'redux';
 
 const LOAD_STATE = 'LOAD_STATE';
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   activeTeam: activeTeamReducer,
   teams: teamReducer,
   checkins: checkinsCollectionReducer,
-  currentCheckin: dailyCheckinReducer,
+  currentCheckin: currentCheckinReducer,
 });
 
 export default rootReducer;

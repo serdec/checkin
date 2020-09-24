@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
-import CheckboxCard from '../Checkin/Steps/StepsContent/checkbox-card';
+import CheckboxCard from '../Card/card';
 import { CheckOutlined, CloseOutlined, UserOutlined } from '@ant-design/icons';
 import styles from './date-log.module.css';
 import cardStyles from '../Checkin/checkin-content.module.css';

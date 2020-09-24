@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { listReducer } from './list';
-import feedbackReducer from './feedback';
+import { listReducer } from '../../CheckboxForm/reducer';
+import feedbackReducer from '../../Feedback/reducer';
 
 const CLEAR_CURRENT_CHECKIN = 'CHECKIN::CLEAR_CURRENT_CHECKIN';
 
@@ -55,7 +55,7 @@ export const clearCurrentCheckin = () => ({
   payload: {},
 });
 
-export const dailyCheckinReducer = (
+export const currentCheckinReducer = (
   state = undefined,
   { type = '', payload = {} } = {}
 ) => {
