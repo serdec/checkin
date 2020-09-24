@@ -1,18 +1,16 @@
 import React from 'react';
-import Card from '../../../Card/card';
+import Card from '../Card/card';
 import PropTypes from 'prop-types';
-import styles from '../checkin-content.module.css';
-import CheckboxForm from '../../../CheckboxForm/checkbox-form';
-// TODO delete comment import { Input } from 'antd';
+import styles from '../Checkins/CurrentCheckin/checkin-content.module.css';
+import CheckboxForm from '../CheckboxForm/checkbox-form';
 import {
   tasksLists,
   blockersLists,
   feedbacksFields,
   DOING_WELL,
   NEEDS_IMPROVEMENT,
-} from '../../CurrentCheckin/reducer';
-import Feedback from '../../../Feedback/feedback';
-// TODO delete comment const { TextArea } = Input;
+} from '../Checkins/CurrentCheckin/reducer';
+import Feedback from '../Feedback/feedback';
 
 const noop = () => {
   return;
@@ -53,31 +51,15 @@ const StepsContent = ({
           <Card title={'Doing Well'} img={'doingWell.png'}>
             <Feedback
               setFeedback={setFeedback(feedbacksFields[DOING_WELL])}
-              value={feedbacks[DOING_WELL]}
-            />
-            {/* <TextArea
-              style={{ padding: '30px 30px' }}
-              onChange={(e) => {
-                const value = e.target.value;
-                setFeedback(feedbacksFields[DOING_WELL])(value);
-              }}
               value={feedbacks['doingWell']}
-            /> */}
+            />
           </Card>
 
           <Card title={'Needs Improvement'} img={'improvements.png'}>
             <Feedback
               setFeedback={setFeedback(feedbacksFields[NEEDS_IMPROVEMENT])}
-              value={feedbacks[NEEDS_IMPROVEMENT]}
-            />
-            {/* <TextArea
-              style={{ padding: '30px 30px' }}
-              onChange={(e) => {
-                const value = e.target.value;
-                setFeedback(feedbacksFields[NEEDS_IMPROVEMENT])(value);
-              }}
               value={feedbacks['needsImprovement']}
-            /> */}
+            />
           </Card>
         </div>
       )}

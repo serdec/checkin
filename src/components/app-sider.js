@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
-import { createTeam } from './Teams/team-reducer';
+import { createTeam } from './Teams/reducer';
 import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
-import { setActiveTeam } from './Teams/active-team-reducer';
+import { setActiveTeam } from './ActiveTeam/reducer';
 import { getTeams, getActiveTeam } from '../store/root-reducer';
 const { Sider } = Layout;
 

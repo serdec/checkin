@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input } from 'antd';
 import PropTypes from 'prop-types';
 
-import styles from '../../../checkin-content.module.css';
+import styles from './styles.module.css';
 
 const noop = () => {
   return;

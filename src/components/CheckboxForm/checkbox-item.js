@@ -4,7 +4,7 @@ import { MinusCircleOutlined } from '@ant-design/icons';
 
 import PropTypes from 'prop-types';
 
-import styles from '../../../checkin-content.module.css';
+import styles from './styles.module.css';
 
 const noop = () => {
   return;

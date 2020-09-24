@@ -3,9 +3,14 @@ import { all } from 'redux-saga/effects';
 import {
   watchGetCheckins,
   watchSaveCheckin,
-  watchSaveTeam,
-} from '../sagas/users-saga';
+} from '../components/Checkins/Collection/saga';
+import { watchGetTeams, watchSaveTeam } from '../components/Teams/saga';
 
 export default function* rootSaga() {
-  yield all([watchSaveCheckin(), watchGetCheckins(), watchSaveTeam()]);
+  yield all([
+    watchSaveCheckin(),
+    watchGetCheckins(),
+    watchGetTeams(),
+    watchSaveTeam(),
+  ]);
 }

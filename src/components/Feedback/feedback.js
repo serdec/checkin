@@ -9,7 +9,6 @@ const noop = () => {};
 const Feedback = ({ setFeedback = noop, value = '' }) => (
   <div className={styles.feedbackContainer}>
     <TextArea
-      // style={{ padding: '30px 30px' }}
       onChange={(e) => {
         const value = e.target.value;
         setFeedback(value);

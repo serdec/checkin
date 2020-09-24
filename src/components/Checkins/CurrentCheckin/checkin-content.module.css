@@ -1,7 +1,3 @@
-.checkinForm {
-  margin-top: 2em;
-}
-
 .stepsContainer {
   padding: 0.5em 1em 0 1em;
   margin: 0 5vw;
@@ -33,15 +29,4 @@
   justify-content: center;
   width: 60vw;
   overflow: auto;
-}
-
-.labelValue {
-  display: inline-block;
-  width: 16em;
-  word-break: break-all;
-  font-size: 1.3em;
-}
-
-.addBtn {
-  border-radius: 0.5em;
 }

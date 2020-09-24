@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 import CheckboxCard from '../Card/card';
 import { CheckOutlined, CloseOutlined, UserOutlined } from '@ant-design/icons';
 import styles from './date-log.module.css';
-import cardStyles from '../Checkin/checkin-content.module.css';
+import cardStyles from '../Card/styles.module.css';
 const { TabPane } = Tabs;
 
 const TeamDayCheckins = ({ checkins = [] } = {}) => {

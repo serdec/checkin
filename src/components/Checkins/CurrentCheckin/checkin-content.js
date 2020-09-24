@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import withUser from '../../lib/magic/with-user';
+import withUser from '../../../lib/magic/with-user';
 import { Steps } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './checkin-content.module.css';
-import StepsContent from './Steps/steps-content';
-import StepsActions from './Steps/steps-actions';
+import StepsContent from '../../Steps/steps-content';
+import StepsActions from '../../Steps/steps-actions';
 import {
   getCurrentCheckin,
   getActiveTeam,
   getTeams,
-} from '../../store/root-reducer';
-import {
-  getTasks,
-  getBlockers,
-  getFeedbacks,
-} from '../../reducers/checkins/dailyCheckin/daily-checkin';
-import { addItem, deleteItem } from '../../reducers/checkins/dailyCheckin/list';
-import { setFeedback } from '../../reducers/checkins/dailyCheckin/feedback';
-import { getTeamName } from '../Teams/team-reducer';
-import { addCheckin } from '../../reducers/checkins/checkinsCollection/checkins-collection';
+} from '../../../store/root-reducer';
+import { getTasks, getBlockers, getFeedbacks } from './reducer';
+import { addItem, deleteItem } from '../../CheckboxForm/reducer';
+import { setFeedback } from '../../Feedback/reducer';
+import { getTeamName } from '../../Teams/reducer';
+import { addCheckin } from '../Collection/reducer';
 
 const noop = () => {
   return;

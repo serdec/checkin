@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getDateString, getDateMoment } from '../../lib/date/date';
 import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
-import { getCheckinsByDay } from '../../reducers/checkins/checkinsCollection/checkins-collection';
+import { getCheckinsByDay } from '../Checkins/Collection/reducer';
 import styles from './date-log.module.css';
 import TeamDayCheckins from './team-day-checkins';
 
