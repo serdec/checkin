@@ -6,7 +6,7 @@ import {
   getCheckinsByDay,
   getLatestCheckin,
   loadCheckins,
-} from './checkins-collection';
+} from './reducer';
 import { getDateString } from '../../../lib/date/date';
 
 const _tasks = {

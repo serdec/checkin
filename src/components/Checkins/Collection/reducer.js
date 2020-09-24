@@ -7,7 +7,7 @@ import {
   getNeedsImprovementFeedback,
   getPreviousBlockers,
   getPreviousTasks,
-} from '../dailyCheckin/daily-checkin';
+} from '../CurrentCheckin/reducer';
 const ADD_CHECKIN = 'CHECKINS::ADD_CHECKIN';
 const DELETE_CHECKIN = 'CHECKINS::DELETE_CHECKIN';
 const LOAD_CHECKINS = 'CHECKINS::LOAD_CHECKINS';

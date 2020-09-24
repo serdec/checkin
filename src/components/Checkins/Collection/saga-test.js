@@ -1,14 +1,14 @@
 import { describe } from 'riteway';
-import { saveCheckin, getCheckins, getTeams } from './users-saga';
-import * as database from '../services/database/database';
-import { call, put } from 'redux-saga/effects';
 import {
-  addCheckin,
-  loadCheckins,
-} from '../reducers/checkins/checkinsCollection/checkins-collection';
-import { loadTeams } from '../components/Teams/team-reducer';
-import { loginUser } from '../store/root-reducer';
-import { reportSaveCheckinError, reportSaveCheckinSuccess } from './users-saga';
+  saveCheckin,
+  getCheckins,
+  reportSaveCheckinError,
+  reportSaveCheckinSuccess,
+} from './saga';
+import * as database from '../../../services/database/database';
+import { call, put } from 'redux-saga/effects';
+import { addCheckin, loadCheckins } from './reducer';
+import { loginUser } from '../../../store/root-reducer';
 
 describe('users-saga', async (assert) => {
   {
@@ -59,23 +59,6 @@ describe('users-saga', async (assert) => {
       given: 'a login action',
       should: 'load the remote checkins',
       expected: put(loadCheckins()),
-      actual: iterator.next().value,
-    });
-  }
-
-  {
-    const loginAction = loginUser();
-    const iterator = getTeams(loginAction);
-    assert({
-      given: 'a login action',
-      should: 'get the remote teams',
-      expected: call(database.getTeams, loginAction.payload),
-      actual: iterator.next().value,
-    });
-    assert({
-      given: 'a login action',
-      should: 'load the remote teams',
-      expected: put(loadTeams()),
       actual: iterator.next().value,
     });
   }

@@ -2,15 +2,15 @@ import React from 'react';
 import render from 'riteway/render-component';
 import match from 'riteway/match';
 import { describe } from 'riteway';
-import CheckboxCard from './checkbox-card';
-import styles from '../../checkin-content.module.css';
+import Card from './card';
+import styles from './styles.module.css';
 
-describe('checkbox card', async (assert) => {
+describe('card', async (assert) => {
   const createCheckboxCard = ({ title = '', img = '', children = [] } = {}) =>
     render(
-      <CheckboxCard title={title} img={img}>
+      <Card title={title} img={img}>
         {children}
-      </CheckboxCard>
+      </Card>
     );
 
   {

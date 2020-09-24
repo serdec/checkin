@@ -1,5 +1,5 @@
 import { describe } from 'riteway';
-import { activeTeamReducer, setActiveTeam } from './active-team-reducer';
+import { activeTeamReducer, setActiveTeam } from './reducer';
 
 describe('active team', async (assert) => {
   {

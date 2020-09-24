@@ -3,7 +3,7 @@ import feedbackReducer, {
   setFeedback,
   clearFeedback,
   getFeedback,
-} from './feedback';
+} from './reducer';
 
 const defaultFeedbackReducer = feedbackReducer();
 const setDefaultFeedback = setFeedback();

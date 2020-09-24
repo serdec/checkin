@@ -2,16 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 
-import styles from '../../checkin-content.module.css';
+import styles from './styles.module.css';
 
 const { Header, Content } = Layout;
 
-const CheckboxCard = ({
-  title = '',
-  img = '',
-  children = [],
-  size = 'big',
-} = {}) => {
+const Card = ({ title = '', img = '', children = [], size = 'big' } = {}) => {
   return (
     <div className={`${styles.card} ${styles[size]}`}>
       <Layout className={styles.cardLayout}>
@@ -26,10 +21,10 @@ const CheckboxCard = ({
     </div>
   );
 };
-CheckboxCard.propTypes = {
+Card.propTypes = {
   children: PropTypes.any,
   img: PropTypes.string,
   size: PropTypes.string,
   title: PropTypes.string,
 };
-export default CheckboxCard;
+export default Card;

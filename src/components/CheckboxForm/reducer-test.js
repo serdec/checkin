@@ -5,7 +5,7 @@ import {
   deleteItem,
   toggleItem,
   getActiveItems,
-} from './list';
+} from './reducer';
 
 const reducer = listReducer();
 const addItemToDefaultList = addItem();
