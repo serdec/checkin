@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
-import { createTeam } from './Teams/team-reducer';
+import { createTeam } from './Teams/reducer';
 import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
-import { setActiveTeam } from './Teams/active-team-reducer';
+import { setActiveTeam } from './ActiveTeam/reducer';
 import { getTeams, getActiveTeam } from '../store/root-reducer';
 const { Sider } = Layout;
 
@@ -29,7 +29,7 @@ const AppSider = ({
   user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
-
+  console.log({ teams });
   useEffect(() => {
     if (teams.length > 0 && activeTeam.length === 0) {
       setActiveTeam(teams[0].id);
@@ -50,7 +50,7 @@ const AppSider = ({
         <Menu
           mode="inline"
           selectedKeys={activeTeam}
-          style={{ height: '100%', borderRight: 0 }}
+          style={{ height: '100%', borderRight: 0, backgroundColor: 'white' }}
           onClick={handleMenuClick}
         >
           {teams.map((team) => (
@@ -65,10 +65,10 @@ const AppSider = ({
             }}
           />
         ) : (
-            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-              Create New Team
-            </Button>
-          )}
+          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+            Create New Team
+          </Button>
+        )}
       </Sider>
     </div>
   );

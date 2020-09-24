@@ -3,9 +3,13 @@ import 'firebase/firestore';
 
 import firebaseConfig from './firebase.config';
 
+const USERS_COLLECTION = 'USERS';
+const CHECKINS = 'CHECKINS';
+const TEAMS = 'TEAMS';
+
 let db;
 
-export const initDB = () => {
+const init = () => {
   try {
     firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
@@ -14,12 +18,39 @@ export const initDB = () => {
     if (/already exists/.test(err.message)) return;
     else throw err;
   }
+  return db;
+};
+init();
+
+export const getTeams = async (user) => {
+  let response = {};
+  let data = [];
+  await db
+    .collection(USERS_COLLECTION)
+    .doc(user)
+    .collection(TEAMS)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, ' => ', doc.data());
+        data.push(doc.data());
+      });
+      response.status = 200;
+      response.payload = data;
+    })
+    .catch((error) => {
+      console.log(`Error fetching teams, error: ${error}`);
+      response.status = 500;
+    });
+
+  return response;
 };
 
-export const save = (action) => {
-  db.collection('users')
-    .doc(action.user)
-    .collection('records')
+export const saveTeam = (action) => {
+  db.collection(USERS_COLLECTION)
+    .doc(action.payload.user)
+    .collection(TEAMS)
     .doc(action.payload.id)
     .set({
       ...action.payload,
@@ -32,12 +63,47 @@ export const save = (action) => {
     });
 };
 
-export const get = async (user) => {
-  const data = await db
-    .collection('users')
+export const getCheckins = async (user) => {
+  let response = {};
+  let data = [];
+  await db
+    .collection(USERS_COLLECTION)
     .doc(user)
-    .collection('records')
-    .get();
+    .collection(CHECKINS)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, ' => ', doc.data());
+        data.push(doc.data());
+      });
+      response.status = 200;
+      response.payload = data;
+    })
+    .catch((error) => {
+      console.log('Error getting checkins');
+      response.status = 500;
+    });
+  return response;
+};
+export const saveCheckin = ({ payload }) => {
+  let response = {};
 
-  return data;
+  db.collection(USERS_COLLECTION)
+    .doc(payload.user)
+    .collection(CHECKINS)
+    .doc(payload.id)
+    .set({
+      ...payload,
+    })
+    .then(function () {
+      console.log('Document written', payload);
+      response.status = '200';
+    })
+    .catch(function (error) {
+      console.error('Error adding document: ', error);
+      response.status = '500';
+    });
+
+  return response;
 };

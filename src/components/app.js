@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppHeader from './app-header';
 import AppContent from './app-content';
@@ -9,30 +9,39 @@ import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 
 const { Header, Content } = Layout;
-const App = ({ isSignedIn, isUserReady, signOut, user }) => (
-  <Layout>
-    <Header className={styles.header}>
-      <AppHeader
-        isSignedIn={isSignedIn}
-        isUserReady={isUserReady}
-        signOut={signOut}
-        user={user}
-      />
-    </Header>
+const App = ({ isSignedIn, isUserReady, signOut, user }) => {
+  const [isUserSignedIn, setIsUserSignedIn] = useState(false);
+
+  // fixes hydration mismathch
+  useEffect(() => {
+    setIsUserSignedIn(isSignedIn);
+  }, [isSignedIn]);
+
+  return (
     <Layout>
-      {isSignedIn ? (
-        <>
-          <AppSider />
-          <Content theme="light" className={styles.siteLayoutContent}>
-            <AppContent />
-          </Content>
-        </>
-      ) : (
+      <Header className={styles.header}>
+        <AppHeader
+          isSignedIn={isUserSignedIn}
+          isUserReady={isUserReady}
+          signOut={signOut}
+          user={user}
+        />
+      </Header>
+      <Layout>
+        {isUserSignedIn ? (
+          <>
+            <AppSider />
+            <Content theme="light" className={styles.siteLayoutContent}>
+              <AppContent />
+            </Content>
+          </>
+        ) : (
           <div></div>
         )}
+      </Layout>
     </Layout>
-  </Layout>
-);
+  );
+};
 
 App.propTypes = {
   createTeam: PropTypes.func,

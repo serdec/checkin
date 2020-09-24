@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import DateLog from './DateLog/date-log';
-import CheckinContent from './Checkin/checkin-content';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { getTeams } from '../store/root-reducer';
+import CheckinContent from './Checkins/CurrentCheckin/checkin-content';
 
 const mapStateToProps = (state) => ({
   teams: getTeams(state),
@@ -21,13 +21,13 @@ const AppContent = ({ teams = [] } = {}) => {
           New Checkin
         </Button>
       ) : (
-          <h3 style={{ display: 'inline' }}> Create a team...</h3>
-        )}
+        <h3 style={{ display: 'inline' }}> Create a team...</h3>
+      )}
       {visibleCheckinHistory ? (
         <DateLog />
       ) : (
-          <CheckinContent onDone={() => setVisibleCheckinHistory(true)} />
-        )}
+        <CheckinContent onDone={() => setVisibleCheckinHistory(true)} />
+      )}
     </>
   );
 };

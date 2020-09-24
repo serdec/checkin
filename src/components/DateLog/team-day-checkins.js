@@ -1,13 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
-import CheckboxCard from '../Checkin/Steps/StepsContent/checkbox-card';
+import CheckboxCard from '../Card/card';
 import { CheckOutlined, CloseOutlined, UserOutlined } from '@ant-design/icons';
 import styles from './date-log.module.css';
-import cardStyles from '../Checkin/checkin-content.module.css';
+import cardStyles from '../Card/styles.module.css';
 const { TabPane } = Tabs;
 
 const TeamDayCheckins = ({ checkins = [] } = {}) => {
+  const cards = [
+    {
+      title: 'Previous Tasks',
+      // payload: checkin.previousTasks,
+    },
+    {
+      title: 'Current Tasks',
+    },
+    {
+      title: 'Previous Blockers',
+    },
+    {
+      title: 'Doing Well',
+    },
+    {
+      title: 'Needs Improvement',
+    },
+  ];
   return (
     <div className={styles.teamDayCheckins}>
       <Tabs tabPosition={'left'}>
@@ -24,7 +42,7 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
               <div className={styles.checkinHistoryView}>
                 <CheckboxCard title="Previous Tasks" size="small">
                   <div className={cardStyles.cardSummary}>
-                    {checkin.contributions.tasks.previous.map((item) => (
+                    {checkin.previousTasks.map((item) => (
                       <li key={item.id}>
                         {item.active ? <CheckOutlined /> : <CloseOutlined />}{' '}
                         {item.value}
@@ -34,7 +52,7 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
                 </CheckboxCard>
                 <CheckboxCard title="Current Tasks" size="small">
                   <div className={cardStyles.cardSummary}>
-                    {checkin.contributions.tasks.current.map((item) => (
+                    {checkin.currentTasks.map((item) => (
                       <li key={item.id}>
                         {item.active ? <CheckOutlined /> : <CloseOutlined />}{' '}
                         {item.value}
@@ -44,7 +62,7 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
                 </CheckboxCard>
                 <CheckboxCard title="Previous Blockers" size="small">
                   <div className={cardStyles.cardSummary}>
-                    {checkin.contributions.blockers.previous.map((item) => (
+                    {checkin.previousBlockers.map((item) => (
                       <li key={item.id}>
                         {item.active ? <CheckOutlined /> : <CloseOutlined />}{' '}
                         {item.value}
@@ -54,7 +72,7 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
                 </CheckboxCard>
                 <CheckboxCard title="Current Blockers" size="small">
                   <div className={cardStyles.cardSummary}>
-                    {checkin.contributions.blockers.current.map((item) => (
+                    {checkin.currentBlockers.map((item) => (
                       <li key={item.id}>
                         {item.active ? <CheckOutlined /> : <CloseOutlined />}{' '}
                         {item.value}
@@ -64,12 +82,12 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
                 </CheckboxCard>
                 <CheckboxCard title="Doing Well" size="small">
                   <div className={cardStyles.cardSummary}>
-                    {checkin.contributions.feedbacks.doingWell}
+                    {checkin.doingWellFeedback}
                   </div>
                 </CheckboxCard>
                 <CheckboxCard title="Needs Improvement" size="small">
                   <div className={cardStyles.cardSummary}>
-                    {checkin.contributions.feedbacks.needsImprovement}
+                    {checkin.needsImprovementFeedback}
                   </div>
                 </CheckboxCard>
               </div>
