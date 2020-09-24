@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import { getDateString, getDateMoment } from '../../lib/date/date';
 import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
-import { getCheckinsByDay } from '../Checkins/Collection/reducer';
+import { getCheckinsByDay } from '../Checkins/Collection/checkins-collection-reducer';
 import styles from './date-log.module.css';
 import TeamDayCheckins from './team-day-checkins';
+import { getCheckins } from '../../store/root-reducer';
+import { getCheckinsCollection } from '../Checkins/Collection/reducer';
 
 const mapStateToProps = (state) => ({
   getCheckins: (date) => {
     //TODO remove state shape
     return getCheckinsByDay({
-      state: state.checkins,
+      state: getCheckinsCollection(getCheckins(state)),
       date,
       teamId: state.activeTeam,
     });

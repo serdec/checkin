@@ -23,6 +23,7 @@ const init = () => {
 init();
 
 export const getTeams = async (user) => {
+  let response = {};
   let data = [];
   await db
     .collection(USERS_COLLECTION)
@@ -35,9 +36,17 @@ export const getTeams = async (user) => {
         console.log(doc.id, ' => ', doc.data());
         data.push(doc.data());
       });
+      response.status = 200;
+      response.payload = data;
+    })
+    .catch((error) => {
+      console.log(`Error fetching teams, error: ${error}`);
+      response.status = 500;
     });
-  return data;
+
+  return response;
 };
+
 export const saveTeam = (action) => {
   db.collection(USERS_COLLECTION)
     .doc(action.payload.user)
@@ -55,6 +64,7 @@ export const saveTeam = (action) => {
 };
 
 export const getCheckins = async (user) => {
+  let response = {};
   let data = [];
   await db
     .collection(USERS_COLLECTION)
@@ -67,8 +77,14 @@ export const getCheckins = async (user) => {
         console.log(doc.id, ' => ', doc.data());
         data.push(doc.data());
       });
+      response.status = 200;
+      response.payload = data;
+    })
+    .catch((error) => {
+      console.log('Error getting checkins');
+      response.status = 500;
     });
-  return data;
+  return response;
 };
 export const saveCheckin = ({ payload }) => {
   let response = {};

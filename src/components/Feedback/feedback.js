@@ -20,7 +20,7 @@ const Feedback = ({ setFeedback = noop, value = '' }) => (
 
 Feedback.propTypes = {
   setFeedback: PropTypes.func,
-  value: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default Feedback;

@@ -4,8 +4,8 @@ import { createTeam, loadTeams } from './reducer';
 import { loginUser } from '../../store/root-reducer';
 
 export function* getTeams(action) {
-  let data = yield call(database.getTeams, action.payload);
-  yield put(loadTeams({ payload: data }));
+  let { status, payload } = yield call(database.getTeams, action.payload);
+  yield put(loadTeams({ payload }));
 }
 export function* saveTeam(action) {
   yield call(database.saveTeam, action);

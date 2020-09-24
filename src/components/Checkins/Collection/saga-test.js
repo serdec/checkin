@@ -1,16 +1,15 @@
 import { describe } from 'riteway';
-import {
-  saveCheckin,
-  getCheckins,
-  reportSaveCheckinError,
-  reportSaveCheckinSuccess,
-} from './saga';
+import { saveCheckin, getCheckins } from './saga';
 import * as database from '../../../services/database/database';
 import { call, put } from 'redux-saga/effects';
-import { addCheckin, loadCheckins } from './reducer';
+import { addCheckin, loadCheckins } from './checkins-collection-reducer';
+import {
+  reportSaveCheckinError,
+  reportSaveCheckinSuccess,
+} from './save-checkin-states-reducer';
 import { loginUser } from '../../../store/root-reducer';
 
-describe('users-saga', async (assert) => {
+describe('checkins saga', async (assert) => {
   {
     const addCheckinAction = addCheckin();
     const iterator = saveCheckin(addCheckinAction);
@@ -49,6 +48,7 @@ describe('users-saga', async (assert) => {
   {
     const loginAction = loginUser();
     const iterator = getCheckins(loginAction);
+    const response = { status: 200, payload: [] };
     assert({
       given: 'a user',
       should: 'send the correct action to get his/her data',
@@ -59,7 +59,7 @@ describe('users-saga', async (assert) => {
       given: 'a login action',
       should: 'load the remote checkins',
       expected: put(loadCheckins()),
-      actual: iterator.next().value,
+      actual: iterator.next(response).value,
     });
   }
 });

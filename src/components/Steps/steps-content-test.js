@@ -2,7 +2,7 @@ import React from 'react';
 import render from 'riteway/render-component';
 import match from 'riteway/match';
 import { describe } from 'riteway';
-import styles from '../checkin-content.module.css';
+import styles from '../Checkins/CurrentCheckin/checkin-content.module.css';
 import StepsContent from './steps-content';
 
 describe('steps content', async (assert) => {

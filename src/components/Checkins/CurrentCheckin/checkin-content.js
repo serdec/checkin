@@ -15,7 +15,7 @@ import { getTasks, getBlockers, getFeedbacks } from './reducer';
 import { addItem, deleteItem } from '../../CheckboxForm/reducer';
 import { setFeedback } from '../../Feedback/reducer';
 import { getTeamName } from '../../Teams/reducer';
-import { addCheckin } from '../Collection/reducer';
+import { addCheckin } from '../Collection/checkins-collection-reducer';
 
 const noop = () => {
   return;

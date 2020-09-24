@@ -1,4 +1,4 @@
-import { checkinsCollectionReducer } from '../components/Checkins/Collection/reducer';
+import { checkinsReducer } from '../components/Checkins/Collection/reducer';
 import { currentCheckinReducer } from '../components/Checkins/CurrentCheckin/reducer';
 import { teamReducer } from '../components/Teams/reducer';
 import { activeTeamReducer } from '../components/ActiveTeam/reducer';
@@ -26,7 +26,7 @@ export const loginUser = ({ user = '' } = {}) => ({
 const rootReducer = combineReducers({
   activeTeam: activeTeamReducer,
   teams: teamReducer,
-  checkins: checkinsCollectionReducer,
+  checkins: checkinsReducer,
   currentCheckin: currentCheckinReducer,
 });
 

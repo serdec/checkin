@@ -19,7 +19,7 @@ describe('teams saga', async (assert) => {
       given: 'a login action',
       should: 'load the remote teams',
       expected: put(loadTeams()),
-      actual: iterator.next().value,
+      actual: iterator.next({ status: 200, payload: [] }).value,
     });
   }
 });

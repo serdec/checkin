@@ -1,29 +1,11 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../../services/database/database';
-import { addCheckin, loadCheckins } from './reducer';
+import { addCheckin, loadCheckins } from './checkins-collection-reducer';
 import { loginUser } from '../../../store/root-reducer';
-import dsm from 'redux-dsm';
-
-// prettier-ignore
-const saveCheckinsStates =
-  ['initial', 'idle',
-    ['save checkin', 'savingCheckin',
-      ['report save checkin error', 'error',
-        ['handle error', 'idle']
-      ],
-      ['report save checkin success', 'success',
-        ['handle success', 'idle']
-      ]
-    ]
-  ];
-
-export const {
-  actionCreators: { reportSaveCheckinError, reportSaveCheckinSuccess },
-} = dsm({
-  component: 'Checkin',
-  description: 'save checkin',
-  actionStates: saveCheckinsStates,
-});
+import {
+  reportSaveCheckinError,
+  reportSaveCheckinSuccess,
+} from './save-checkin-states-reducer';
 
 export function* saveCheckin(action) {
   try {
@@ -38,8 +20,16 @@ export function* saveCheckin(action) {
 }
 
 export function* getCheckins(action) {
-  let data = yield call(database.getCheckins, action.payload);
-  yield put(loadCheckins({ payload: data }));
+  try {
+    let { status, payload } = yield call(database.getCheckins, action.payload);
+
+    if (status !== 200) {
+      throw new Error('getCheckins failed!');
+    }
+    yield put(loadCheckins({ payload }));
+  } catch (error) {
+    // yield put(reportGetCheckinsError)
+  }
 }
 
 /******** WATCHERS ***********/

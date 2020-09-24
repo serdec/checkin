@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Router from 'next/router';
-import LoginForm from '../components/Login/login-form';
+import LoginForm from '../components/LoginForm/login-form';
 import React from 'react';
 import PropType from 'prop-types';
 import withUser from '../lib/magic/with-user';

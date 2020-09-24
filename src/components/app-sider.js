@@ -29,7 +29,7 @@ const AppSider = ({
   user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
-
+  console.log({ teams });
   useEffect(() => {
     if (teams.length > 0 && activeTeam.length === 0) {
       setActiveTeam(teams[0].id);
