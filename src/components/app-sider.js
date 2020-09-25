@@ -29,7 +29,6 @@ const AppSider = ({
   user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
-  console.log({ teams });
   useEffect(() => {
     if (teams.length > 0 && activeTeam.length === 0) {
       setActiveTeam(teams[0].id);
@@ -65,10 +64,10 @@ const AppSider = ({
             }}
           />
         ) : (
-          <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-            Create New Team
-          </Button>
-        )}
+            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
+              Create New Team
+            </Button>
+          )}
       </Sider>
     </div>
   );
