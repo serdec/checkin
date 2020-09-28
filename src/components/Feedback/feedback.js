@@ -6,12 +6,16 @@ import styles from './styles.module.css';
 const { TextArea } = Input;
 const noop = () => {};
 
-const Feedback = ({ setFeedback = noop, value = '' }) => (
+const Feedback = ({
+  feedbackName = '',
+  setFeedback = noop,
+  value = '',
+} = {}) => (
   <div className={styles.feedbackContainer}>
     <TextArea
       onChange={(e) => {
         const value = e.target.value;
-        setFeedback(value);
+        setFeedback({ feedbackName, value });
       }}
       value={value}
     />
@@ -19,6 +23,7 @@ const Feedback = ({ setFeedback = noop, value = '' }) => (
 );
 
 Feedback.propTypes = {
+  feedbackName: PropTypes.string,
   setFeedback: PropTypes.func,
   value: PropTypes.string,
 };

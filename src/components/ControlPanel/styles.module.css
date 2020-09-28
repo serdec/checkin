@@ -1,0 +1,17 @@
+.controlPanel{
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 1em 0;
+}
+.controlPanelButton{
+  margin: .3em;
+  border-radius: .5em;
+}
+.userControlsBox{
+  
+}
+.devControlsBox{
+  margin: 0 5em;
+}

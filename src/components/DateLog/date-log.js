@@ -5,17 +5,17 @@ import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
 import { getCheckinsByDay } from '../Checkins/Collection/checkins-collection-reducer';
 import styles from './date-log.module.css';
+import appStyles from '../app.module.css';
 import TeamDayCheckins from './team-day-checkins';
-import { getCheckins } from '../../store/root-reducer';
+import { getActiveTeam, getCheckins } from '../../store/root-reducer';
 import { getCheckinsCollection } from '../Checkins/Collection/reducer';
 
 const mapStateToProps = (state) => ({
   getCheckins: (date) => {
-    //TODO remove state shape
     return getCheckinsByDay({
       state: getCheckinsCollection(getCheckins(state)),
       date,
-      teamId: state.activeTeam,
+      teamId: getActiveTeam(state),
     });
   },
 });
@@ -34,7 +34,11 @@ const DateLog = ({ getCheckins }) => {
   };
   return (
     <div className={styles.dateLog}>
-      <DatePicker value={dateValue} onChange={(date) => onDateChange(date)} />
+      <DatePicker
+        className={appStyles.controlPanelButton}
+        value={dateValue}
+        onChange={(date) => onDateChange(date)}
+      />
       <TeamDayCheckins checkins={checkins} />
     </div>
   );

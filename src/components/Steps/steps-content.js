@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../Card/card';
 import PropTypes from 'prop-types';
-import styles from '../Checkins/CurrentCheckin/checkin-content.module.css';
+import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
 import CheckboxForm from '../CheckboxForm/checkbox-form';
 import {
   tasksLists,
@@ -33,15 +33,17 @@ const StepsContent = ({
           <Card title={'Tasks'} img={'tasks.png'}>
             <CheckboxForm
               checkList={tasks[period]}
-              onAddClick={addItem(tasksLists[step])}
-              onDeleteClick={deleteItem(tasksLists[step])}
+              listName={tasksLists[step]}
+              onAddClick={addItem}
+              onDeleteClick={deleteItem}
             />
           </Card>
           <Card title={'Blockers'} img={'blockers.png'}>
             <CheckboxForm
               checkList={blockers[period]}
-              onAddClick={addItem(blockersLists[step])}
-              onDeleteClick={deleteItem(blockersLists[step])}
+              listName={blockersLists[step]}
+              onAddClick={addItem}
+              onDeleteClick={deleteItem}
             />
           </Card>
         </div>
@@ -50,14 +52,16 @@ const StepsContent = ({
         <div className={styles.dayView}>
           <Card title={'Doing Well'} img={'doingWell.png'}>
             <Feedback
-              setFeedback={setFeedback(feedbacksFields[DOING_WELL])}
+              feedbackName={feedbacksFields[DOING_WELL]}
+              setFeedback={setFeedback}
               value={feedbacks['doingWell']}
             />
           </Card>
 
           <Card title={'Needs Improvement'} img={'improvements.png'}>
             <Feedback
-              setFeedback={setFeedback(feedbacksFields[NEEDS_IMPROVEMENT])}
+              feedbackName={feedbacksFields[NEEDS_IMPROVEMENT]}
+              setFeedback={setFeedback}
               value={feedbacks['needsImprovement']}
             />
           </Card>

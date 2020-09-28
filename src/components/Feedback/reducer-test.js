@@ -6,8 +6,6 @@ import feedbackReducer, {
 } from './reducer';
 
 const defaultFeedbackReducer = feedbackReducer();
-const setDefaultFeedback = setFeedback();
-const clearDefaultFeedback = clearFeedback;
 
 describe('feedback reducer', async (assert) => {
   assert({
@@ -18,29 +16,29 @@ describe('feedback reducer', async (assert) => {
   });
 
   {
-    const feedback = 'This is some feedback';
+    const value = 'This is some feedback';
     const state = defaultFeedbackReducer(
       defaultFeedbackReducer(),
-      setDefaultFeedback(feedback)
+      setFeedback({ value })
     );
     assert({
       given: 'a feedback',
       should: 'set the state with the content of the feedback',
       actual: getFeedback(state),
-      expected: feedback,
+      expected: value,
     });
   }
 
   {
-    const feedback = 'This is some feedback';
+    const value = 'This is some feedback';
     const state = defaultFeedbackReducer(
       defaultFeedbackReducer(),
-      setDefaultFeedback({ value: feedback })
+      setFeedback({ value })
     );
     assert({
       given: 'a feedback',
       should: 'clear the feedback',
-      actual: defaultFeedbackReducer(state, clearDefaultFeedback()),
+      actual: defaultFeedbackReducer(state, clearFeedback()),
       expected: '',
     });
   }

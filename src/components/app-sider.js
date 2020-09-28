@@ -64,10 +64,14 @@ const AppSider = ({
             }}
           />
         ) : (
-            <Button style={{ margin: '0.5em' }} onClick={handleCreate}>
-              Create New Team
-            </Button>
-          )}
+          <Button
+            className={styles.controlPanelButton}
+            style={{ margin: '0.5em' }}
+            onClick={handleCreate}
+          >
+            Create New Team
+          </Button>
+        )}
       </Sider>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import AddFieldInput from './input-field';
@@ -21,9 +21,11 @@ const tailLayout = {
 
 const CheckboxForm = ({
   checkList = [],
+  listName = '',
   onAddClick = noop,
   onDeleteClick = noop,
-}) => {
+} = {}) => {
+  const [inputValue, setInputValue] = useState('');
   return (
     <div className="checkboxForm">
       <Form {...layout}>
@@ -33,13 +35,17 @@ const CheckboxForm = ({
               <CheckboxItem
                 id={el.id}
                 label={el.value}
-                onDeleteClick={onDeleteClick}
+                onDeleteClick={() => onDeleteClick({ listName, id: el.id })}
               />
             </Form.Item>
           );
         })}
         <Form.Item {...tailLayout}>
-          <AddFieldInput onAddClick={onAddClick} />
+          <AddFieldInput
+            value={inputValue}
+            setValue={setInputValue}
+            onAddClick={() => onAddClick({ listName, value: inputValue })}
+          />
         </Form.Item>
       </Form>
     </div>
@@ -48,6 +54,7 @@ const CheckboxForm = ({
 
 CheckboxForm.propTypes = {
   checkList: PropTypes.array,
+  listName: PropTypes.string,
   onAddClick: PropTypes.func,
   onDeleteClick: PropTypes.func,
 };

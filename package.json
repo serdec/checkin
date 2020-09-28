@@ -4,7 +4,8 @@
   "private": false,
   "scripts": {
     "lint": "eslint --fix . && echo 'Lint complete.'",
-    "test": "NODE_ENV=test nyc riteway -r @babel/register 'src/**/*-test.js' | tap-nirvana ",
+    "testWithCoverage": "NODE_ENV=test nyc riteway -r @babel/register 'src/**/*-test.js' | tap-nirvana ",
+    "test": "NODE_ENV=test riteway -r @babel/register 'src/**/*-test.js' | tap-nirvana ",
     "watch": "watch 'clear && npm run -s test && npm run -s lint' src",
     "dev": "next",
     "build": "next build",
