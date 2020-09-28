@@ -7,7 +7,8 @@ const TOGGLE_ITEM = 'CHECKIN::TOGGLE_ITEM';
 
 const NOT_EMPTY = 'NOT_EMPTY';
 
-export const addItem = (listName = '') => ({
+export const addItem = ({
+  listName = '',
   id = cuid(),
   active = true,
   value = NOT_EMPTY,
@@ -23,12 +24,12 @@ export const addItem = (listName = '') => ({
   };
 };
 
-export const deleteItem = (listName = '') => (id) => ({
+export const deleteItem = ({ listName = '', id = '' } = {}) => ({
   type: `${DELETE_ITEM}_${listName}`,
   payload: id,
 });
 
-export const toggleItem = (listName = '') => (id) => ({
+export const toggleItem = ({ listName = '', id = '' } = {}) => ({
   type: `${TOGGLE_ITEM}_${listName}`,
   payload: id,
 });
@@ -45,7 +46,7 @@ export const listReducer = (listName = '') => (
   { type = '', payload = {} } = {}
 ) => {
   switch (type) {
-    case addItem(listName)().type: {
+    case addItem({ listName }).type: {
       return [
         ...state,
         {
@@ -53,9 +54,9 @@ export const listReducer = (listName = '') => (
         },
       ];
     }
-    case deleteItem(listName)().type:
+    case deleteItem({ listName }).type:
       return state.filter((item) => item.id !== payload);
-    case toggleItem(listName)().type:
+    case toggleItem({ listName }).type:
       return state.map((item) => {
         if (item.id === payload) {
           item.active = !item.active;

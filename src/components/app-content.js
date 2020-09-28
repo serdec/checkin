@@ -2,37 +2,41 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import DateLog from './DateLog/date-log';
 import PropTypes from 'prop-types';
-import { Button } from 'antd';
-import { getTeams } from '../store/root-reducer';
-import CheckinContent from './Checkins/CurrentCheckin/checkin-content';
+import { getCheckins, getTeams } from '../store/root-reducer';
+import CheckinContent from './Checkins/CurrentCheckin/current-checkin';
+import ControlPanel from './ControlPanel/control-panel';
+import { getSaveStatus } from './Checkins/Collection/reducer';
 
 const mapStateToProps = (state) => ({
   teams: getTeams(state),
+  saveStatus: getSaveStatus(getCheckins(state)),
 });
-const AppContent = ({ teams = [] } = {}) => {
+const AppContent = ({ teams = [], saveStatus = '' } = {}) => {
   const [visibleCheckinHistory, setVisibleCheckinHistory] = useState(true);
+  const [simulateNetServError, setSimulateNetServError] = useState(false);
+
   return (
     <>
-      <Button onClick={() => setVisibleCheckinHistory(true)}>
-        View Checkins
-      </Button>
-      {teams.length > 0 ? (
-        <Button onClick={() => setVisibleCheckinHistory(false)}>
-          New Checkin
-        </Button>
-      ) : (
-        <h3 style={{ display: 'inline' }}> Create a team...</h3>
-      )}
-      {visibleCheckinHistory ? (
+      <ControlPanel
+        setSimulateNetServError={setSimulateNetServError}
+        simulateNetServError={simulateNetServError}
+        setVisibleCheckinHistory={setVisibleCheckinHistory}
+        teams={teams}
+      />
+      {visibleCheckinHistory && saveStatus.status === 'success' ? (
         <DateLog />
       ) : (
-        <CheckinContent onDone={() => setVisibleCheckinHistory(true)} />
+        <CheckinContent
+          onDone={() => setVisibleCheckinHistory(true)}
+          simulateNetServError={simulateNetServError}
+        />
       )}
     </>
   );
 };
 
 AppContent.propTypes = {
+  saveStatus: PropTypes.object,
   teams: PropTypes.array,
 };
 export default connect(mapStateToProps)(AppContent);

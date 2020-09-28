@@ -33,6 +33,7 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
           return (
             <TabPane
               key={checkin.id}
+              style={{ maxWidth: '70em' }}
               tab={
                 <span>
                   <UserOutlined /> {checkin.user}{' '}

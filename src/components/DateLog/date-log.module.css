@@ -1,5 +1,5 @@
 .dateLog{
- 
+  overflow: auto;
 }
 .teamDayCheckins{
   display: flex;
@@ -16,4 +16,6 @@
 .checkinHistoryView{
   display: flex;
   flex-flow: row wrap;
+  overflow: auto;
+
 }

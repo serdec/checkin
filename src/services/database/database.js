@@ -6,7 +6,6 @@ import firebaseConfig from './firebase.config';
 const USERS_COLLECTION = 'USERS';
 const TEAMS_COLLECTION = 'TEAMS';
 const CHECKINS = 'CHECKINS';
-const TEAMS = 'TEAMS';
 
 let db;
 

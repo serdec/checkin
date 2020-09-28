@@ -5,6 +5,7 @@
 .siteLayoutContent{
   background-color: white;
   width: 100vw;
+  overflow: auto;
 }
 
 .siteLayoutSider{
@@ -69,3 +70,10 @@
   border: 0;
   text-align: center;
 } 
+
+.centralBox{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 10em;
+}
