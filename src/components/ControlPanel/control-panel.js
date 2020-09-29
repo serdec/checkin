@@ -1,6 +1,6 @@
 import React from 'react';
-import DevControls from './DevControls/dev-controls';
-import UserControls from './UserControls/user-controls';
+import DevControls from './DevTools/dev-tools';
+import UserControls from './UserTools/user-tools';
 import PropTypes from 'prop-types';
 import styles from './styles.module.css';
 

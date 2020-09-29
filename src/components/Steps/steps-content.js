@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card/card';
+import Card from '../Cards/card';
 import PropTypes from 'prop-types';
 import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
 import CheckboxForm from '../CheckboxForm/checkbox-form';

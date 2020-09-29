@@ -8,14 +8,59 @@ import {
   loadCheckins,
 } from './checkins-collection-reducer';
 import { getDateString } from '../../../lib/date/date';
+import cuid from 'cuid';
 
 const _tasks = {
-  previous: ['previousTask1', 'previousTask2'],
-  current: ['currentTask1', 'currentTask2'],
+  previous: [
+    {
+      active: true,
+      id: cuid(),
+      value: 'previousTask1',
+    },
+    {
+      active: true,
+      id: cuid(),
+      value: 'previousTask2',
+    },
+  ],
+  current: [
+    {
+      active: true,
+      id: cuid(),
+      value: 'currentTask1',
+    },
+    {
+      active: true,
+      id: cuid(),
+      value: 'currentTask2',
+    },
+  ],
 };
 const _blockers = {
-  previous: ['previousBlocker1', 'previousBlocker2'],
-  current: ['currentBlocker1', 'currentBlocker2'],
+  previous: [
+    {
+      active: true,
+      id: cuid(),
+      value: 'previousBlocker1',
+    },
+    {
+      active: true,
+      id: cuid(),
+      value: 'previousBlocker2',
+    },
+  ],
+  current: [
+    {
+      active: true,
+      id: cuid(),
+      value: 'currentBlocker1',
+    },
+    {
+      active: true,
+      id: cuid(),
+      value: 'currentBlocker2',
+    },
+  ],
 };
 const _feedbacks = {
   doingWell: 'DoingWell',

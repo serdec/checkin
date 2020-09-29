@@ -2,7 +2,7 @@ import React from 'react';
 import { describe } from 'riteway';
 import render from 'riteway/render-component';
 import styles from '../styles.module.css';
-import DevControls from './dev-controls';
+import DevControls from './dev-tools';
 
 describe('dev controls', async (assert) => {
   const createDevControls = () => render(<DevControls />);
