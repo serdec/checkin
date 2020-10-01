@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DateLog from './DateLog/date-log';
 import PropTypes from 'prop-types';
 import { getCheckins, getTeams } from '../store/root-reducer';
-import CheckinContent from './Checkins/CurrentCheckin/current-checkin';
+import CurrentCheckin from './Checkins/CurrentCheckin/current-checkin';
 import { createNewCheckin } from './Checkins/CurrentCheckin/reducer';
 import ControlPanel from './ControlPanel/control-panel';
 import { getSaveStatus } from './Checkins/Collection/reducer';
@@ -31,11 +31,11 @@ const AppContent = ({ teams = [], saveStatus = '', createNewCheckin } = {}) => {
       {visibleCheckinHistory && saveStatus.status === 'success' ? (
         <DateLog />
       ) : (
-        <CheckinContent
-          onDone={() => setVisibleCheckinHistory(true)}
-          simulateNetServError={simulateNetServError}
-        />
-      )}
+          <CurrentCheckin
+            onDone={() => setVisibleCheckinHistory(true)}
+            simulateNetServError={simulateNetServError}
+          />
+        )}
     </>
   );
 };

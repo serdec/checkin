@@ -10,7 +10,6 @@ const configurePersist = ({ namespace = '__store_state__' } = {}) => ({
     ...(typeof localStorage !== 'undefined' &&
       JSON.parse(localStorage.getItem(namespace))),
   }),
-  loadx: () => ({}),
 });
 
 export { configurePersist };

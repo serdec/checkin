@@ -62,9 +62,9 @@ const StepsContent = ({
     },
     {
       title: 'Needs Improvement',
-      img: 'needsImprovement.png',
+      img: 'improvements.png',
       feedbackName: feedbacksFields[NEEDS_IMPROVEMENT],
-      content: feedbacks.needsImprovemnt,
+      content: feedbacks.needsImprovement,
     },
   ];
   const doneCards = [
