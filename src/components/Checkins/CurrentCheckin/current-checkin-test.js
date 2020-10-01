@@ -2,15 +2,11 @@
 // import render from 'riteway/render-component';
 // import React from 'react';
 
-// import CheckinContent from './checkin-content';
-// import styles from './checkin-content.module.css';
-// describe('Checkin form', async (assert) => {
-//   const $ = render(<CheckinContent />);
+// import { CurrentCheckin } from './current-checkin';
+// import styles from './current-checkin.module.css';
 
-//   assert({
-//     given: 'no arguments',
-//     should: 'Render a form ',
-//     actual: $(`.${styles.stepsContainer}`).length,
-//     expected: 1,
-//   });
+// const saveStatus = { status: 'success', payload: { type: 'empty' } };
+
+// describe('Checkin form', async (assert) => {
+//   const $ = render(<CurrentCheckin saveStatus={saveStatus} />);
 // });

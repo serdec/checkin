@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 
-import styles from './styles.module.css';
+import styles from './cards.module.css';
 
 const { Header, Content } = Layout;
 

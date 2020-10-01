@@ -11,6 +11,7 @@ import {
   NEEDS_IMPROVEMENT,
 } from '../Checkins/CurrentCheckin/reducer';
 import Feedback from '../Feedback/feedback';
+import ListSummaryCard from '../Cards/SummaryCards/list-summary-card';
 
 const noop = () => {
   return;
@@ -23,53 +24,107 @@ const StepsContent = ({
   feedbacks = {},
   addItem = noop,
   deleteItem = noop,
+  toggleItem = noop,
   setFeedback = noop,
 }) => {
-  let period = step === 0 ? 'previous' : 'current';
+  const previousCards = [
+    {
+      title: 'Previous Tasks',
+      img: 'tasks.png',
+      content: tasks.previous,
+    },
+    {
+      title: 'Previous Blockers',
+      img: 'blockers.png',
+      content: blockers.previous,
+    },
+  ];
+  const currentCards = [
+    {
+      title: 'Tasks',
+      img: 'tasks.png',
+      content: tasks.current,
+      listName: tasksLists[step],
+    },
+    {
+      title: 'Blockers',
+      img: 'blockers.png',
+      content: blockers.current,
+      listName: blockersLists[step],
+    },
+  ];
+  const feedbacksCards = [
+    {
+      title: 'Doing Well',
+      img: 'doingWell.png',
+      feedbackName: feedbacksFields[DOING_WELL],
+      content: feedbacks.doingWell,
+    },
+    {
+      title: 'Needs Improvement',
+      img: 'needsImprovement.png',
+      feedbackName: feedbacksFields[NEEDS_IMPROVEMENT],
+      content: feedbacks.needsImprovemnt,
+    },
+  ];
+  const doneCards = [
+    {
+      title: 'Done',
+      img: 'done.png',
+    },
+  ];
   return (
     <div className={styles.stepsContent}>
-      {step < 2 && (
+      {step === 0 && (
         <div className={styles.dayView}>
-          <Card title={'Tasks'} img={'tasks.png'}>
-            <CheckboxForm
-              checkList={tasks[period]}
-              listName={tasksLists[step]}
-              onAddClick={addItem}
-              onDeleteClick={deleteItem}
+          {previousCards.map((list) => (
+            <ListSummaryCard
+              key={list.title}
+              img={list.img}
+              size={'large'}
+              list={list.content}
+              title={list.title}
             />
-          </Card>
-          <Card title={'Blockers'} img={'blockers.png'}>
-            <CheckboxForm
-              checkList={blockers[period]}
-              listName={blockersLists[step]}
-              onAddClick={addItem}
-              onDeleteClick={deleteItem}
-            />
-          </Card>
+          ))}
+        </div>
+      )}
+      {step === 1 && (
+        <div className={styles.dayView}>
+          {currentCards.map((list) => (
+            <Card key={list.title} title={list.title} img={list.img}>
+              <CheckboxForm
+                checkList={list.content}
+                listName={list.listName}
+                onAddClick={addItem}
+                onChange={toggleItem}
+                onDeleteClick={deleteItem}
+              />
+            </Card>
+          ))}
         </div>
       )}
       {step === 2 && (
         <div className={styles.dayView}>
-          <Card title={'Doing Well'} img={'doingWell.png'}>
-            <Feedback
-              feedbackName={feedbacksFields[DOING_WELL]}
-              setFeedback={setFeedback}
-              value={feedbacks['doingWell']}
-            />
-          </Card>
-
-          <Card title={'Needs Improvement'} img={'improvements.png'}>
-            <Feedback
-              feedbackName={feedbacksFields[NEEDS_IMPROVEMENT]}
-              setFeedback={setFeedback}
-              value={feedbacks['needsImprovement']}
-            />
-          </Card>
+          {feedbacksCards.map((feedback) => (
+            <Card
+              key={feedback.title}
+              title={feedback.title}
+              img={feedback.img}
+            >
+              <Feedback
+                feedbackName={feedback.feedbackName}
+                setFeedback={setFeedback}
+                value={feedback.content}
+              />
+            </Card>
+          ))}
         </div>
       )}
       {step >= 3 && (
         <div className={styles.dayView}>
-          <Card title={'Done'} img={'done.png'}></Card>
+          {doneCards.map((done) => (
+            <Card key={done.title} title={done.title} img={done.img} />
+          ))}
         </div>
       )}
     </div>
@@ -83,6 +138,7 @@ StepsContent.propTypes = {
   feedbacks: PropTypes.object,
   addItem: PropTypes.func,
   deleteItem: PropTypes.func,
+  toggleItem: PropTypes.func,
   setFeedback: PropTypes.func,
 };
 export default StepsContent;

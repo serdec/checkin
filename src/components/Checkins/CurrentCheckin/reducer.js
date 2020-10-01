@@ -3,6 +3,7 @@ import { listReducer } from '../../CheckboxForm/reducer';
 import feedbackReducer from '../../Feedback/reducer';
 
 const CLEAR_CURRENT_CHECKIN = 'CHECKIN::CLEAR_CURRENT_CHECKIN';
+const CREATE_NEW_CHECKIN = 'CHECKIN::CREATE_NEW_CHECKIN';
 
 const previousTasks = 'LIST::PREVIOUS_TASKS';
 const currentTasks = 'LIST::CURRENT_TASKS';
@@ -38,21 +39,43 @@ const reducer = combineReducers({
   feedbacks: feedbacksReducers,
 });
 
-export const getPreviousTasks = (state) => state.tasks.previous;
-export const getCurrentTasks = (state) => state.tasks.current;
-export const getPreviousBlockers = (state) => state.blockers.previous;
-export const getCurrentBlockers = (state) => state.blockers.current;
-export const getDoingWellFeedback = (state) => state.feedbacks.doingWell;
-export const getNeedsImprovementFeedback = (state) =>
-  state.feedbacks.needsImprovement;
+export const getNotCheckedItems = (list = []) =>
+  list.filter((el) => !el.checked);
+export const getPreviousTasks = (state = {}) => {
+  if (Object.keys(state).length === 0) return [];
+  else return state.contributions.tasks.previous;
+};
+export const getCurrentTasks = (state = {}) => {
+  if (Object.keys(state).length === 0) return [];
+  else return state.contributions.tasks.current;
+};
 
-export const getTasks = (state) => state.tasks;
-export const getBlockers = (state) => state.blockers;
-export const getFeedbacks = (state) => state.feedbacks;
+export const getPreviousBlockers = (state = {}) => {
+  if (Object.keys(state).length === 0) return [];
+  else return state.contributions.blockers.previous;
+};
+export const getCurrentBlockers = (state = {}) => {
+  if (Object.keys(state).length === 0) return [];
+  else return state.contributions.blockers.current;
+};
+export const getDoingWellFeedback = (state = {}) => {
+  if (Object.keys(state).length === 0) return [];
+  else return state.contributions.feedbacks.doingWell;
+};
+export const getNeedsImprovementFeedback = (state = {}) => {
+  if (Object.keys(state).length === 0) return [];
+  else return state.contributions.feedbacks.needsImprovement;
+};
 
+export const getTasks = ({ tasks = {} } = {}) => tasks;
+export const getBlockers = ({ blockers = {} } = {}) => blockers;
+export const getFeedbacks = ({ feedbacks = {} } = {}) => feedbacks;
+
+export const createNewCheckin = () => ({
+  type: CREATE_NEW_CHECKIN,
+});
 export const clearCurrentCheckin = () => ({
   type: CLEAR_CURRENT_CHECKIN,
-  payload: {},
 });
 
 export const currentCheckinReducer = (

@@ -3,7 +3,7 @@ import render from 'riteway/render-component';
 import match from 'riteway/match';
 import { describe } from 'riteway';
 import Card from './card';
-import styles from './styles.module.css';
+import styles from './cards.module.css';
 
 describe('card', async (assert) => {
   const createCheckboxCard = ({ title = '', img = '', children = [] } = {}) =>

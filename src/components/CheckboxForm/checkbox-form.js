@@ -23,6 +23,7 @@ const CheckboxForm = ({
   checkList = [],
   listName = '',
   onAddClick = noop,
+  onChange = noop,
   onDeleteClick = noop,
 } = {}) => {
   const [inputValue, setInputValue] = useState('');
@@ -35,6 +36,8 @@ const CheckboxForm = ({
               <CheckboxItem
                 id={el.id}
                 label={el.value}
+                checked={el.checked}
+                onChange={() => onChange({ listName, id: el.id })}
                 onDeleteClick={() => onDeleteClick({ listName, id: el.id })}
               />
             </Form.Item>
@@ -56,6 +59,7 @@ CheckboxForm.propTypes = {
   checkList: PropTypes.array,
   listName: PropTypes.string,
   onAddClick: PropTypes.func,
+  onChange: PropTypes.func,
   onDeleteClick: PropTypes.func,
 };
 export default CheckboxForm;

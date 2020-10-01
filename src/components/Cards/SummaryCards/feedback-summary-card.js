@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../card';
 import PropTypes from 'prop-types';
-import styles from '../styles.module.css';
+import styles from '../cards.module.css';
 
 const FeedbackSummaryCard = ({ feedback = {}, checkin = {} } = {}) => (
   <Card title={feedback.title} size="small">

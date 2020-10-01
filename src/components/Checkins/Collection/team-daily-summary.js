@@ -53,8 +53,8 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
               {listsCards.map((list) => (
                 <ListSummaryCard
                   key={list.title}
-                  list={list}
-                  checkin={checkin}
+                  title={list.title}
+                  list={checkin[list.content]}
                 />
               ))}
               {feedbacksCards.map((feedback) => (

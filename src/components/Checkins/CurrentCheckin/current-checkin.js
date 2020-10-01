@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import withUser from '../../../lib/magic/with-user';
-import { Steps } from 'antd';
 import PropTypes from 'prop-types';
-import styles from './current-checkin.module.css';
-import StepsContent from '../../Steps/steps-content';
-import StepsActions from '../../Steps/steps-actions';
 import {
   getCurrentCheckin,
   getActiveTeam,
   getTeams,
   getCheckins,
 } from '../../../store/root-reducer';
-import { getTasks, getBlockers, getFeedbacks } from './reducer';
-import { addItem, deleteItem } from '../../CheckboxForm/reducer';
+import { getBlockers, getFeedbacks, getTasks } from './reducer';
+import { addItem, deleteItem, toggleItem } from '../../CheckboxForm/reducer';
 import { setFeedback } from '../../Feedback/reducer';
 import { getTeamName } from '../../Teams/reducer';
 import {
@@ -23,6 +19,7 @@ import {
 import { getSaveStatus } from '../Collection/reducer';
 import Retry from '../../Retry/retry';
 import Loading from '../Loading/loading';
+import StepsContainer from '../../Steps/steps-container';
 
 const noop = () => {
   return;
@@ -31,6 +28,7 @@ const noop = () => {
 const mapDispatchToProps = {
   addItem,
   deleteItem,
+  toggleItem,
   setFeedback,
   saveCheckin,
   saveCheckinSimulateError,
@@ -45,43 +43,23 @@ const mapStateToProps = (state) => ({
   saveStatus: getSaveStatus(getCheckins(state)),
 });
 
-const { Step } = Steps;
-
-const steps = [
-  {
-    title: 'Previous',
-    content: 'First-content',
-  },
-  {
-    title: 'Current',
-    content: 'Second-content',
-  },
-  {
-    title: 'Feedback',
-    content: 'Last-content',
-  },
-  {
-    title: 'Finish',
-  },
-];
-
-const CheckinContent = ({
-  tasks = {},
+export const CurrentCheckin = ({
   blockers = {},
   feedbacks = {},
+  tasks = {},
   saveStatus = {},
   simulateNetServError = false,
-  teamId = '',
   teamName = '',
+  teamId = '',
   user = {},
   addItem = noop,
   deleteItem = noop,
+  toggleItem = noop,
   setFeedback = noop,
   saveCheckin = noop,
   saveCheckinSimulateError = noop,
   onDone = noop,
 } = {}) => {
-  const [step, setStep] = useState(0);
   const [retry, setRetry] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitForm, setSubmitForm] = useState(() => saveCheckin);
@@ -107,58 +85,31 @@ const CheckinContent = ({
     onDone();
   };
 
-  const next = () => {
-    setStep((step) => step + 1);
-  };
-
-  const prev = () => {
-    setStep((step) => step - 1);
-  };
-
   return (
     <div>
       {loading && <Loading />}
       {!loading && retry && <Retry retryAction={handleRetry} />}
       {!loading && !retry && (
-        <div className={styles.stepsContainer}>
-          <Steps current={step}>
-            {steps.map((item) => (
-              <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-          <StepsContent
-            step={step}
-            tasks={tasks}
-            blockers={blockers}
-            feedbacks={feedbacks}
-            addItem={addItem}
-            deleteItem={deleteItem}
-            setFeedback={setFeedback}
-          />
-          <StepsActions
-            step={step}
-            next={next}
-            prev={prev}
-            submitForm={() => {
-              submitForm({
-                tasks,
-                blockers,
-                feedbacks,
-                teamId,
-                teamName,
-                user: user.email,
-              });
-              onDone();
-            }}
-            steps={steps}
-          />
-        </div>
+        <StepsContainer
+          blockers={blockers}
+          feedbacks={feedbacks}
+          tasks={tasks}
+          teamId={teamId}
+          teamName={teamName}
+          user={user}
+          addItem={addItem}
+          deleteItem={deleteItem}
+          onDone={onDone}
+          setFeedback={setFeedback}
+          submitForm={submitForm}
+          toggleItem={toggleItem}
+        />
       )}
     </div>
   );
 };
 
-CheckinContent.propTypes = {
+CurrentCheckin.propTypes = {
   tasks: PropTypes.object,
   blockers: PropTypes.object,
   feedbacks: PropTypes.object,
@@ -169,6 +120,7 @@ CheckinContent.propTypes = {
   user: PropTypes.object,
   addItem: PropTypes.func,
   deleteItem: PropTypes.func,
+  toggleItem: PropTypes.func,
   retryAction: PropTypes.func,
   setFeedback: PropTypes.func,
   saveCheckin: PropTypes.func,
@@ -178,4 +130,4 @@ CheckinContent.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withUser(CheckinContent));
+)(withUser(CurrentCheckin));
