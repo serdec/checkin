@@ -1,5 +1,6 @@
 import cuid from 'cuid';
 import { getDateString } from '../../../lib/date/date';
+import { getCheckins } from '../../../store/root-reducer';
 import {
   getCurrentBlockers,
   getCurrentTasks,
@@ -8,6 +9,7 @@ import {
   getPreviousBlockers,
   getPreviousTasks,
 } from '../CurrentCheckin/reducer';
+import { getCheckinsCollection } from './reducer';
 const ADD_CHECKIN = 'CHECKINS::ADD_CHECKIN';
 const DELETE_CHECKIN = 'CHECKINS::DELETE_CHECKIN';
 const LOAD_CHECKINS = 'CHECKINS::LOAD_CHECKINS';
@@ -41,7 +43,8 @@ export const deleteCheckin = (id) => ({
   type: DELETE_CHECKIN,
   payload: id,
 });
-export const getLatestCheckin = (state) => {
+export const getLatestCheckin = (state = []) => {
+  if (state.length === 0) return {};
   return state[state.length - 1];
 };
 
@@ -56,6 +59,26 @@ const getCheckinId = ({ id = '' }) => {
 const getCheckinUser = ({ user = '' }) => {
   return user;
 };
+
+export const getPreviousTasksFromCollection = (state = []) => {
+  if (state.length === 0) return [];
+
+  return [
+    ...getCurrentTasks(
+      getLatestCheckin(getCheckinsCollection(getCheckins(state)))
+    ),
+  ];
+};
+export const getPreviousBlockersFromCollection = (state = []) => {
+  if (state.length === 0) return [];
+
+  return [
+    ...getCurrentBlockers(
+      getLatestCheckin(getCheckinsCollection(getCheckins(state)))
+    ),
+  ];
+};
+
 export const getCheckinsByDay = ({
   state = [],
   date = '',
@@ -66,14 +89,12 @@ export const getCheckinsByDay = ({
     .map((checkin) => ({
       id: getCheckinId(checkin),
       user: getCheckinUser(checkin),
-      previousTasks: getPreviousTasks(checkin.contributions),
-      currentTasks: getCurrentTasks(checkin.contributions),
-      previousBlockers: getPreviousBlockers(checkin.contributions),
-      currentBlockers: getCurrentBlockers(checkin.contributions),
-      doingWellFeedback: getDoingWellFeedback(checkin.contributions),
-      needsImprovementFeedback: getNeedsImprovementFeedback(
-        checkin.contributions
-      ),
+      previousTasks: getPreviousTasks(checkin),
+      currentTasks: getCurrentTasks(checkin),
+      previousBlockers: getPreviousBlockers(checkin),
+      currentBlockers: getCurrentBlockers(checkin),
+      doingWellFeedback: getDoingWellFeedback(checkin),
+      needsImprovementFeedback: getNeedsImprovementFeedback(checkin),
     }));
 };
 

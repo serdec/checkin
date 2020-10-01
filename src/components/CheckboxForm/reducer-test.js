@@ -4,14 +4,14 @@ import {
   addItem,
   deleteItem,
   toggleItem,
-  getActiveItems,
+  getCheckedItems,
 } from './reducer';
 
 const reducer = listReducer();
 
-const newItem = ({ id = '', active = true, value = 'NOT_EMPTY' } = {}) => ({
+const newItem = ({ id = '', checked = false, value = 'NOT_EMPTY' } = {}) => ({
   id,
-  active,
+  checked,
   value,
 });
 
@@ -48,26 +48,26 @@ describe('list', async (assert) => {
 
   {
     const id = '1';
-    const active = false;
-    const actualState = reducer(reducer(), addItem({ id, active }));
+    const checked = false;
+    const actualState = reducer(reducer(), addItem({ id, checked }));
 
     assert({
       given: 'a disabled item ',
-      should: 'return the new state with the active item',
+      should: 'return the new state with the checked item',
       actual: reducer(actualState, toggleItem({ id })),
-      expected: reducer(reducer(), addItem({ id, active: true })),
+      expected: reducer(reducer(), addItem({ id, checked: true })),
     });
   }
 
   {
     const id = '1';
-    const active = true;
-    const item = newItem({ id, active });
+    const checked = true;
+    const item = newItem({ id, checked });
     const actualState = reducer(reducer(), addItem(item));
     assert({
-      given: 'an active item ',
+      given: 'an checked item ',
       should: 'return a list containing it',
-      actual: getActiveItems(actualState),
+      actual: getCheckedItems(actualState),
       expected: [item],
     });
   }

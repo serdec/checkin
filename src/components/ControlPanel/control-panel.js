@@ -8,13 +8,15 @@ const noop = () => {};
 
 const ControlPanel = ({
   teams = [],
+  simulateNetServError = false,
+  createNewCheckin = noop,
   setVisibleCheckinHistory = noop,
   setSimulateNetServError = noop,
-  simulateNetServError = false,
 } = {}) => (
   <div className={styles.controlPanel}>
     <UserControls
       teams={teams}
+      createNewCheckin={createNewCheckin}
       setVisibleCheckinHistory={setVisibleCheckinHistory}
     />
     <DevControls
@@ -25,10 +27,11 @@ const ControlPanel = ({
 );
 
 ControlPanel.propTypes = {
-  setSimulateNetServError: PropTypes.func,
-  setVisibleCheckinHistory: PropTypes.func,
   simulateNetServError: PropTypes.bool,
   teams: PropTypes.array,
+  createNewCheckin: PropTypes.func,
+  setSimulateNetServError: PropTypes.func,
+  setVisibleCheckinHistory: PropTypes.func,
 };
 
 export default ControlPanel;

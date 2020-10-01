@@ -10,7 +10,7 @@ const NOT_EMPTY = 'NOT_EMPTY';
 export const addItem = ({
   listName = '',
   id = cuid(),
-  active = true,
+  checked = false,
   value = NOT_EMPTY,
 } = {}) => {
   if (value === '') return { type: `${EMPTY_ITEM}` };
@@ -18,7 +18,7 @@ export const addItem = ({
     type: `${ADD_ITEM}_${listName}`,
     payload: {
       id,
-      active,
+      checked,
       value,
     },
   };
@@ -34,8 +34,8 @@ export const toggleItem = ({ listName = '', id = '' } = {}) => ({
   payload: id,
 });
 
-export const getActiveItems = (state) => {
-  return state.filter((item) => item.active === true);
+export const getCheckedItems = (state) => {
+  return state.filter((item) => item.checked === true);
 };
 
 export const getItems = (state) => {
@@ -59,7 +59,7 @@ export const listReducer = (listName = '') => (
     case toggleItem({ listName }).type:
       return state.map((item) => {
         if (item.id === payload) {
-          item.active = !item.active;
+          item.checked = !item.checked;
         }
         return item;
       });

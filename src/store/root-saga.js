@@ -5,6 +5,7 @@ import {
   watchSaveCheckin,
   watchSaveCheckinSimulateError,
 } from '../components/Checkins/Collection/saga';
+import { watchLoadPreviousTasksAndBlockers } from '../components/Checkins/CurrentCheckin/saga';
 import { watchGetTeams, watchSaveTeam } from '../components/Teams/saga';
 
 export default function* rootSaga() {
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     watchGetCheckins(),
     watchGetTeams(),
     watchSaveTeam(),
+    watchLoadPreviousTasksAndBlockers(),
   ]);
 }

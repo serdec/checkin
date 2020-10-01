@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import styles from '../styles.module.css';
 
 const noop = () => {};
-const UserControls = ({ teams = [], setVisibleCheckinHistory = noop } = {}) => (
+const UserControls = ({
+  teams = [],
+  createNewCheckin = noop,
+  setVisibleCheckinHistory = noop,
+} = {}) => (
   <div className={styles.userControlsBox}>
     <Button
       className={styles.controlPanelButton}
@@ -15,7 +19,10 @@ const UserControls = ({ teams = [], setVisibleCheckinHistory = noop } = {}) => (
     {teams.length > 0 ? (
       <Button
         className={styles.controlPanelButton}
-        onClick={() => setVisibleCheckinHistory(false)}
+        onClick={() => {
+          createNewCheckin();
+          setVisibleCheckinHistory(false);
+        }}
       >
         New Checkin
       </Button>
@@ -27,6 +34,7 @@ const UserControls = ({ teams = [], setVisibleCheckinHistory = noop } = {}) => (
 
 UserControls.propTypes = {
   teams: PropTypes.array,
+  createNewCheckin: PropTypes.func,
   setVisibleCheckinHistory: PropTypes.func,
 };
 export default UserControls;

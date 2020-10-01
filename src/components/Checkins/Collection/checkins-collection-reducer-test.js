@@ -13,24 +13,24 @@ import cuid from 'cuid';
 const _tasks = {
   previous: [
     {
-      active: true,
+      checked: true,
       id: cuid(),
       value: 'previousTask1',
     },
     {
-      active: true,
+      checked: false,
       id: cuid(),
       value: 'previousTask2',
     },
   ],
   current: [
     {
-      active: true,
+      checked: true,
       id: cuid(),
       value: 'currentTask1',
     },
     {
-      active: true,
+      checked: false,
       id: cuid(),
       value: 'currentTask2',
     },
@@ -39,24 +39,24 @@ const _tasks = {
 const _blockers = {
   previous: [
     {
-      active: true,
+      checked: true,
       id: cuid(),
       value: 'previousBlocker1',
     },
     {
-      active: true,
+      checked: false,
       id: cuid(),
       value: 'previousBlocker2',
     },
   ],
   current: [
     {
-      active: true,
+      checked: true,
       id: cuid(),
       value: 'currentBlocker1',
     },
     {
-      active: true,
+      checked: false,
       id: cuid(),
       value: 'currentBlocker2',
     },
@@ -177,7 +177,6 @@ describe('checkins collection', async (assert) => {
     assert({
       given: 'the current state, a date and a teamId',
       should: 'return the checkins for the given date and the given teamId',
-      actual: getCheckinsByDay({ state: actualState, date: date2, teamId }),
       expected: [
         {
           id: checkinId,
@@ -191,6 +190,7 @@ describe('checkins collection', async (assert) => {
             .needsImprovement,
         },
       ],
+      actual: getCheckinsByDay({ state: actualState, date: date2, teamId }),
     });
   }
 
@@ -213,6 +213,15 @@ describe('checkins collection', async (assert) => {
       actual: getLatestCheckin(actualState),
       expected: latestCheckin,
     });
+
+    {
+      assert({
+        given: 'an empty state',
+        should: 'return an empty object',
+        expected: {},
+        actual: getLatestCheckin([]),
+      });
+    }
   }
 
   {
