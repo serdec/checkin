@@ -1,0 +1,12 @@
+.checkinForm {
+  margin-top: 2em;
+}
+.labelValue {
+  display: inline-block;
+  width: 16em;
+  word-break: break-all;
+  font-size: 1.3em;
+}
+.addBtn {
+  border-radius: 0.5em;
+}

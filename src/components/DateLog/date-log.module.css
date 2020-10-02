@@ -1,0 +1,25 @@
+.dateLog{
+  overflow: auto;
+}
+.teamDayCheckins{
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  margin: 2em 2em;
+  overflow: auto;
+}
+
+.checkinPreview{
+  margin: 0 1em;
+}
+
+.checkinHistoryView{
+  display: flex;
+  flex-flow: row wrap;
+  overflow: auto;
+
+}
+.datePicker{
+  border-radius: .5em;
+  margin: .3em;
+}
