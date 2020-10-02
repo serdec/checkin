@@ -65,7 +65,7 @@ const blockers = {
 };
 const feedbacks = {
   doingWell: 'Doing Well Content',
-  needsImprovemnt: 'Needs Improvement Content',
+  needsImprovement: 'Needs Improvement Content',
 };
 const previousCards = [
   {
@@ -102,9 +102,9 @@ const feedbacksCards = [
   },
   {
     title: 'Needs Improvement',
-    img: 'needsImprovement.png',
+    img: 'improvements.png',
     feedbackName: feedbacksFields[NEEDS_IMPROVEMENT],
-    content: feedbacks.needsImprovemnt,
+    content: feedbacks.needsImprovement,
   },
 ];
 const doneCards = [

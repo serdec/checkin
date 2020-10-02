@@ -1,4 +1,8 @@
-import { checkinsReducer } from '../components/Checkins/Collection/reducer';
+import {
+  checkinsReducer,
+  getCurrentBlockersFromLatestCheckin,
+  getCurrentTasksFromLatestCheckin,
+} from '../components/Checkins/Collection/reducer';
 import { currentCheckinReducer } from '../components/Checkins/CurrentCheckin/reducer';
 import { teamReducer } from '../components/Teams/reducer';
 import { activeTeamReducer } from '../components/ActiveTeam/reducer';
@@ -11,6 +15,16 @@ export const getActiveTeam = (state) => state.activeTeam;
 export const getTeams = (state) => state.teams;
 export const getCheckins = (state) => state.checkins;
 export const getCurrentCheckin = (state) => state.currentCheckin;
+
+export const getPreviousTasksFromCollection = (state = []) => {
+  if (state.length === 0) return [];
+
+  return getCurrentTasksFromLatestCheckin(state.checkins);
+};
+export const getPreviousBlockersFromCollection = (state = []) => {
+  if (state.length === 0) return [];
+  return getCurrentBlockersFromLatestCheckin(state.checkins);
+};
 
 export const loadState = ({ payload = [] } = {}) => ({
   type: LOAD_STATE,

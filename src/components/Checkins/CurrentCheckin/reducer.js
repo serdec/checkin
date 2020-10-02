@@ -43,28 +43,28 @@ export const getNotCheckedItems = (list = []) =>
   list.filter((el) => !el.checked);
 export const getPreviousTasks = (state = {}) => {
   if (Object.keys(state).length === 0) return [];
-  else return state.contributions.tasks.previous;
+  else return state.tasks.previous;
 };
 export const getCurrentTasks = (state = {}) => {
   if (Object.keys(state).length === 0) return [];
-  else return state.contributions.tasks.current;
+  else return state.tasks.current;
 };
 
 export const getPreviousBlockers = (state = {}) => {
   if (Object.keys(state).length === 0) return [];
-  else return state.contributions.blockers.previous;
+  else return state.blockers.previous;
 };
 export const getCurrentBlockers = (state = {}) => {
   if (Object.keys(state).length === 0) return [];
-  else return state.contributions.blockers.current;
+  else return state.blockers.current;
 };
 export const getDoingWellFeedback = (state = {}) => {
   if (Object.keys(state).length === 0) return [];
-  else return state.contributions.feedbacks.doingWell;
+  else return state.feedbacks.doingWell;
 };
 export const getNeedsImprovementFeedback = (state = {}) => {
   if (Object.keys(state).length === 0) return [];
-  else return state.contributions.feedbacks.needsImprovement;
+  else return state.feedbacks.needsImprovement;
 };
 
 export const getTasks = ({ tasks = {} } = {}) => tasks;

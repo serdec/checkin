@@ -31,11 +31,11 @@ const AppContent = ({ teams = [], saveStatus = '', createNewCheckin } = {}) => {
       {visibleCheckinHistory && saveStatus.status === 'success' ? (
         <DateLog />
       ) : (
-          <CurrentCheckin
-            onDone={() => setVisibleCheckinHistory(true)}
-            simulateNetServError={simulateNetServError}
-          />
-        )}
+        <CurrentCheckin
+          onDone={() => setVisibleCheckinHistory(true)}
+          simulateNetServError={simulateNetServError}
+        />
+      )}
     </>
   );
 };

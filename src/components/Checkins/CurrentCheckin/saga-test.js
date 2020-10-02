@@ -5,12 +5,13 @@ import { addItem } from '../../CheckboxForm/reducer';
 import {
   getPreviousBlockersFromCollection,
   getPreviousTasksFromCollection,
-} from '../Collection/checkins-collection-reducer';
+} from '../../../store/root-reducer';
 import {
   getNotCheckedItems,
   tasksLists,
   blockersLists,
   createNewCheckin,
+  clearCurrentCheckin,
 } from './reducer';
 import {
   loadItems,
@@ -95,6 +96,12 @@ describe('current checkin saga', async (assert) => {
   }
   {
     const iterator = loadPreviousTasksAndBlockers();
+    assert({
+      given: 'no arguments',
+      should: 'dispatch an action to clear the current checkin',
+      expected: put(clearCurrentCheckin()),
+      actual: iterator.next().value,
+    });
     assert({
       given: 'no arguments',
       should: 'dispatch an action to load previous tasks and blockers',

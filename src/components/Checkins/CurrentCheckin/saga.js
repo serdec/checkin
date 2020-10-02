@@ -3,7 +3,7 @@ import { addItem } from '../../CheckboxForm/reducer';
 import {
   getPreviousBlockersFromCollection,
   getPreviousTasksFromCollection,
-} from '../Collection/checkins-collection-reducer';
+} from '../../../store/root-reducer';
 import {
   blockersLists,
   clearCurrentCheckin,
