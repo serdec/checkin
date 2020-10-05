@@ -18,7 +18,7 @@ import {
 } from '../Collection/save-checkin-states-reducer';
 import { getSaveStatus } from '../Collection/reducer';
 import Retry from '../../Retry/retry';
-import Loading from '../Loading/loading';
+import Loading from '../../Loading/loading';
 import StepsContainer from '../../Steps/steps-container';
 
 const noop = () => {

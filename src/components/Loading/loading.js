@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spin } from 'antd';
-import appStyles from '../../app.module.css';
+import appStyles from '../app.module.css';
 import styles from './styles.module.css';
 
 const Loading = () => (
