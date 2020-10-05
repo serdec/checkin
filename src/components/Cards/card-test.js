@@ -19,8 +19,8 @@ describe('card', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'render the card header ',
-      actual: contains(`${styles.cardHeader}`),
-      expected: styles.cardHeader,
+      actual: contains(`${styles.card__header}`),
+      expected: styles.card__header,
     });
   }
 

@@ -2,18 +2,17 @@ import React from 'react';
 import { describe } from 'riteway';
 import match from 'riteway/match';
 import render from 'riteway/render-component';
-import InputFieldWithAddButton from './input-field';
-
+import InputField from './input-field-with-add-button';
+import styles from './checkbox-form.module.css';
 describe('input field', async (assert) => {
-  const createInputFieldWithAddButton = () =>
-    render(<InputFieldWithAddButton l />);
+  const createInputFieldWithAddButton = () => render(<InputField />);
 
   {
     const $ = createInputFieldWithAddButton();
     assert({
       given: 'no arguments',
       should: 'Render a CheckboxItem ',
-      actual: $('.inputFieldWithAddButtonSelector').length,
+      actual: $(`.${styles.inputField}`).length,
       expected: 1,
     });
   }

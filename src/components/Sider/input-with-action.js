@@ -22,13 +22,13 @@ const InputWithAction = ({
       />
       <Button
         onClick={onCancel}
-        className={styles.actionButton}
+        className={styles.inputWithAction__button}
         type="secondary"
       >
         Cancel
       </Button>
       <Button
-        className={styles.actionButton}
+        className={styles.inputWithAction__button}
         type="primary"
         onClick={() => {
           onOk(inputValue);

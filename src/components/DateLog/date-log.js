@@ -34,7 +34,7 @@ const DateLog = ({ getCheckins }) => {
   return (
     <div className={styles.dateLog}>
       <DatePicker
-        className={styles.datePicker}
+        className={styles.dateLog__datePicker}
         value={dateValue}
         onChange={(date) => onDateChange(date)}
       />

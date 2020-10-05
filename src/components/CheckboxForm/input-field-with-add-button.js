@@ -2,18 +2,14 @@ import React from 'react';
 import { Button, Input } from 'antd';
 import PropTypes from 'prop-types';
 
-import styles from './styles.module.css';
+import styles from './checkbox-form.module.css';
 
 const noop = () => {
   return;
 };
-const InputFieldWithAddButton = ({
-  onAddClick = noop,
-  value,
-  setValue,
-} = {}) => {
+const inputField = ({ onAddClick = noop, value, setValue } = {}) => {
   return (
-    <div className="inputFieldWithAddButtonSelector">
+    <div className={styles.inputField}>
       <Input
         style={{ width: '80%', borderRadius: '0.5em' }}
         type="text"
@@ -31,7 +27,7 @@ const InputFieldWithAddButton = ({
         }}
       />
       <Button
-        className={styles.addBtn}
+        className={styles.inputField__addButton}
         type="button"
         onClick={() => {
           onAddClick(value);
@@ -44,9 +40,9 @@ const InputFieldWithAddButton = ({
   );
 };
 
-InputFieldWithAddButton.propTypes = {
+inputField.propTypes = {
   onAddClick: PropTypes.func,
   setValue: PropTypes.func,
   value: PropTypes.string,
 };
-export default InputFieldWithAddButton;
+export default inputField;

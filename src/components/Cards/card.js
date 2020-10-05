@@ -6,15 +6,17 @@ import styles from './cards.module.css';
 
 const { Header, Content } = Layout;
 
-const Card = ({ title = '', img = '', children = [], size = 'big' } = {}) => {
+const Card = ({ className = '', title = '', img = '', children = [] } = {}) => {
   return (
-    <div className={`${styles.card} ${styles[size]}`}>
-      <Layout className={styles.cardLayout}>
-        <Header className={styles.cardHeader}>
-          <h1 className={styles.cardTitle}>{title}</h1>
+    <div
+      className={`${styles.card} ${styles.card_margin_1} ${styles.card_large} ${className}`}
+    >
+      <Layout className={styles.card__layout}>
+        <Header className={styles.card__header}>
+          <h1 className={styles.card__title}>{title}</h1>
         </Header>
-        <Content className={styles.cardContent}>
-          <img className={styles.cardImg} src={img} />
+        <Content className={styles.card__content}>
+          <img className={styles.card__img} src={img} />
           {children}
         </Content>
       </Layout>
@@ -22,9 +24,9 @@ const Card = ({ title = '', img = '', children = [], size = 'big' } = {}) => {
   );
 };
 Card.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.any,
   img: PropTypes.string,
-  size: PropTypes.string,
   title: PropTypes.string,
 };
 export default Card;

@@ -7,19 +7,22 @@ import styles from '../cards.module.css';
 const ListSummaryCard = ({
   title = '',
   list = [],
-  size = 'small',
   img = '',
-} = {}) => (
-  <Card title={title} img={img} size={size}>
-    <div className={styles.summaryCard}>
-      {list.map((item) => (
-        <li key={item.id}>
-          {item.checked ? <CheckOutlined /> : <CloseOutlined />} {item.value}
-        </li>
-      ))}
-    </div>
-  </Card>
-);
+  size = 'small',
+} = {}) => {
+  const card_size = size === 'small' ? styles.card_small : styles.card_large;
+  return (
+    <Card title={title} img={img} className={card_size}>
+      <div className={styles.summaryCard}>
+        {list.map((item) => (
+          <li key={item.id}>
+            {item.checked ? <CheckOutlined /> : <CloseOutlined />} {item.value}
+          </li>
+        ))}
+      </div>
+    </Card>
+  );
+};
 
 ListSummaryCard.propTypes = {
   list: PropTypes.array,

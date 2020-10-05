@@ -3,7 +3,7 @@ import cuid from 'cuid';
 import render from 'riteway/render-component';
 import match from 'riteway/match';
 import { describe } from 'riteway';
-import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
+import styles from './steps.module.css';
 import StepsContent from './steps-content';
 import {
   DOING_WELL,
