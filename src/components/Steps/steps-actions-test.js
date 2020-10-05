@@ -3,7 +3,7 @@ import { describe } from 'riteway';
 import render from 'riteway/render-component';
 import match from 'riteway/match';
 import StepsActions from './steps-actions';
-import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
+import styles from './steps.module.css';
 
 describe('steps actions', async (assert) => {
   const createStepsActions = ({ current = 0 } = {}) =>

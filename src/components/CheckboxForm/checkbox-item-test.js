@@ -3,6 +3,7 @@ import { describe } from 'riteway';
 import match from 'riteway/match';
 import render from 'riteway/render-component';
 import CheckboxItem from './checkbox-item';
+import styles from './checkbox-form.module.css';
 
 describe('checkbox item', async (assert) => {
   const createCheckboxItem = (label = '') =>
@@ -13,7 +14,7 @@ describe('checkbox item', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'Render a CheckboxItem ',
-      actual: $('.checkboxItemSelector').length,
+      actual: $(`.${styles.checkboxItem}`).length,
       expected: 1,
     });
   }

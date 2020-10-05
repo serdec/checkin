@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
-import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
+import styles from './steps.module.css';
 
 const noop = () => {
   return;

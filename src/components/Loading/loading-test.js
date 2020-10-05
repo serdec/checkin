@@ -12,7 +12,7 @@ describe('loading', async (assert) => {
       given: 'no arguments',
       should: 'render the loading component',
       expected: 1,
-      actual: $(`.${styles.loadingComponent}`).length,
+      actual: $(`.${styles.loading}`).length,
     });
   }
 });

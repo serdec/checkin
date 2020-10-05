@@ -1,5 +1,4 @@
 .card {
-  margin: 1%;
   display: flex;
   flex-flow: column;
   width: 30em;
@@ -11,34 +10,37 @@
   list-style: none;
   overflow: auto;
 }
-.card.large{
+.card_margin_1 {
+  margin: 1%;
+}
+.card_large{
   height: 70vh;
 }
-.card.small{
+.card_small{
   height: 30vh;
 }
-.cardTitle{
+.card__title{
   text-align: center;
   font-size: 2em;
   color: white;
 }
-.cardLayout{
+.card__layout{
   border-top-right-radius: 2em;
   border-top-left-radius: 2em;
   background: white;
 }
-.cardHeader{
+.card__header{
   border-top-right-radius: 0.3em;
   border-top-left-radius: 0.3em;
   background: #5c1eed;
 }
-.cardContent{
+.card__content{
   background: #fff;
 }
-.cardFooter{
+.card__footer{
   background: #fff;
 }
-.cardImg{
+.card__img{
   display: block;
   margin: auto;
   width: 50%;

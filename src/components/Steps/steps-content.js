@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../Cards/card';
 import PropTypes from 'prop-types';
-import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
+import styles from './steps.module.css';
 import CheckboxForm from '../CheckboxForm/checkbox-form';
 import {
   tasksLists,
@@ -76,7 +76,7 @@ const StepsContent = ({
   return (
     <div className={styles.stepsContent}>
       {step === 0 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {previousCards.map((list) => (
             <ListSummaryCard
               key={list.title}
@@ -89,7 +89,7 @@ const StepsContent = ({
         </div>
       )}
       {step === 1 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {currentCards.map((list) => (
             <Card key={list.title} title={list.title} img={list.img}>
               <CheckboxForm
@@ -104,7 +104,7 @@ const StepsContent = ({
         </div>
       )}
       {step === 2 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {feedbacksCards.map((feedback) => (
             <Card
               key={feedback.title}
@@ -121,7 +121,7 @@ const StepsContent = ({
         </div>
       )}
       {step >= 3 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {doneCards.map((done) => (
             <Card key={done.title} title={done.title} img={done.img} />
           ))}

@@ -4,7 +4,7 @@ import appStyles from '../../app.module.css';
 import styles from './styles.module.css';
 
 const Loading = () => (
-  <div className={styles.loadingComponent}>
+  <div className={styles.loading}>
     <Spin className={appStyles.centralBox} size="large" tip="Loading...." />
   </div>
 );
