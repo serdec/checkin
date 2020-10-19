@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 import {
-  checkinsCollectionReducer,
+  checkinsReducer,
   addCheckin,
   deleteCheckin,
   getCheckinsByDay,
@@ -97,7 +97,7 @@ describe('checkins collection', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'return the valid initial state',
-      actual: checkinsCollectionReducer(),
+      actual: checkinsReducer(),
       expected: [],
     });
   }
@@ -109,7 +109,7 @@ describe('checkins collection', async (assert) => {
     assert({
       given: 'a new checkin',
       should: 'add it to the current state',
-      actual: checkinsCollectionReducer(
+      actual: checkinsReducer(
         undefined,
         addCheckin({
           id,
@@ -133,10 +133,7 @@ describe('checkins collection', async (assert) => {
       addCheckin(newCheckin({ id: checkInId })),
       deleteCheckin(checkInId),
     ];
-    const actualState = actions.reduce(
-      checkinsCollectionReducer,
-      checkinsCollectionReducer()
-    );
+    const actualState = actions.reduce(checkinsReducer, checkinsReducer());
     assert({
       given: 'a checkin id',
       should: 'delete the selected id from the checkin',
@@ -157,10 +154,7 @@ describe('checkins collection', async (assert) => {
       newCheckin({ id: checkinId, date: date, teamId: teamId2 }),
       newCheckin({ id: checkinId, date: date2, teamId: teamId2 }),
     ].map(addCheckin);
-    const actualState = actions.reduce(
-      checkinsCollectionReducer,
-      checkinsCollectionReducer()
-    );
+    const actualState = actions.reduce(checkinsReducer, checkinsReducer());
 
     assert({
       given: 'the current state, a date and a teamId',
@@ -187,10 +181,7 @@ describe('checkins collection', async (assert) => {
     const actions = [newCheckin(), newCheckin(), newCheckin({ id })].map(
       addCheckin
     );
-    const actualState = actions.reduce(
-      checkinsCollectionReducer,
-      checkinsCollectionReducer()
-    );
+    const actualState = actions.reduce(checkinsReducer, checkinsReducer());
 
     assert({
       given: 'no arguments',
@@ -211,23 +202,20 @@ describe('checkins collection', async (assert) => {
 
   {
     const actions = [newCheckin(), newCheckin()].map(addCheckin);
-    const fetchedState = actions.reduce(
-      checkinsCollectionReducer,
-      checkinsCollectionReducer()
-    );
+    const fetchedState = actions.reduce(checkinsReducer, checkinsReducer());
 
     const previousStateActions = [newCheckin(), newCheckin(), newCheckin()].map(
       addCheckin
     );
     const previousState = previousStateActions.reduce(
-      checkinsCollectionReducer,
-      checkinsCollectionReducer()
+      checkinsReducer,
+      checkinsReducer()
     );
 
     assert({
       given: 'a state fetched remotely',
       should: 'update the current state with the data received',
-      expected: checkinsCollectionReducer(
+      expected: checkinsReducer(
         previousState,
         loadCheckins({ payload: fetchedState })
       ),

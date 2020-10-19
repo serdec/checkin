@@ -6,7 +6,7 @@ import StepsActions from './steps-actions';
 import PropTypes from 'prop-types';
 import styles from './steps.module.css';
 
-const noop = () => { };
+const noop = () => {};
 const { Step } = Steps;
 
 const steps = [
@@ -31,12 +31,8 @@ const StepsContainer = ({
   blockers = {},
   feedbacks = {},
   tasks = {},
-  teamId = '',
-  teamName = '',
-  user = {},
   addItem = noop,
   deleteItem = noop,
-  onDone = noop,
   setFeedback = noop,
   submitForm = noop,
   toggleItem = noop,
@@ -72,20 +68,7 @@ const StepsContainer = ({
         step={step}
         next={next}
         prev={prev}
-        submitForm={() => {
-          submitForm({
-            previousTasks: tasks.previous,
-            currentTasks: tasks.current,
-            previousBlockers: blockers.previous,
-            currentBlockers: blockers.current,
-            doingWellFeedback: feedbacks.doingWell,
-            needsImprovementFeedback: feedbacks.needsImprovement,
-            teamId,
-            teamName,
-            user: user.email,
-          });
-          onDone();
-        }}
+        submitForm={submitForm}
         steps={steps}
       />
     </div>
@@ -100,7 +83,6 @@ StepsContainer.propTypes = {
   simulateNetServError: PropTypes.bool,
   teamId: PropTypes.string,
   teamName: PropTypes.string,
-  user: PropTypes.object,
   addItem: PropTypes.func,
   deleteItem: PropTypes.func,
   toggleItem: PropTypes.func,

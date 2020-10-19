@@ -61,22 +61,34 @@ export const CurrentCheckin = ({
 
   useEffect(() => {
     saveStatus.status === 'error' ? setRetry(true) : setRetry(false);
-    simulateNetServError
-      ? setSubmitForm(() => saveCheckinSimulateError)
-      : setSubmitForm(() => saveCheckin);
     saveStatus.status === 'savingCheckin'
       ? setLoading(true)
       : setLoading(false);
-  }, [
-    retry,
-    saveStatus,
-    simulateNetServError,
-    saveCheckin,
-    saveCheckinSimulateError,
-  ]);
+  }, [saveStatus]);
+
+  useEffect(() => {
+    simulateNetServError
+      ? setSubmitForm(() => saveCheckinSimulateError)
+      : setSubmitForm(() => saveCheckin);
+  }, [simulateNetServError, saveCheckin, saveCheckinSimulateError]);
 
   const handleRetry = () => {
     submitForm(saveStatus.payload);
+    onDone();
+  };
+
+  const handleCheckinFormSubmission = () => {
+    submitForm({
+      previousTasks: tasks.previous,
+      currentTasks: tasks.current,
+      previousBlockers: blockers.previous,
+      currentBlockers: blockers.current,
+      doingWellFeedback: feedbacks.doingWell,
+      needsImprovementFeedback: feedbacks.needsImprovement,
+      teamId,
+      teamName,
+      user: user.email,
+    });
     onDone();
   };
 
@@ -96,7 +108,7 @@ export const CurrentCheckin = ({
           deleteItem={deleteItem}
           onDone={onDone}
           setFeedback={setFeedback}
-          submitForm={submitForm}
+          submitForm={handleCheckinFormSubmission}
           toggleItem={toggleItem}
         />
       )}
