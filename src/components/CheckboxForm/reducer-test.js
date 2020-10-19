@@ -1,5 +1,5 @@
 import { describe } from 'riteway';
-import { clearCurrentCheckin } from '../Checkins/CurrentCheckin/actions-selectors';
+import { clearNewCheckin } from '../Checkins/NewCheckin/actions-selectors';
 import {
   listReducer,
   addItem,
@@ -39,7 +39,7 @@ describe('list', async (assert) => {
     assert({
       given: 'an add item action and a clear state action',
       should: 'return the initial state',
-      actual: [addItem(newItem()), clearCurrentCheckin()].reduce(
+      actual: [addItem(newItem()), clearNewCheckin()].reduce(
         reducer,
         reducer()
       ),

@@ -1,5 +1,5 @@
 import { describe } from 'riteway';
-import { clearCurrentCheckin } from '../Checkins/CurrentCheckin/actions-selectors';
+import { clearNewCheckin } from '../Checkins/NewCheckin/actions-selectors';
 import feedbackReducer, {
   setFeedback,
   clearFeedback,
@@ -34,7 +34,7 @@ describe('feedback reducer', async (assert) => {
     assert({
       given: 'an set feedback action and a clear state action',
       should: 'return the initial state',
-      actual: [setFeedback({ value }), clearCurrentCheckin()].reduce(
+      actual: [setFeedback({ value }), clearNewCheckin()].reduce(
         defaultFeedbackReducer,
         defaultFeedbackReducer()
       ),

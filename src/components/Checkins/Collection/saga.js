@@ -7,7 +7,7 @@ import {
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
-import { clearCurrentCheckin } from '../CurrentCheckin/actions-selectors';
+import { clearNewCheckin } from '../NewCheckin/actions-selectors';
 
 const LOGIN = 'LOGIN';
 
@@ -26,7 +26,7 @@ export function* saveCheckinSaga(action) {
 
     yield put(reportSaveCheckinSuccess({ ...action.payload }));
     yield put(addCheckinAction);
-    yield put(clearCurrentCheckin());
+    yield put(clearNewCheckin());
   } catch (error) {
     yield put(reportSaveCheckinError({ ...action.payload }));
   }

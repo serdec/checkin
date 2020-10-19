@@ -12,7 +12,7 @@ import {
   tasksLists,
   blockersLists,
   createNewCheckin,
-  clearCurrentCheckin,
+  clearNewCheckin,
 } from './actions-selectors';
 import {
   loadItems,
@@ -100,7 +100,7 @@ describe('current checkin saga', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'dispatch an action to clear the current checkin',
-      expected: put(clearCurrentCheckin()),
+      expected: put(clearNewCheckin()),
       actual: iterator.next().value,
     });
     assert({

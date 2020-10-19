@@ -38,7 +38,7 @@ const mapStateToProps = (state) => ({
   saveStatus: getSaveStatus(state),
 });
 
-export const CurrentCheckin = ({
+export const NewCheckin = ({
   blockers = {},
   feedbacks = {},
   tasks = {},
@@ -116,7 +116,7 @@ export const CurrentCheckin = ({
   );
 };
 
-CurrentCheckin.propTypes = {
+NewCheckin.propTypes = {
   tasks: PropTypes.object,
   blockers: PropTypes.object,
   feedbacks: PropTypes.object,
@@ -137,4 +137,4 @@ CurrentCheckin.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withUser(CurrentCheckin));
+)(withUser(NewCheckin));
