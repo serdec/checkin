@@ -12,7 +12,7 @@ import {
   currentBlockers,
   doingWellFeedback,
   needsImprovementFeedback,
-} from '../components/Checkins/CurrentCheckin/actions-selectors';
+} from '../components/Checkins/NewCheckin/actions-selectors';
 
 const rootReducer = combineReducers({
   activeTeam: activeTeamReducer,
