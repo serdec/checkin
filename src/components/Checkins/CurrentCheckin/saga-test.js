@@ -5,14 +5,15 @@ import { addItem } from '../../CheckboxForm/reducer';
 import {
   getPreviousBlockersFromCollection,
   getPreviousTasksFromCollection,
-} from '../../../store/root-reducer';
+} from '../Collection/reducer';
+
 import {
   getNotCheckedItems,
   tasksLists,
   blockersLists,
   createNewCheckin,
   clearCurrentCheckin,
-} from './reducer';
+} from './actions-selectors';
 import {
   loadItems,
   loadPreviousBlockers,

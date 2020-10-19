@@ -3,7 +3,7 @@ import { getTeams } from './saga';
 import * as database from '../../services/database/database';
 import { call, put } from 'redux-saga/effects';
 import { loadTeams } from './reducer';
-import { loginUser } from '../../store/root-reducer';
+import { loginUser } from '../Checkins/Collection/saga';
 
 describe('teams saga', async (assert) => {
   {

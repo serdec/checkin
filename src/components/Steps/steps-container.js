@@ -6,7 +6,7 @@ import StepsActions from './steps-actions';
 import PropTypes from 'prop-types';
 import styles from './steps.module.css';
 
-const noop = () => {};
+const noop = () => { };
 const { Step } = Steps;
 
 const steps = [
@@ -74,9 +74,12 @@ const StepsContainer = ({
         prev={prev}
         submitForm={() => {
           submitForm({
-            tasks,
-            blockers,
-            feedbacks,
+            previousTasks: tasks.previous,
+            currentTasks: tasks.current,
+            previousBlockers: blockers.previous,
+            currentBlockers: blockers.current,
+            doingWellFeedback: feedbacks.doingWell,
+            needsImprovementFeedback: feedbacks.needsImprovement,
             teamId,
             teamName,
             user: user.email,

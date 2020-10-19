@@ -6,7 +6,7 @@ import {
   getCheckinsByDay,
   getLatestCheckin,
   loadCheckins,
-} from './checkins-collection-reducer';
+} from './reducer';
 import { getDateString } from '../../../lib/date/date';
 import cuid from 'cuid';
 
@@ -72,39 +72,24 @@ const newCheckin = ({
   user = '',
   teamId = '',
   teamName = teamId,
-  tasks = _tasks,
-  blockers = _blockers,
-  feedbacks = _feedbacks,
+  previousTasks = _tasks.previous,
+  currentTasks = _tasks.current,
+  previousBlockers = _blockers.previous,
+  currentBlockers = _blockers.current,
+  doingWellFeedback = _feedbacks.doingWell,
+  needsImprovementFeedback = _feedbacks.needsImprovement,
 } = {}) => ({
   id,
   date,
   user,
   teamId,
   teamName,
-  contributions: {
-    tasks,
-    blockers,
-    feedbacks,
-  },
-});
-const newAddCheckinInput = ({
-  id = '',
-  date = 0,
-  user = '',
-  teamId = '',
-  teamName = teamId,
-  tasks = _tasks,
-  blockers = _blockers,
-  feedbacks = _feedbacks,
-} = {}) => ({
-  id,
-  date,
-  user,
-  teamId,
-  teamName,
-  tasks,
-  blockers,
-  feedbacks,
+  previousTasks,
+  currentTasks,
+  previousBlockers,
+  currentBlockers,
+  doingWellFeedback,
+  needsImprovementFeedback,
 });
 
 describe('checkins collection', async (assert) => {
@@ -130,9 +115,12 @@ describe('checkins collection', async (assert) => {
           id,
           date,
           teamId,
-          tasks: _tasks,
-          blockers: _blockers,
-          feedbacks: _feedbacks,
+          previousTasks: _tasks.previous,
+          currentTasks: _tasks.current,
+          previousBlockers: _blockers.previous,
+          currentBlockers: _blockers.current,
+          doingWellFeedback: _feedbacks.doingWell,
+          needsImprovementFeedback: _feedbacks.needsImprovement,
         })
       ),
       expected: [newCheckin({ id, date, teamId })],
@@ -164,10 +152,10 @@ describe('checkins collection', async (assert) => {
     const date = getDateString(new Date());
     const date2 = getDateString(new Date('2020-12-25'));
     const actions = [
-      newAddCheckinInput({ id: checkinId, date: date, teamId }),
-      newAddCheckinInput({ id: checkinId, date: date2, teamId }),
-      newAddCheckinInput({ id: checkinId, date: date, teamId: teamId2 }),
-      newAddCheckinInput({ id: checkinId, date: date2, teamId: teamId2 }),
+      newCheckin({ id: checkinId, date: date, teamId }),
+      newCheckin({ id: checkinId, date: date2, teamId }),
+      newCheckin({ id: checkinId, date: date, teamId: teamId2 }),
+      newCheckin({ id: checkinId, date: date2, teamId: teamId2 }),
     ].map(addCheckin);
     const actualState = actions.reduce(
       checkinsCollectionReducer,
@@ -180,14 +168,13 @@ describe('checkins collection', async (assert) => {
       expected: [
         {
           id: checkinId,
-          user: newAddCheckinInput().user,
-          previousTasks: newAddCheckinInput().tasks.previous,
-          currentTasks: newAddCheckinInput().tasks.current,
-          previousBlockers: newAddCheckinInput().blockers.previous,
-          currentBlockers: newAddCheckinInput().blockers.current,
-          doingWellFeedback: newAddCheckinInput().feedbacks.doingWell,
-          needsImprovementFeedback: newAddCheckinInput().feedbacks
-            .needsImprovement,
+          user: newCheckin().user,
+          previousTasks: newCheckin().previousTasks,
+          currentTasks: newCheckin().currentTasks,
+          previousBlockers: newCheckin().previousBlockers,
+          currentBlockers: newCheckin().currentBlockers,
+          doingWellFeedback: newCheckin().doingWellFeedback,
+          needsImprovementFeedback: newCheckin().needsImprovementFeedback,
         },
       ],
       actual: getCheckinsByDay({ state: actualState, date: date2, teamId }),
@@ -197,11 +184,9 @@ describe('checkins collection', async (assert) => {
   {
     const id = 'latest';
     const latestCheckin = newCheckin({ id: 'latest' });
-    const actions = [
-      newAddCheckinInput(),
-      newAddCheckinInput(),
-      newAddCheckinInput({ id }),
-    ].map(addCheckin);
+    const actions = [newCheckin(), newCheckin(), newCheckin({ id })].map(
+      addCheckin
+    );
     const actualState = actions.reduce(
       checkinsCollectionReducer,
       checkinsCollectionReducer()
@@ -225,19 +210,15 @@ describe('checkins collection', async (assert) => {
   }
 
   {
-    const actions = [newAddCheckinInput(), newAddCheckinInput()].map(
-      addCheckin
-    );
+    const actions = [newCheckin(), newCheckin()].map(addCheckin);
     const fetchedState = actions.reduce(
       checkinsCollectionReducer,
       checkinsCollectionReducer()
     );
 
-    const previousStateActions = [
-      newAddCheckinInput(),
-      newAddCheckinInput(),
-      newAddCheckinInput(),
-    ].map(addCheckin);
+    const previousStateActions = [newCheckin(), newCheckin(), newCheckin()].map(
+      addCheckin
+    );
     const previousState = previousStateActions.reduce(
       checkinsCollectionReducer,
       checkinsCollectionReducer()
