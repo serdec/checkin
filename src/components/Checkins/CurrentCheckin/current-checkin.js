@@ -2,24 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import withUser from '../../../lib/magic/with-user';
 import PropTypes from 'prop-types';
-import {
-  getCurrentCheckin,
-  getActiveTeam,
-  getTeams,
-  getCheckins,
-} from '../../../store/root-reducer';
-import { getBlockers, getFeedbacks, getTasks } from './reducer';
+import { getBlockers, getFeedbacks, getTasks } from './actions-selectors';
 import { addItem, deleteItem, toggleItem } from '../../CheckboxForm/reducer';
 import { setFeedback } from '../../Feedback/reducer';
-import { getTeamName } from '../../Teams/reducer';
+import { getTeamName, getTeams } from '../../Teams/reducer';
 import {
+  getSaveStatus,
   saveCheckin,
   saveCheckinSimulateError,
 } from '../Collection/save-checkin-states-reducer';
-import { getSaveStatus } from '../Collection/reducer';
 import Retry from '../../Retry/retry';
 import Loading from '../../Loading/loading';
 import StepsContainer from '../../Steps/steps-container';
+import { getActiveTeam } from '../../ActiveTeam/reducer';
 
 const noop = () => {
   return;
@@ -35,12 +30,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  tasks: getTasks(getCurrentCheckin(state)),
-  blockers: getBlockers(getCurrentCheckin(state)),
-  feedbacks: getFeedbacks(getCurrentCheckin(state)),
+  tasks: getTasks(state),
+  blockers: getBlockers(state),
+  feedbacks: getFeedbacks(state),
   teamId: getActiveTeam(state),
   teamName: getTeamName(getTeams(state), getActiveTeam(state)),
-  saveStatus: getSaveStatus(getCheckins(state)),
+  saveStatus: getSaveStatus(state),
 });
 
 export const CurrentCheckin = ({

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import DateLog from './DateLog/date-log';
 import PropTypes from 'prop-types';
-import { getCheckins, getTeams } from '../store/root-reducer';
 import CurrentCheckin from './Checkins/CurrentCheckin/current-checkin';
-import { createNewCheckin } from './Checkins/CurrentCheckin/reducer';
+import { createNewCheckin } from './Checkins/CurrentCheckin/actions-selectors';
 import ControlPanel from './ControlPanel/control-panel';
-import { getSaveStatus } from './Checkins/Collection/reducer';
+import { getTeams } from './Teams/reducer';
+import { getSaveStatus } from './Checkins/Collection/save-checkin-states-reducer';
 
 const mapStateToProps = (state) => ({
   teams: getTeams(state),
-  saveStatus: getSaveStatus(getCheckins(state)),
+  saveStatus: getSaveStatus(state),
 });
 const mapDispatchStateToProps = {
   createNewCheckin,

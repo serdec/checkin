@@ -1,3 +1,5 @@
+import { clearCurrentCheckin } from '../Checkins/CurrentCheckin/actions-selectors';
+
 const SET_FEEDBACK = 'CHECKIN::SET_FEEDBACK';
 const CLEAR_FEEDBACK = 'CHECKIN::CLEAR_FEEDBACK';
 
@@ -21,6 +23,8 @@ const feedbackReducer = (feedbackName = '') => (
     case clearFeedback({ feedbackName }).type:
     case setFeedback({ feedbackName }).type:
       return payload;
+    case clearCurrentCheckin().type:
+      return '';
     default:
       return state;
   }

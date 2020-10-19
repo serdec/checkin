@@ -1,4 +1,5 @@
 import cuid from 'cuid';
+import { clearCurrentCheckin } from '../Checkins/CurrentCheckin/actions-selectors';
 
 const EMPTY_ITEM = 'CHECKIN::EMPTY_ITEM';
 const ADD_ITEM = 'CHECKIN::ADD_ITEM';
@@ -63,6 +64,8 @@ export const listReducer = (listName = '') => (
         }
         return item;
       });
+    case clearCurrentCheckin().type:
+      return [];
     default:
       return state;
   }

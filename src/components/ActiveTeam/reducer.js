@@ -5,7 +5,7 @@ export const setActiveTeam = (id) => ({
   payload: id,
 });
 
-// export const getActiveTeam = (state = '') => state;
+export const getActiveTeam = (state) => state.activeTeam;
 
 export const activeTeamReducer = (
   state = '',

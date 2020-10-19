@@ -1,4 +1,5 @@
 import { describe } from 'riteway';
+import { clearCurrentCheckin } from '../Checkins/CurrentCheckin/actions-selectors';
 import {
   listReducer,
   addItem,
@@ -32,6 +33,17 @@ describe('list', async (assert) => {
       should: 'return the state with the new item',
       actual: reducer(reducer(), addItem(newItem())),
       expected: [newItem()],
+    });
+  }
+  {
+    assert({
+      given: 'an add item action and a clear state action',
+      should: 'return the initial state',
+      actual: [addItem(newItem()), clearCurrentCheckin()].reduce(
+        reducer,
+        reducer()
+      ),
+      expected: [],
     });
   }
 
