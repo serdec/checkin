@@ -1,4 +1,4 @@
-const CLEAR_CURRENT_CHECKIN = 'CHECKIN::CLEAR_CURRENT_CHECKIN';
+const CLEAR_NEW_CHECKIN = 'CHECKIN::CLEAR_NEW_CHECKIN';
 const CREATE_NEW_CHECKIN = 'CHECKIN::CREATE_NEW_CHECKIN';
 
 export const previousTasks = 'LIST::PREVIOUS_TASKS';
@@ -59,6 +59,6 @@ export const getFeedbacks = (state) => ({
 export const createNewCheckin = () => ({
   type: CREATE_NEW_CHECKIN,
 });
-export const clearCurrentCheckin = () => ({
-  type: CLEAR_CURRENT_CHECKIN,
+export const clearNewCheckin = () => ({
+  type: CLEAR_NEW_CHECKIN,
 });

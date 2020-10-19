@@ -14,7 +14,7 @@ import {
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
-import { clearCurrentCheckin } from '../CurrentCheckin/actions-selectors';
+import { clearNewCheckin } from '../NewCheckin/actions-selectors';
 
 const newCheckin = ({
   id = '1',
@@ -97,7 +97,7 @@ describe('checkins saga', async (assert) => {
     assert({
       given: 'the saveCheckinSaga success',
       should: 'clear the current checkin state',
-      expected: put(clearCurrentCheckin()),
+      expected: put(clearNewCheckin()),
       actual: iterator.next().value,
     });
   }

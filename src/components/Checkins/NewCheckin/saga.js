@@ -6,7 +6,7 @@ import {
 } from '../Collection/reducer';
 import {
   blockersLists,
-  clearCurrentCheckin,
+  clearNewCheckin,
   createNewCheckin,
   getNotCheckedItems,
   tasksLists,
@@ -36,7 +36,7 @@ export function* loadPreviousBlockers() {
 }
 
 export function* loadPreviousTasksAndBlockers() {
-  yield put(clearCurrentCheckin());
+  yield put(clearNewCheckin());
   yield all([loadPreviousTasks(), loadPreviousBlockers()]);
 }
 

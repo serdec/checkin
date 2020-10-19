@@ -9,7 +9,7 @@ import {
   DOING_WELL,
   feedbacksFields,
   NEEDS_IMPROVEMENT,
-} from '../Checkins/CurrentCheckin/actions-selectors';
+} from '../Checkins/NewCheckin/actions-selectors';
 
 const tasks = {
   previous: [
