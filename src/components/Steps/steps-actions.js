@@ -10,7 +10,7 @@ const StepsActions = ({
   step = 0,
   prev = noop,
   next = noop,
-  submitForm = noop,
+  action = noop,
   steps = {},
 } = {}) => {
   return (
@@ -26,7 +26,7 @@ const StepsActions = ({
         </Button>
       )}
       {step === steps.length - 1 && (
-        <Button type="primary" onClick={submitForm}>
+        <Button type="primary" onClick={action}>
           Done
         </Button>
       )}
@@ -39,6 +39,6 @@ StepsActions.propTypes = {
   prev: PropTypes.func,
   next: PropTypes.func,
   steps: PropTypes.array,
-  submitForm: PropTypes.func,
+  action: PropTypes.func,
 };
 export default StepsActions;

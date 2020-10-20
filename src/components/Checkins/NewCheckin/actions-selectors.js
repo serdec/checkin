@@ -1,3 +1,6 @@
+import { getActiveTeam } from '../../ActiveTeam/reducer';
+import { getTeamName, getTeams } from '../../Teams/reducer';
+
 const CLEAR_NEW_CHECKIN = 'CHECKIN::CLEAR_NEW_CHECKIN';
 const CREATE_NEW_CHECKIN = 'CHECKIN::CREATE_NEW_CHECKIN';
 
@@ -43,22 +46,20 @@ export const getNeedsImprovementFeedback = (state = {}) => {
   else return state.needsImprovementFeedback;
 };
 
-export const getTasks = (state) => ({
-  previous: state.previousTasks,
-  current: state.currentTasks,
-});
-export const getBlockers = (state) => ({
-  previous: state.previousBlockers,
-  current: state.currentBlockers,
-});
-export const getFeedbacks = (state) => ({
-  doingWell: state.doingWellFeedback,
-  needsImprovement: state.needsImprovementFeedback,
-});
-
 export const createNewCheckin = () => ({
   type: CREATE_NEW_CHECKIN,
 });
 export const clearNewCheckin = () => ({
   type: CLEAR_NEW_CHECKIN,
+});
+
+export const initNewCheckin = (state) => ({
+  previousTasks: state.previousTasks,
+  currentTasks: state.currentTasks,
+  previousBlockers: state.previousBlockers,
+  currentBlockers: state.currentBlockers,
+  doingWellFeedback: state.doingWellFeedback,
+  needsImprovementFeedback: state.needsImprovementFeedback,
+  teamId: getActiveTeam(state),
+  teamName: getTeamName(getTeams(state), getActiveTeam(state)),
 });
