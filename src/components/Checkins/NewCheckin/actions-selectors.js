@@ -53,7 +53,7 @@ export const clearNewCheckin = () => ({
   type: CLEAR_NEW_CHECKIN,
 });
 
-export const initNewCheckin = (state) => ({
+export const getCheckinInitialData = (state) => ({
   previousTasks: state.previousTasks,
   currentTasks: state.currentTasks,
   previousBlockers: state.previousBlockers,
