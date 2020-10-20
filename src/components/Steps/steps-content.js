@@ -13,43 +13,30 @@ import {
 import Feedback from '../Feedback/feedback';
 import ListSummaryCard from '../Cards/SummaryCards/list-summary-card';
 
-const noop = () => {
-  return;
-};
-
-const StepsContent = ({
-  step = 0,
-  tasks = {},
-  blockers = {},
-  feedbacks = {},
-  addItem = noop,
-  deleteItem = noop,
-  toggleItem = noop,
-  setFeedback = noop,
-}) => {
+const StepsContent = ({ step = 0, checkin = {}, checkinActions = {} }) => {
   const previousCards = [
     {
       title: 'Previous Tasks',
       img: 'tasks.png',
-      content: tasks.previous,
+      content: checkin.previousTasks,
     },
     {
       title: 'Previous Blockers',
       img: 'blockers.png',
-      content: blockers.previous,
+      content: checkin.previousBlockers,
     },
   ];
   const currentCards = [
     {
       title: 'Tasks',
       img: 'tasks.png',
-      content: tasks.current,
+      content: checkin.currentTasks,
       listName: tasksLists[step],
     },
     {
       title: 'Blockers',
       img: 'blockers.png',
-      content: blockers.current,
+      content: checkin.currentBlockers,
       listName: blockersLists[step],
     },
   ];
@@ -58,13 +45,13 @@ const StepsContent = ({
       title: 'Doing Well',
       img: 'doingWell.png',
       feedbackName: feedbacksFields[DOING_WELL],
-      content: feedbacks.doingWell,
+      content: checkin.doingWellFeedback,
     },
     {
       title: 'Needs Improvement',
       img: 'improvements.png',
       feedbackName: feedbacksFields[NEEDS_IMPROVEMENT],
-      content: feedbacks.needsImprovement,
+      content: checkin.needsImprovementFeedback,
     },
   ];
   const doneCards = [
@@ -95,9 +82,9 @@ const StepsContent = ({
               <CheckboxForm
                 checkList={list.content}
                 listName={list.listName}
-                onAddClick={addItem}
-                onChange={toggleItem}
-                onDeleteClick={deleteItem}
+                onAddClick={checkinActions.addItem}
+                onChange={checkinActions.toggleItem}
+                onDeleteClick={checkinActions.deleteItem}
               />
             </Card>
           ))}
@@ -113,7 +100,7 @@ const StepsContent = ({
             >
               <Feedback
                 feedbackName={feedback.feedbackName}
-                setFeedback={setFeedback}
+                setFeedback={checkinActions.setFeedback}
                 value={feedback.content}
               />
             </Card>
@@ -133,12 +120,7 @@ const StepsContent = ({
 
 StepsContent.propTypes = {
   step: PropTypes.number,
-  tasks: PropTypes.object,
-  blockers: PropTypes.object,
-  feedbacks: PropTypes.object,
-  addItem: PropTypes.func,
-  deleteItem: PropTypes.func,
-  toggleItem: PropTypes.func,
-  setFeedback: PropTypes.func,
+  checkin: PropTypes.object,
+  checkinActions: PropTypes.object,
 };
 export default StepsContent;

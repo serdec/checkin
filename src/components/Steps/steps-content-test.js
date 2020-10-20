@@ -67,6 +67,15 @@ const feedbacks = {
   doingWell: 'Doing Well Content',
   needsImprovement: 'Needs Improvement Content',
 };
+
+const checkin = {
+  previousTasks: tasks.previous,
+  currentTasks: tasks.current,
+  previousBlockers: blockers.previous,
+  currentBlockers: blockers.current,
+  doingWellFeedback: feedbacks.doingWell,
+  needsImprovementFeedback: feedbacks.needsImprovement,
+};
 const previousCards = [
   {
     title: 'Previous Tasks',
@@ -114,20 +123,8 @@ const doneCards = [
   },
 ];
 describe('steps content', async (assert) => {
-  const createStepsContent = ({
-    step = 0,
-    tasks = {},
-    blockers = {},
-    feedbacks = {},
-  } = {}) =>
-    render(
-      <StepsContent
-        step={step}
-        tasks={tasks}
-        blockers={blockers}
-        feedbacks={feedbacks}
-      />
-    );
+  const createStepsContent = ({ step = 0, checkin = {} } = {}) =>
+    render(<StepsContent step={step} checkin={checkin} />);
 
   {
     const $ = createStepsContent();
@@ -142,7 +139,7 @@ describe('steps content', async (assert) => {
 
   {
     const step = 0;
-    const $ = createStepsContent({ step, tasks, blockers });
+    const $ = createStepsContent({ step, checkin });
     const contains = match($.html().trim());
     assert({
       given: 'the step 0',
@@ -167,7 +164,7 @@ describe('steps content', async (assert) => {
   }
   {
     const step = 1;
-    const $ = createStepsContent({ step, tasks, blockers });
+    const $ = createStepsContent({ step, checkin });
     const contains = match($.html().trim());
     assert({
       given: 'the step 1',
@@ -192,7 +189,7 @@ describe('steps content', async (assert) => {
   }
   {
     const step = 2;
-    const $ = createStepsContent({ step, feedbacks });
+    const $ = createStepsContent({ step, checkin });
     const contains = match($.html().trim());
     assert({
       given: 'the step 2',

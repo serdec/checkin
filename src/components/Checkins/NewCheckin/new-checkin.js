@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import withUser from '../../../lib/magic/with-user';
 import PropTypes from 'prop-types';
-import { getBlockers, getFeedbacks, getTasks } from './actions-selectors';
+import { initNewCheckin } from './actions-selectors';
 import { addItem, deleteItem, toggleItem } from '../../CheckboxForm/reducer';
 import { setFeedback } from '../../Feedback/reducer';
-import { getTeamName, getTeams } from '../../Teams/reducer';
 import {
   getSaveStatus,
   saveCheckin,
@@ -14,7 +13,6 @@ import {
 import Retry from '../../Retry/retry';
 import Loading from '../../Loading/loading';
 import StepsContainer from '../../Steps/steps-container';
-import { getActiveTeam } from '../../ActiveTeam/reducer';
 
 const noop = () => {
   return;
@@ -30,34 +28,21 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  tasks: getTasks(state),
-  blockers: getBlockers(state),
-  feedbacks: getFeedbacks(state),
-  teamId: getActiveTeam(state),
-  teamName: getTeamName(getTeams(state), getActiveTeam(state)),
+  checkin: initNewCheckin(state),
   saveStatus: getSaveStatus(state),
 });
 
 export const NewCheckin = ({
-  blockers = {},
-  feedbacks = {},
-  tasks = {},
+  checkin = {},
   saveStatus = {},
   simulateNetServError = false,
-  teamName = '',
-  teamId = '',
   user = {},
-  addItem = noop,
-  deleteItem = noop,
-  toggleItem = noop,
-  setFeedback = noop,
-  saveCheckin = noop,
-  saveCheckinSimulateError = noop,
   onDone = noop,
+  ...dispatchActions
 } = {}) => {
   const [retry, setRetry] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [submitForm, setSubmitForm] = useState(() => saveCheckin);
+  const [saveCheckin, setSaveCheckin] = useState(() => saveCheckin);
 
   useEffect(() => {
     saveStatus.status === 'error' ? setRetry(true) : setRetry(false);
@@ -68,25 +53,22 @@ export const NewCheckin = ({
 
   useEffect(() => {
     simulateNetServError
-      ? setSubmitForm(() => saveCheckinSimulateError)
-      : setSubmitForm(() => saveCheckin);
-  }, [simulateNetServError, saveCheckin, saveCheckinSimulateError]);
+      ? setSaveCheckin(() => dispatchActions.saveCheckinSimulateError)
+      : setSaveCheckin(() => dispatchActions.saveCheckin);
+  }, [
+    simulateNetServError,
+    dispatchActions.saveCheckin,
+    dispatchActions.saveCheckinSimulateError,
+  ]);
 
   const handleRetry = () => {
-    submitForm(saveStatus.payload);
+    saveCheckin(saveStatus.payload);
     onDone();
   };
 
-  const handleCheckinFormSubmission = () => {
-    submitForm({
-      previousTasks: tasks.previous,
-      currentTasks: tasks.current,
-      previousBlockers: blockers.previous,
-      currentBlockers: blockers.current,
-      doingWellFeedback: feedbacks.doingWell,
-      needsImprovementFeedback: feedbacks.needsImprovement,
-      teamId,
-      teamName,
+  const handleCheckinSubmission = () => {
+    saveCheckin({
+      ...checkin,
       user: user.email,
     });
     onDone();
@@ -98,18 +80,12 @@ export const NewCheckin = ({
       {!loading && retry && <Retry retryAction={handleRetry} />}
       {!loading && !retry && (
         <StepsContainer
-          blockers={blockers}
-          feedbacks={feedbacks}
-          tasks={tasks}
-          teamId={teamId}
-          teamName={teamName}
+          checkin={checkin}
           user={user}
-          addItem={addItem}
-          deleteItem={deleteItem}
-          onDone={onDone}
-          setFeedback={setFeedback}
-          submitForm={handleCheckinFormSubmission}
-          toggleItem={toggleItem}
+          checkinActions={{
+            ...dispatchActions,
+            save: handleCheckinSubmission,
+          }}
         />
       )}
     </div>
@@ -117,13 +93,9 @@ export const NewCheckin = ({
 };
 
 NewCheckin.propTypes = {
-  tasks: PropTypes.object,
-  blockers: PropTypes.object,
-  feedbacks: PropTypes.object,
+  checkin: PropTypes.object,
   saveStatus: PropTypes.object,
   simulateNetServError: PropTypes.bool,
-  teamId: PropTypes.string,
-  teamName: PropTypes.string,
   user: PropTypes.object,
   addItem: PropTypes.func,
   deleteItem: PropTypes.func,
