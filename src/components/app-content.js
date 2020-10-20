@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import DateLog from './DateLog/date-log';
+import History from './History/history';
 import PropTypes from 'prop-types';
 import NewCheckin from './Checkins/NewCheckin/new-checkin';
 import {
@@ -68,7 +68,7 @@ const AppContent = ({
       />
       {loading && <Loading />}
       {!loading && retry.visible && <Retry retryAction={retry.onClick} />}
-      {history.visible && !retry.visible && !loading && <DateLog />}
+      {history.visible && !retry.visible && !loading && <History />}
       {!loading && !retry.visible && !history.visible && (
         <NewCheckin
           checkin={checkin}

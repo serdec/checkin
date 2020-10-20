@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import styles from '../../DateLog/date-log.module.css';
+import styles from '../../History/history.module.css';
 import ListSummaryCard from '../../Cards/SummaryCards/list-summary-card';
 import FeedbackSummaryCard from '../../Cards/SummaryCards/feedback-summary-card';
 const { TabPane } = Tabs;

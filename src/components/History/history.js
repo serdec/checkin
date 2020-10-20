@@ -4,7 +4,7 @@ import { getDateString, getDateMoment } from '../../lib/date/date';
 import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
 import { getCheckinsByDay } from '../Checkins/Collection/reducer';
-import styles from './date-log.module.css';
+import styles from './history.module.css';
 import TeamDayCheckins from '../Checkins/Collection/team-daily-summary';
 import { getActiveTeam } from '../ActiveTeam/reducer';
 
@@ -18,7 +18,7 @@ const mapStateToProps = (state) => ({
   },
 });
 
-const DateLog = ({ getCheckins }) => {
+const History = ({ getCheckins }) => {
   const [checkins, setVisibleCheckins] = useState([]);
   const [dateValue, setDateValue] = useState(getDateMoment(new Date()));
 
@@ -42,7 +42,7 @@ const DateLog = ({ getCheckins }) => {
   );
 };
 
-DateLog.propTypes = {
+History.propTypes = {
   getCheckins: PropTypes.func,
 };
-export default connect(mapStateToProps)(DateLog);
+export default connect(mapStateToProps)(History);
