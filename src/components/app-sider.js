@@ -44,7 +44,7 @@ const AppSider = ({
 
   return (
     <div className={styles.siteLayoutSider}>
-      <Sider theme="light">
+      <Sider defaultCollapsed theme="light" breakpoint="lg" collapsedWidth="0">
         <Menu
           mode="inline"
           selectedKeys={activeTeam}
@@ -63,14 +63,14 @@ const AppSider = ({
             }}
           />
         ) : (
-          <Button
-            className={styles.controlPanelButton}
-            style={{ margin: '0.5em' }}
-            onClick={handleCreate}
-          >
-            Create New Team
-          </Button>
-        )}
+            <Button
+              className={styles.controlPanelButton}
+              style={{ margin: '0.5em' }}
+              onClick={handleCreate}
+            >
+              Create New Team
+            </Button>
+          )}
       </Sider>
     </div>
   );

@@ -171,7 +171,7 @@ describe('checkins collection', async (assert) => {
           needsImprovementFeedback: newCheckin().needsImprovementFeedback,
         },
       ],
-      actual: getCheckinsByDay({ state: actualState, date: date2, teamId }),
+      actual: getCheckinsByDay({ checkins: actualState, date: date2, teamId }),
     });
   }
 

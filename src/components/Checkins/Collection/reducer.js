@@ -45,9 +45,18 @@ export const deleteCheckin = (id) => ({
   type: DELETE_CHECKIN,
   payload: id,
 });
-export const getLatestCheckin = (state = []) => {
-  if (state.length === 0) return {};
-  return state[state.length - 1];
+export const getLatestCheckin = (checkins = []) => {
+  if (checkins.length === 0) return {};
+  return checkins[checkins.length - 1];
+};
+
+export const getPreviousBlockersFromCollection = (state = {}) => {
+  const checkin = getLatestCheckin(state.checkins);
+  return checkin.currentBlockers || [];
+};
+export const getPreviousTasksFromCollection = (state = {}) => {
+  const checkin = getLatestCheckin(state.checkins);
+  return checkin.currentTasks || [];
 };
 
 export const loadCheckins = ({ payload = [] } = {}) => ({
@@ -62,21 +71,12 @@ const getCheckinUser = ({ user = '' }) => {
   return user;
 };
 
-export const getPreviousBlockersFromCollection = (state) => {
-  const checkin = getLatestCheckin(state.checkins);
-  return checkin.currentBlockers;
-};
-export const getPreviousTasksFromCollection = (state) => {
-  const checkin = getLatestCheckin(state.checkins);
-  return checkin.currentTasks;
-};
-
 export const getCheckinsByDay = ({
-  state = [],
+  checkins = [],
   date = '',
   teamId = addCheckin().teamId,
 } = {}) => {
-  return state
+  return checkins
     .filter((checkin) => checkin.date === date && checkin.teamId === teamId)
     .map((checkin) => ({
       id: getCheckinId(checkin),

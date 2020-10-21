@@ -47,7 +47,7 @@ const blockers = [
   },
 ];
 
-describe('current checkin saga', async (assert) => {
+describe('new checkin saga', async (assert) => {
   {
     const list = [...tasks, ...blockers];
     const listName = 'list';

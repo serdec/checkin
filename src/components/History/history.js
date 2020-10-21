@@ -11,7 +11,7 @@ import { getActiveTeam } from '../ActiveTeam/reducer';
 const mapStateToProps = (state) => ({
   getCheckins: (date) => {
     return getCheckinsByDay({
-      state: state.checkins,
+      checkins: state.checkins,
       date,
       teamId: getActiveTeam(state),
     });
@@ -31,9 +31,9 @@ const History = ({ getCheckins }) => {
     setVisibleCheckins(getCheckins(getDateString(date)));
   };
   return (
-    <div className={styles.dateLog}>
+    <div className={styles.history}>
       <DatePicker
-        className={styles.dateLog__datePicker}
+        className={styles.history__datePicker}
         value={dateValue}
         onChange={(date) => onDateChange(date)}
       />

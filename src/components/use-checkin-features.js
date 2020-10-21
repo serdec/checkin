@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const noop = () => { };
+const noop = () => {};
 
 // Simulates network/server error.
 // when simulateNetServError is true,

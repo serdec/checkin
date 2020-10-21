@@ -4,15 +4,12 @@
 
 .siteLayoutContent{
   background-color: white;
-  width: 100vw;
-  overflow: auto;
+  width: 80vw;
 }
 
 .siteLayoutSider{
   box-sizing: border-box;
   background-color: white;
-  width: 16vw;
-  overflow: auto;
 }
 
 .centralBox{
