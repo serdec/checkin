@@ -19,22 +19,20 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => {
 
   return (
     <Layout>
-      <Header className={styles.header}>
-        <AppHeader
-          isSignedIn={isUserSignedIn}
-          isUserReady={isUserReady}
-          signOut={signOut}
-          user={user}
-        />
-      </Header>
-      <Layout>
+      {isSignedIn && <AppSider />}
+      <Layout style={{ background: 'white' }}>
+        <Header className={styles.header}>
+          <AppHeader
+            isSignedIn={isUserSignedIn}
+            isUserReady={isUserReady}
+            signOut={signOut}
+            user={user}
+          />
+        </Header>
         {isSignedIn && (
-          <>
-            <AppSider />
-            <Content theme="light" className={styles.siteLayoutContent}>
-              <AppContent />
-            </Content>
-          </>
+          <Content theme="light" className={styles.siteLayoutContent}>
+            <AppContent />
+          </Content>
         )}
       </Layout>
     </Layout>

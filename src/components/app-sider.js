@@ -43,8 +43,8 @@ const AppSider = ({
   };
 
   return (
-    <div className={styles.siteLayoutSider}>
-      <Sider defaultCollapsed theme="light" breakpoint="lg" collapsedWidth="0">
+    <Sider defaultCollapsed theme="light" breakpoint="xxl" collapsedWidth="0">
+      <div className={styles.siteLayoutSider}>
         <Menu
           mode="inline"
           selectedKeys={activeTeam}
@@ -71,8 +71,8 @@ const AppSider = ({
             Create New Team
           </Button>
         )}
-      </Sider>
-    </div>
+      </div>
+    </Sider>
   );
 };
 
