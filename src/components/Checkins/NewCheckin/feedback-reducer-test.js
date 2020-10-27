@@ -1,10 +1,10 @@
 import { describe } from 'riteway';
-import { clearNewCheckin } from '../Checkins/NewCheckin/actions-selectors';
 import feedbackReducer, {
   setFeedback,
   clearFeedback,
   getFeedback,
-} from './reducer';
+} from './feedback-reducer';
+import { clearNewCheckin } from './list-reducer';
 
 const defaultFeedbackReducer = feedbackReducer();
 

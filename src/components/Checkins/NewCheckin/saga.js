@@ -1,16 +1,15 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
-import { addItem } from '../../CheckboxForm/reducer';
+import { addItem, clearNewCheckin } from './list-reducer';
 import {
   getPreviousTasksFromCollection,
   getPreviousBlockersFromCollection,
 } from '../Collection/reducer';
 import {
   blockersLists,
-  clearNewCheckin,
   createNewCheckin,
   getNotCheckedItems,
   tasksLists,
-} from './actions-selectors';
+} from './reducer';
 
 export function* loadItems(list, listName) {
   yield all(list.map((element) => put(addItem({ listName, ...element }))));

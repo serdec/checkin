@@ -1,13 +1,5 @@
 import cuid from 'cuid';
 import { getDateString } from '../../../lib/date/date';
-import {
-  getCurrentBlockers,
-  getCurrentTasks,
-  getDoingWellFeedback,
-  getNeedsImprovementFeedback,
-  getPreviousBlockers,
-  getPreviousTasks,
-} from '../NewCheckin/actions-selectors';
 const ADD_CHECKIN = 'CHECKINS::ADD_CHECKIN';
 const DELETE_CHECKIN = 'CHECKINS::DELETE_CHECKIN';
 const LOAD_CHECKINS = 'CHECKINS::LOAD_CHECKINS';
@@ -64,30 +56,14 @@ export const loadCheckins = ({ payload = [] } = {}) => ({
   payload,
 });
 
-const getCheckinId = ({ id = '' }) => {
-  return id;
-};
-const getCheckinUser = ({ user = '' }) => {
-  return user;
-};
-
 export const getCheckinsByDay = ({
   checkins = [],
   date = '',
   teamId = addCheckin().teamId,
 } = {}) => {
-  return checkins
-    .filter((checkin) => checkin.date === date && checkin.teamId === teamId)
-    .map((checkin) => ({
-      id: getCheckinId(checkin),
-      user: getCheckinUser(checkin),
-      previousTasks: getPreviousTasks(checkin),
-      currentTasks: getCurrentTasks(checkin),
-      previousBlockers: getPreviousBlockers(checkin),
-      currentBlockers: getCurrentBlockers(checkin),
-      doingWellFeedback: getDoingWellFeedback(checkin),
-      needsImprovementFeedback: getNeedsImprovementFeedback(checkin),
-    }));
+  return checkins.filter(
+    (checkin) => checkin.date === date && checkin.teamId === teamId
+  );
 };
 
 export const checkinsReducer = (

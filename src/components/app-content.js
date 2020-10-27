@@ -6,7 +6,7 @@ import NewCheckin from './Checkins/NewCheckin/new-checkin';
 import {
   createNewCheckin,
   getCheckinInitialData,
-} from './Checkins/NewCheckin/actions-selectors';
+} from './Checkins/NewCheckin/reducer';
 import {
   saveCheckin,
   saveCheckinSimulateError,
@@ -16,8 +16,12 @@ import { getTeams } from './Teams/reducer';
 import { getSaveStatus } from './Checkins/Collection/save-checkin-states-reducer';
 import Loading from './Loading/loading';
 import Retry from './Retry/retry';
-import { addItem, deleteItem, toggleItem } from './CheckboxForm/reducer';
-import { setFeedback } from './Feedback/reducer';
+import {
+  addItem,
+  deleteItem,
+  toggleItem,
+} from './Checkins/NewCheckin/list-reducer';
+import { setFeedback } from './Checkins/NewCheckin/feedback-reducer';
 import withUser from '../lib/magic/with-user';
 import { useCheckinFeatures } from './use-checkin-features';
 
