@@ -8,20 +8,13 @@ const saveCheckinsStates = [
   [
     'save checkin',
     'savingCheckin',
-    [
-      'report save checkin error',
-      'error',
-      ['save checkin', 'savingCheckin'],
-      ['save checkin simulate error', 'savingCheckin'],
-    ],
+    ['report save checkin error', 'error', ['save checkin', 'savingCheckin']],
     [
       'report save checkin success',
       'success',
       ['save checkin', 'savingCheckin'],
-      ['save checkin simulate error', 'savingCheckin'],
     ],
   ],
-  ['save checkin simulate error', 'savingCheckin'],
 ];
 
 export const {

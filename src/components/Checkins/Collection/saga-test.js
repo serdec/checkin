@@ -1,16 +1,10 @@
 import { describe } from 'riteway';
-import {
-  saveCheckinSaga,
-  getCheckins,
-  saveCheckinSagaSimulateError,
-  loginUser,
-} from './saga';
+import { saveCheckinSaga, getCheckins, loginUser } from './saga';
 import * as database from '../../../services/database/database';
 import { call, put } from 'redux-saga/effects';
 import { addCheckin, loadCheckins } from './reducer';
 import {
   saveCheckin,
-  saveCheckinSimulateError,
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
@@ -59,19 +53,6 @@ describe('checkins saga', async (assert) => {
       should: 'report the failure',
       expected: put(reportSaveCheckinError(checkin)),
       actual: iterator.next(errorResponse).value,
-    });
-  }
-
-  {
-    const checkin = newCheckin();
-    const iterator = saveCheckinSagaSimulateError(
-      saveCheckinSimulateError(checkin)
-    );
-    assert({
-      given: 'the saveCheckinSagaSimulateError',
-      should: 'report the failure',
-      expected: put(reportSaveCheckinError(checkin)),
-      actual: iterator.next().value,
     });
   }
 
