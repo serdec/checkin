@@ -11,14 +11,14 @@ const UserControls = ({
 } = {}) => (
   <div className={styles.userControlsBox}>
     <Button
-      className={styles.controlPanelButton}
+      className={styles.controlPanel__button}
       onClick={() => setVisibleCheckinHistory(true)}
     >
       View Checkins
     </Button>
     {teams.length > 0 ? (
       <Button
-        className={styles.controlPanelButton}
+        className={styles.controlPanel__button}
         onClick={() => {
           createNewCheckin();
           setVisibleCheckinHistory(false);

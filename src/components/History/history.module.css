@@ -1,4 +1,4 @@
-.dateLog{
+.history{
   overflow: auto;
 }
 .teamDayCheckins{
@@ -19,7 +19,14 @@
   overflow: auto;
 
 }
-.datePicker{
+
+.history__datePicker{
   border-radius: .5em;
   margin: .3em;
+}
+@media (max-width: 700px){
+.history__datePicker{
+  border-radius: .5em;
+  margin: 0 3em;
+}
 }

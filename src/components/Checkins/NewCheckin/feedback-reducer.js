@@ -1,3 +1,5 @@
+import { clearNewCheckin } from './list-reducer';
+
 const SET_FEEDBACK = 'CHECKIN::SET_FEEDBACK';
 const CLEAR_FEEDBACK = 'CHECKIN::CLEAR_FEEDBACK';
 
@@ -21,6 +23,8 @@ const feedbackReducer = (feedbackName = '') => (
     case clearFeedback({ feedbackName }).type:
     case setFeedback({ feedbackName }).type:
       return payload;
+    case clearNewCheckin().type:
+      return '';
     default:
       return state;
   }

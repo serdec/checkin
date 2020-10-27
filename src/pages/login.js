@@ -5,7 +5,7 @@ import LoginForm from '../components/LoginForm/login-form';
 import React from 'react';
 import PropType from 'prop-types';
 import withUser from '../lib/magic/with-user';
-import { loginUser } from '../store/root-reducer';
+import { loginUser } from '../components/Checkins/Collection/saga';
 
 const mapDispatchToProps = {
   onLogin: loginUser,

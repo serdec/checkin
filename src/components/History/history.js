@@ -3,23 +3,22 @@ import { connect } from 'react-redux';
 import { getDateString, getDateMoment } from '../../lib/date/date';
 import { DatePicker } from 'antd';
 import PropTypes from 'prop-types';
-import { getCheckinsByDay } from '../Checkins/Collection/checkins-collection-reducer';
-import styles from './date-log.module.css';
+import { getCheckinsByDay } from '../Checkins/Collection/reducer';
+import styles from './history.module.css';
 import TeamDayCheckins from '../Checkins/Collection/team-daily-summary';
-import { getActiveTeam, getCheckins } from '../../store/root-reducer';
-import { getCheckinsCollection } from '../Checkins/Collection/reducer';
+import { getActiveTeam } from '../ActiveTeam/reducer';
 
 const mapStateToProps = (state) => ({
   getCheckins: (date) => {
     return getCheckinsByDay({
-      state: getCheckinsCollection(getCheckins(state)),
+      checkins: state.checkins,
       date,
       teamId: getActiveTeam(state),
     });
   },
 });
 
-const DateLog = ({ getCheckins }) => {
+const History = ({ getCheckins }) => {
   const [checkins, setVisibleCheckins] = useState([]);
   const [dateValue, setDateValue] = useState(getDateMoment(new Date()));
 
@@ -32,9 +31,9 @@ const DateLog = ({ getCheckins }) => {
     setVisibleCheckins(getCheckins(getDateString(date)));
   };
   return (
-    <div className={styles.dateLog}>
+    <div className={styles.history}>
       <DatePicker
-        className={styles.datePicker}
+        className={styles.history__datePicker}
         value={dateValue}
         onChange={(date) => onDateChange(date)}
       />
@@ -43,7 +42,7 @@ const DateLog = ({ getCheckins }) => {
   );
 };
 
-DateLog.propTypes = {
+History.propTypes = {
   getCheckins: PropTypes.func,
 };
-export default connect(mapStateToProps)(DateLog);
+export default connect(mapStateToProps)(History);

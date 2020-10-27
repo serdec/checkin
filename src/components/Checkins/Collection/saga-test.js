@@ -3,18 +3,18 @@ import {
   saveCheckinSaga,
   getCheckins,
   saveCheckinSagaSimulateError,
+  loginUser,
 } from './saga';
 import * as database from '../../../services/database/database';
 import { call, put } from 'redux-saga/effects';
-import { addCheckin, loadCheckins } from './checkins-collection-reducer';
+import { addCheckin, loadCheckins } from './reducer';
 import {
   saveCheckin,
   saveCheckinSimulateError,
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
-import { loginUser } from '../../../store/root-reducer';
-import { clearCurrentCheckin } from '../CurrentCheckin/reducer';
+import { clearNewCheckin } from '../NewCheckin/list-reducer';
 
 const newCheckin = ({
   id = '1',
@@ -97,7 +97,7 @@ describe('checkins saga', async (assert) => {
     assert({
       given: 'the saveCheckinSaga success',
       should: 'clear the current checkin state',
-      expected: put(clearCurrentCheckin()),
+      expected: put(clearNewCheckin()),
       actual: iterator.next().value,
     });
   }

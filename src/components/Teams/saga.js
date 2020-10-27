@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../services/database/database';
 import { createTeam, loadTeams } from './reducer';
-import { loginUser } from '../../store/root-reducer';
+import { loginUser } from '../Checkins/Collection/saga';
 
 export function* getTeams(action) {
   let { payload } = yield call(database.getTeams, action.payload);

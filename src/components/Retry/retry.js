@@ -16,7 +16,7 @@ const Retry = ({ retryAction = noop } = {}) => (
     </div>
     <div>
       <Button
-        className={appStyles.controlPanelButton}
+        className={appStyles.centralBox__button}
         type="primary"
         onClick={retryAction}
       >

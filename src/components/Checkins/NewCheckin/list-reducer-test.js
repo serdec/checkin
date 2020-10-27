@@ -5,7 +5,7 @@ import {
   deleteItem,
   toggleItem,
   getCheckedItems,
-} from './reducer';
+} from './list-reducer';
 
 const reducer = listReducer();
 
@@ -15,7 +15,7 @@ const newItem = ({ id = '', checked = false, value = 'NOT_EMPTY' } = {}) => ({
   value,
 });
 
-const initialState = [];
+const createState = () => [];
 
 describe('list', async (assert) => {
   {
@@ -23,7 +23,7 @@ describe('list', async (assert) => {
       given: 'no arguments',
       should: 'return the valid initial state',
       actual: reducer(),
-      expected: initialState,
+      expected: createState(),
     });
   }
   {

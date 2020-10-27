@@ -1,12 +1,19 @@
-.checkinForm {
+.checkboxForm {}
+
+.checkboxForm_marginTop_2{
   margin-top: 2em;
 }
-.labelValue {
+
+.checkboxItem{}
+
+.checkboxItem__label{
   display: inline-block;
   width: 16em;
   word-break: break-all;
   font-size: 1.3em;
 }
-.addBtn {
+.inputField {}
+
+.inputField__addButton {
   border-radius: 0.5em;
 }

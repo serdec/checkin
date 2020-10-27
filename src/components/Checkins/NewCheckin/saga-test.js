@@ -1,17 +1,17 @@
 import cuid from 'cuid';
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { describe } from 'riteway';
-import { addItem } from '../../CheckboxForm/reducer';
+import { addItem, clearNewCheckin } from './list-reducer';
 import {
   getPreviousBlockersFromCollection,
   getPreviousTasksFromCollection,
-} from '../../../store/root-reducer';
+} from '../Collection/reducer';
+
 import {
   getNotCheckedItems,
   tasksLists,
   blockersLists,
   createNewCheckin,
-  clearCurrentCheckin,
 } from './reducer';
 import {
   loadItems,
@@ -21,7 +21,7 @@ import {
   watchLoadPreviousTasksAndBlockers,
 } from './saga';
 
-const tasks = [
+const createTasks = () => [
   {
     checked: true,
     id: cuid(),
@@ -33,7 +33,7 @@ const tasks = [
     value: 'currentTask2',
   },
 ];
-const blockers = [
+const createBlockers = () => [
   {
     checked: true,
     id: cuid(),
@@ -46,16 +46,16 @@ const blockers = [
   },
 ];
 
-describe('current checkin saga', async (assert) => {
+describe('new checkin saga', async (assert) => {
   {
-    const list = [...tasks, ...blockers];
+    const list = [...createTasks(), ...createBlockers()];
     const listName = 'list';
     const iterator = loadItems(list, listName);
     assert({
       given: 'no arguments',
       should: 'dispatch an action to add previous active tasks to current one',
       expected: all(list.map((el) => put(addItem({ listName, ...el })))),
-      actual: iterator.next(getNotCheckedItems(tasks)).value,
+      actual: iterator.next(getNotCheckedItems(createTasks())).value,
     });
   }
   {
@@ -70,10 +70,10 @@ describe('current checkin saga', async (assert) => {
       given: 'no arguments',
       should: 'dispatch an action to load the tasks',
       expected: all([
-        loadItems(tasks, tasksLists[0]),
-        loadItems(getNotCheckedItems(tasks, tasksLists[1])),
+        loadItems(createTasks(), tasksLists[0]),
+        loadItems(getNotCheckedItems(createTasks(), tasksLists[1])),
       ]),
-      actual: iterator.next(tasks).value,
+      actual: iterator.next(createTasks()).value,
     });
   }
   {
@@ -88,10 +88,10 @@ describe('current checkin saga', async (assert) => {
       given: 'no arguments',
       should: 'dispatch an action to add previous blockers',
       expected: all([
-        loadItems(blockers, blockersLists[0]),
-        loadItems(getNotCheckedItems(blockers, blockersLists[1])),
+        loadItems(createBlockers(), blockersLists[0]),
+        loadItems(getNotCheckedItems(createBlockers(), blockersLists[1])),
       ]),
-      actual: iterator.next(blockers).value,
+      actual: iterator.next(createBlockers()).value,
     });
   }
   {
@@ -99,7 +99,7 @@ describe('current checkin saga', async (assert) => {
     assert({
       given: 'no arguments',
       should: 'dispatch an action to clear the current checkin',
-      expected: put(clearCurrentCheckin()),
+      expected: put(clearNewCheckin()),
       actual: iterator.next().value,
     });
     assert({

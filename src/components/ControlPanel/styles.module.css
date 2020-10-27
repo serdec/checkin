@@ -5,13 +5,26 @@
   align-items: center;
   margin: 0 0 1em 0;
 }
-.controlPanelButton{
+.controlPanel__button{
   margin: .3em;
   border-radius: .5em;
+}
+
+@media (max-width: 700px){
+  .controlPanel__button{
+    margin: .3em 3em;
+    border-radius: .5em;
+  }
 }
 .userControlsBox{
   
 }
 .devControlsBox{
   margin: 0 5em;
+}
+
+@media (max-width: 700px){
+  .devControlsBox{
+    margin: 0 0;
+  }
 }

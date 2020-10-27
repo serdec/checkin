@@ -23,7 +23,7 @@
   max-width: 100%;
 }
 
-.dayView {
+.stepsContent__dayView {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;

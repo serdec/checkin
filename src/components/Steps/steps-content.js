@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../Cards/card';
 import PropTypes from 'prop-types';
-import styles from '../Checkins/CurrentCheckin/current-checkin.module.css';
+import styles from './steps.module.css';
 import CheckboxForm from '../CheckboxForm/checkbox-form';
 import {
   tasksLists,
@@ -9,47 +9,34 @@ import {
   feedbacksFields,
   DOING_WELL,
   NEEDS_IMPROVEMENT,
-} from '../Checkins/CurrentCheckin/reducer';
+} from '../Checkins/NewCheckin/reducer';
 import Feedback from '../Feedback/feedback';
 import ListSummaryCard from '../Cards/SummaryCards/list-summary-card';
 
-const noop = () => {
-  return;
-};
-
-const StepsContent = ({
-  step = 0,
-  tasks = {},
-  blockers = {},
-  feedbacks = {},
-  addItem = noop,
-  deleteItem = noop,
-  toggleItem = noop,
-  setFeedback = noop,
-}) => {
+const StepsContent = ({ step = 0, checkin = {}, checkinActions = {} }) => {
   const previousCards = [
     {
       title: 'Previous Tasks',
       img: 'tasks.png',
-      content: tasks.previous,
+      content: checkin.previousTasks,
     },
     {
       title: 'Previous Blockers',
       img: 'blockers.png',
-      content: blockers.previous,
+      content: checkin.previousBlockers,
     },
   ];
   const currentCards = [
     {
       title: 'Tasks',
       img: 'tasks.png',
-      content: tasks.current,
+      content: checkin.currentTasks,
       listName: tasksLists[step],
     },
     {
       title: 'Blockers',
       img: 'blockers.png',
-      content: blockers.current,
+      content: checkin.currentBlockers,
       listName: blockersLists[step],
     },
   ];
@@ -58,13 +45,13 @@ const StepsContent = ({
       title: 'Doing Well',
       img: 'doingWell.png',
       feedbackName: feedbacksFields[DOING_WELL],
-      content: feedbacks.doingWell,
+      content: checkin.doingWellFeedback,
     },
     {
       title: 'Needs Improvement',
       img: 'improvements.png',
       feedbackName: feedbacksFields[NEEDS_IMPROVEMENT],
-      content: feedbacks.needsImprovement,
+      content: checkin.needsImprovementFeedback,
     },
   ];
   const doneCards = [
@@ -76,7 +63,7 @@ const StepsContent = ({
   return (
     <div className={styles.stepsContent}>
       {step === 0 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {previousCards.map((list) => (
             <ListSummaryCard
               key={list.title}
@@ -89,22 +76,22 @@ const StepsContent = ({
         </div>
       )}
       {step === 1 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {currentCards.map((list) => (
             <Card key={list.title} title={list.title} img={list.img}>
               <CheckboxForm
                 checkList={list.content}
                 listName={list.listName}
-                onAddClick={addItem}
-                onChange={toggleItem}
-                onDeleteClick={deleteItem}
+                onAddClick={checkinActions.addItem}
+                onChange={checkinActions.toggleItem}
+                onDeleteClick={checkinActions.deleteItem}
               />
             </Card>
           ))}
         </div>
       )}
       {step === 2 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {feedbacksCards.map((feedback) => (
             <Card
               key={feedback.title}
@@ -113,7 +100,7 @@ const StepsContent = ({
             >
               <Feedback
                 feedbackName={feedback.feedbackName}
-                setFeedback={setFeedback}
+                setFeedback={checkinActions.setFeedback}
                 value={feedback.content}
               />
             </Card>
@@ -121,7 +108,7 @@ const StepsContent = ({
         </div>
       )}
       {step >= 3 && (
-        <div className={styles.dayView}>
+        <div className={styles.stepsContent__dayView}>
           {doneCards.map((done) => (
             <Card key={done.title} title={done.title} img={done.img} />
           ))}
@@ -133,12 +120,7 @@ const StepsContent = ({
 
 StepsContent.propTypes = {
   step: PropTypes.number,
-  tasks: PropTypes.object,
-  blockers: PropTypes.object,
-  feedbacks: PropTypes.object,
-  addItem: PropTypes.func,
-  deleteItem: PropTypes.func,
-  toggleItem: PropTypes.func,
-  setFeedback: PropTypes.func,
+  checkin: PropTypes.object,
+  checkinActions: PropTypes.object,
 };
 export default StepsContent;

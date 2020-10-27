@@ -1,5 +1,9 @@
 # Checkin
 
+A deployed version of this app can be found at https://checkin-steel.vercel.app/
+
+## Description
+
 Remote-friendly scrum checkins without the annoying meetings.
 
 A portfolio project for professional developers to highlight skills with modern tech stacks like React, Redux, Serverless, etc. [EricElliottJS.com](https://ericelliottjs.com).

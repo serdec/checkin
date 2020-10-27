@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
-import { createTeam } from './Teams/reducer';
+import { createTeam, getTeams } from './Teams/reducer';
 import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
-import { setActiveTeam } from './ActiveTeam/reducer';
-import { getTeams, getActiveTeam } from '../store/root-reducer';
+import { getActiveTeam, setActiveTeam } from './ActiveTeam/reducer';
 const { Sider } = Layout;
 
 const mapStateToProps = (state) => ({
@@ -45,7 +44,7 @@ const AppSider = ({
 
   return (
     <div className={styles.siteLayoutSider}>
-      <Sider theme="light">
+      <Sider defaultCollapsed theme="light" breakpoint="lg" collapsedWidth="0">
         <Menu
           mode="inline"
           selectedKeys={activeTeam}

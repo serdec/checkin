@@ -4,7 +4,7 @@ import { MinusCircleOutlined } from '@ant-design/icons';
 
 import PropTypes from 'prop-types';
 
-import styles from './styles.module.css';
+import styles from './checkbox-form.module.css';
 
 const noop = () => {
   return;
@@ -18,9 +18,9 @@ const CheckboxItem = ({
   onChange = noop,
 }) => {
   return (
-    <div className="checkboxItemSelector">
+    <div className={styles.checkboxItem}>
       <Checkbox id={id} name="checkin" checked={checked} onChange={onChange}>
-        <label className={styles.labelValue}>{label}</label>
+        <label className={styles.checkboxItem__label}>{label}</label>
       </Checkbox>
       <MinusCircleOutlined
         onClick={() => {

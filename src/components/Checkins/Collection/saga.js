@@ -1,15 +1,20 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../../services/database/database';
-import { addCheckin, loadCheckins } from './checkins-collection-reducer';
-import { loginUser } from '../../../store/root-reducer';
+import { clearNewCheckin } from '../NewCheckin/list-reducer';
+import { addCheckin, loadCheckins } from './reducer';
 import {
   saveCheckin,
   saveCheckinSimulateError,
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
-import { clearCurrentCheckin } from '../CurrentCheckin/reducer';
 
+const LOGIN = 'LOGIN';
+
+export const loginUser = ({ user = '' } = {}) => ({
+  type: LOGIN,
+  payload: user,
+});
 export function* saveCheckinSaga(action) {
   try {
     const addCheckinAction = addCheckin({ ...action.payload });
@@ -21,7 +26,7 @@ export function* saveCheckinSaga(action) {
 
     yield put(reportSaveCheckinSuccess({ ...action.payload }));
     yield put(addCheckinAction);
-    yield put(clearCurrentCheckin());
+    yield put(clearNewCheckin());
   } catch (error) {
     yield put(reportSaveCheckinError({ ...action.payload }));
   }

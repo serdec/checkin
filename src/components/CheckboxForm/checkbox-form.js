@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
-import AddFieldInput from './input-field';
+import InputFieldWithAddButton from './input-field-with-add-button';
 import CheckboxItem from './checkbox-item';
+import styles from './checkbox-form.module.css';
 
 const noop = () => {
   return;
@@ -28,7 +29,9 @@ const CheckboxForm = ({
 } = {}) => {
   const [inputValue, setInputValue] = useState('');
   return (
-    <div className="checkboxForm">
+    <div
+      className={`${styles.checkboxForm} ${styles.checkboxForm_marginTop_2}`}
+    >
       <Form {...layout}>
         {checkList.map((el) => {
           return (
@@ -44,7 +47,7 @@ const CheckboxForm = ({
           );
         })}
         <Form.Item {...tailLayout}>
-          <AddFieldInput
+          <InputFieldWithAddButton
             value={inputValue}
             setValue={setInputValue}
             onAddClick={() => onAddClick({ listName, value: inputValue })}

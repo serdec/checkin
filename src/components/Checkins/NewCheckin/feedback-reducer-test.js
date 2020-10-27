@@ -3,7 +3,8 @@ import feedbackReducer, {
   setFeedback,
   clearFeedback,
   getFeedback,
-} from './reducer';
+} from './feedback-reducer';
+import { clearNewCheckin } from './list-reducer';
 
 const defaultFeedbackReducer = feedbackReducer();
 
@@ -28,7 +29,18 @@ describe('feedback reducer', async (assert) => {
       expected: value,
     });
   }
-
+  {
+    const value = 'This is some feedback';
+    assert({
+      given: 'an set feedback action and a clear state action',
+      should: 'return the initial state',
+      actual: [setFeedback({ value }), clearNewCheckin()].reduce(
+        defaultFeedbackReducer,
+        defaultFeedbackReducer()
+      ),
+      expected: '',
+    });
+  }
   {
     const value = 'This is some feedback';
     const state = defaultFeedbackReducer(
