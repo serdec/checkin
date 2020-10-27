@@ -1,12 +1,11 @@
 import { describe } from 'riteway';
-import { clearNewCheckin } from '../Checkins/NewCheckin/actions-selectors';
 import {
   listReducer,
   addItem,
   deleteItem,
   toggleItem,
   getCheckedItems,
-} from './reducer';
+} from './list-reducer';
 
 const reducer = listReducer();
 
@@ -16,7 +15,7 @@ const newItem = ({ id = '', checked = false, value = 'NOT_EMPTY' } = {}) => ({
   value,
 });
 
-const initialState = [];
+const createState = () => [];
 
 describe('list', async (assert) => {
   {
@@ -24,7 +23,7 @@ describe('list', async (assert) => {
       given: 'no arguments',
       should: 'return the valid initial state',
       actual: reducer(),
-      expected: initialState,
+      expected: createState(),
     });
   }
   {
@@ -33,17 +32,6 @@ describe('list', async (assert) => {
       should: 'return the state with the new item',
       actual: reducer(reducer(), addItem(newItem())),
       expected: [newItem()],
-    });
-  }
-  {
-    assert({
-      given: 'an add item action and a clear state action',
-      should: 'return the initial state',
-      actual: [addItem(newItem()), clearNewCheckin()].reduce(
-        reducer,
-        reducer()
-      ),
-      expected: [],
     });
   }
 

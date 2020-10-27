@@ -9,7 +9,7 @@ import {
   feedbacksFields,
   DOING_WELL,
   NEEDS_IMPROVEMENT,
-} from '../Checkins/NewCheckin/actions-selectors';
+} from '../Checkins/NewCheckin/reducer';
 import Feedback from '../Feedback/feedback';
 import ListSummaryCard from '../Cards/SummaryCards/list-summary-card';
 

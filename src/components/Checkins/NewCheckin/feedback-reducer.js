@@ -1,4 +1,4 @@
-import { clearNewCheckin } from '../Checkins/NewCheckin/actions-selectors';
+import { clearNewCheckin } from './list-reducer';
 
 const SET_FEEDBACK = 'CHECKIN::SET_FEEDBACK';
 const CLEAR_FEEDBACK = 'CHECKIN::CLEAR_FEEDBACK';

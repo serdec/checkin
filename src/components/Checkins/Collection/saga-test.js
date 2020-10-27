@@ -14,7 +14,7 @@ import {
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
-import { clearNewCheckin } from '../NewCheckin/actions-selectors';
+import { clearNewCheckin } from '../NewCheckin/list-reducer';
 
 const newCheckin = ({
   id = '1',

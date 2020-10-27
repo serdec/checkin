@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../../services/database/database';
+import { clearNewCheckin } from '../NewCheckin/list-reducer';
 import { addCheckin, loadCheckins } from './reducer';
 import {
   saveCheckin,
@@ -7,7 +8,6 @@ import {
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
-import { clearNewCheckin } from '../NewCheckin/actions-selectors';
 
 const LOGIN = 'LOGIN';
 

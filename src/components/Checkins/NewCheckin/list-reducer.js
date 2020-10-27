@@ -1,10 +1,10 @@
 import cuid from 'cuid';
-import { clearNewCheckin } from '../Checkins/NewCheckin/actions-selectors';
 
 const EMPTY_ITEM = 'CHECKIN::EMPTY_ITEM';
 const ADD_ITEM = 'CHECKIN::ADD_ITEM';
 const DELETE_ITEM = 'CHECKIN::DELETE_ITEM';
 const TOGGLE_ITEM = 'CHECKIN::TOGGLE_ITEM';
+const CLEAR_NEW_CHECKIN = 'CHECKIN::CLEAR_NEW_CHECKIN';
 
 const NOT_EMPTY = 'NOT_EMPTY';
 
@@ -33,6 +33,9 @@ export const deleteItem = ({ listName = '', id = '' } = {}) => ({
 export const toggleItem = ({ listName = '', id = '' } = {}) => ({
   type: `${TOGGLE_ITEM}_${listName}`,
   payload: id,
+});
+export const clearNewCheckin = () => ({
+  type: CLEAR_NEW_CHECKIN,
 });
 
 export const getCheckedItems = (state) => {
