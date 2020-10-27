@@ -7,10 +7,7 @@ import {
   createNewCheckin,
   getCheckinInitialData,
 } from './Checkins/NewCheckin/reducer';
-import {
-  saveCheckin,
-  saveCheckinSimulateError,
-} from './Checkins/Collection/save-checkin-states-reducer';
+import { saveCheckin } from './Checkins/Collection/save-checkin-states-reducer';
 import ControlPanel from './ControlPanel/control-panel';
 import { getTeams } from './Teams/reducer';
 import { getSaveStatus } from './Checkins/Collection/save-checkin-states-reducer';
@@ -37,7 +34,6 @@ const mapDispatchStateToProps = {
   toggleItem,
   setFeedback,
   saveCheckin,
-  saveCheckinSimulateError,
 };
 
 const AppContent = ({

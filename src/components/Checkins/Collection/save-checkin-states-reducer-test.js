@@ -4,7 +4,6 @@ import {
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
   saveCheckin,
-  saveCheckinSimulateError,
 } from './save-checkin-states-reducer';
 describe('save checkin states', async (assert) => {
   {
@@ -26,23 +25,9 @@ describe('save checkin states', async (assert) => {
     });
   }
   {
-    const actions = [
-      saveCheckin(),
-      reportSaveCheckinSuccess(),
-      saveCheckinSimulateError(),
-      reportSaveCheckinError(),
-    ];
+    const actions = [saveCheckin(), reportSaveCheckinError()];
     assert({
       given: 'a sequence of report success/error actions',
-      should: 'change the status to error',
-      expected: { status: 'error', payload: undefined },
-      actual: actions.reduce(reducer, reducer()),
-    });
-  }
-  {
-    const actions = [saveCheckinSimulateError(), reportSaveCheckinError()];
-    assert({
-      given: 'a simulate error action',
       should: 'change the status to error',
       expected: { status: 'error', payload: undefined },
       actual: actions.reduce(reducer, reducer()),
