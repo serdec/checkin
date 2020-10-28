@@ -5,7 +5,7 @@ import { addItem, clearNewCheckin } from './list-reducer';
 import {
   getPreviousBlockersFromCollection,
   getPreviousTasksFromCollection,
-} from '../Collection/reducer';
+} from './saga';
 
 import {
   getNotCheckedItems,

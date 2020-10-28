@@ -33,4 +33,13 @@ describe('save checkin states', async (assert) => {
       actual: actions.reduce(reducer, reducer()),
     });
   }
+  {
+    const actions = [saveCheckin()];
+    assert({
+      given: 'a saveCheckin action',
+      should: 'change the status to savingCheckin',
+      expected: { status: 'savingCheckin', payload: undefined },
+      actual: actions.reduce(reducer, reducer()),
+    });
+  }
 });

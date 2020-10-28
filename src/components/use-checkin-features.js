@@ -1,45 +1,19 @@
 import { useEffect, useState } from 'react';
 
-const noop = () => {};
+const noop = () => { };
 
-// Simulates network/server error.
-// when simulateNetServError is true,
-// the save action dispatches an error
-const useSaveCheckinEnancher = ({
+const useSaveCheckin = ({
   checkin = {},
   user = {},
   saveCheckin = noop,
-  saveCheckinSimulateError = noop,
   setVisibleCheckinHistory = noop,
-} = {}) => {
-  const [simulateNetServError, setSimulateNetServError] = useState(false);
-  const [save, setSave] = useState(() => saveCheckin);
-
-  useEffect(() => {
-    simulateNetServError
-      ? setSave(() => saveCheckinSimulateError)
-      : setSave(() => saveCheckin);
-  }, [simulateNetServError, saveCheckin, saveCheckinSimulateError]);
-
-  const saveCheckinEnancher = {
-    description: 'Simulates a network/server error while sending the checkin',
-    simulateNetServError,
-    setSimulateNetServError,
-    save: () => {
-      save({
-        ...checkin,
-        user: user.email,
-      });
-      setVisibleCheckinHistory(true); //set checkin history view visible after save;
-    },
-  };
-
-  return saveCheckinEnancher;
+} = {}) => () => {
+  saveCheckin({ ...checkin, user: user.email });
+  setVisibleCheckinHistory(true);
 };
-
 // Resends the previous checkin. If the simulate error from the save enhancher is still active,
 // dispatches an error, it saves the checkin correctly otherwise.
-const useRetry = ({ saveStatus = {}, saveCheckinEnancher = {} } = {}) => {
+const useRetry = ({ saveStatus = {}, saveCheckin = noop } = {}) => {
   const [retry, setRetry] = useState(false);
 
   useEffect(() => {
@@ -48,7 +22,7 @@ const useRetry = ({ saveStatus = {}, saveCheckinEnancher = {} } = {}) => {
 
   return {
     visible: retry,
-    onClick: () => saveCheckinEnancher.save(saveStatus.payload),
+    onClick: () => saveCheckin(saveStatus.payload),
   };
 };
 
@@ -76,24 +50,26 @@ const useHistory = () => {
 
 // A hook to handle the checkin logic,
 export const useCheckinFeatures = ({
+  checkin,
+  user,
   checkinActions = {},
   saveStatus = {},
-  checkin = {},
-  user = {},
 } = {}) => {
   const history = useHistory();
   const loading = useLoading({ saveStatus });
-  const saveCheckinEnancher = useSaveCheckinEnancher({
+  const retry = useRetry({
+    saveStatus,
     saveCheckin: checkinActions.saveCheckin,
-    saveCheckinSimulateError: checkinActions.saveCheckinSimulateError,
+  });
+  const saveCheckin = useSaveCheckin({
     checkin,
     user,
+    saveCheckin: checkinActions.saveCheckin,
     setVisibleCheckinHistory: history.setVisible,
   });
-  const retry = useRetry({ saveStatus, saveCheckinEnancher });
 
   return {
-    saveCheckinEnancher,
+    saveCheckin,
     retry,
     loading,
     history,
