@@ -43,7 +43,7 @@ const AppSider = ({
   };
 
   return (
-    <Sider defaultCollapsed theme="light" breakpoint="xxl" collapsedWidth="0">
+    <Sider defaultCollapsed theme="light" collapsedWidth="0">
       <div className={styles.siteLayoutSider}>
         <Menu
           mode="inline"
