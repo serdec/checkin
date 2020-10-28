@@ -1,15 +1,22 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
+import { getLatestCheckin } from '../Collection/reducer';
 import { addItem, clearNewCheckin } from './list-reducer';
-import {
-  getPreviousTasksFromCollection,
-  getPreviousBlockersFromCollection,
-} from '../Collection/reducer';
+
 import {
   blockersLists,
   createNewCheckin,
   getNotCheckedItems,
   tasksLists,
 } from './reducer';
+
+export const getPreviousBlockersFromCollection = (state = {}) => {
+  const checkin = getLatestCheckin(state.checkins);
+  return checkin.currentBlockers || [];
+};
+export const getPreviousTasksFromCollection = (state = {}) => {
+  const checkin = getLatestCheckin(state.checkins);
+  return checkin.currentTasks || [];
+};
 
 export function* loadItems(list, listName) {
   yield all(list.map((element) => put(addItem({ listName, ...element }))));

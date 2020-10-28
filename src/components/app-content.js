@@ -44,7 +44,7 @@ const AppContent = ({
   user = {},
   ...dispatchActions
 } = {}) => {
-  const { saveCheckinEnancher, loading, retry, history } = useCheckinFeatures({
+  const { saveCheckin, loading, retry, history } = useCheckinFeatures({
     checkinActions: dispatchActions,
     saveStatus,
     checkin,
@@ -56,15 +56,15 @@ const AppContent = ({
     deleteItem: dispatchActions.deleteItem,
     toggleItem: dispatchActions.toggleItem,
     setFeedback: dispatchActions.setFeedback,
-    save: saveCheckinEnancher.save,
+    saveCheckin,
   };
   return (
     <div className={styles.appContent}>
       <ControlPanel
         teams={teams}
         createNewCheckin={dispatchActions.createNewCheckin}
-        simulateNetServError={saveCheckinEnancher.simulateNetServError}
-        setSimulateNetServError={saveCheckinEnancher.setSimulateNetServError}
+        simulateNetServError={dispatchActions.simulateNetServError}
+        setSimulateNetServError={dispatchActions.setSimulateNetServError}
         setVisibleCheckinHistory={history.setVisible}
       />
       {loading && <Loading />}

@@ -5,7 +5,7 @@
 }
 
 .checkboxItem{
-  width: 25vw;
+  width: 25em;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
@@ -14,17 +14,22 @@
 }
 
 @media (max-width: 700px){
-
-.checkboxItem{
-  width: 70vw;
-}
+  .checkboxItem{
+    width: 70vw;
+  }
 }
 
 .checkboxItem__label{
   display: inline-block;
-  width: 15em;
+  width: 20em;
   word-break: break-all;
   font-size: 1.3em;
+}
+
+@media (max-width: 700px){
+  .checkboxItem__label{
+    width: 15em;
+  }
 }
 .inputField {}
 

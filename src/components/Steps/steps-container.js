@@ -53,7 +53,7 @@ const StepsContainer = ({ checkin = {}, checkinActions = {} } = {}) => {
         step={step}
         next={next}
         prev={prev}
-        action={checkinActions.save}
+        action={checkinActions.saveCheckin}
         steps={steps}
       />
     </div>

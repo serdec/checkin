@@ -42,15 +42,6 @@ export const getLatestCheckin = (checkins = []) => {
   return checkins[checkins.length - 1];
 };
 
-export const getPreviousBlockersFromCollection = (state = []) => {
-  const checkin = getLatestCheckin(state);
-  return checkin.currentBlockers || [];
-};
-export const getPreviousTasksFromCollection = (state = []) => {
-  const checkin = getLatestCheckin(state);
-  return checkin.currentTasks || [];
-};
-
 export const loadCheckins = ({ payload = [] } = {}) => ({
   type: LOAD_CHECKINS,
   payload,
