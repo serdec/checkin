@@ -7,8 +7,18 @@ import CalendarCell from './calendar-cell';
 import styles from '../history.module.css';
 
 describe('calendar-cell', async (assert) => {
-  const createCalendarCell = ({ colorValue = 0, date = moment() } = {}) =>
-    render(<CalendarCell colorValue={colorValue} date={date} />);
+  const createCalendarCell = ({
+    colorValue = 0,
+    date = moment(),
+    selectedDate = moment(),
+  } = {}) =>
+    render(
+      <CalendarCell
+        colorValue={colorValue}
+        date={date}
+        selectedDate={selectedDate}
+      />
+    );
   {
     const $ = createCalendarCell();
     assert({
@@ -41,6 +51,16 @@ describe('calendar-cell', async (assert) => {
         expected: 1,
         actual: $(`.${colorClass}`).length,
       });
+    });
+  }
+  {
+    const date = moment();
+    const $ = createCalendarCell({ date, selectedDate: date });
+    assert({
+      given: `a selected date`,
+      should: 'render the cell with the selected class',
+      expected: 1,
+      actual: $(`.${styles.history__calendarCell_selected}`).length,
     });
   }
 });

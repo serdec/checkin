@@ -28,27 +28,29 @@ export const AppHeader = ({ isSignedIn, signOut, toggleTeamsVisibility }) => {
   return (
     <>
       <div className={styles.appHeader}>
-        <Button
-          className={`${styles.appHeader__teamsButton} ${styles.appHeader__button}`}
-          onClick={toggleTeamsVisibility}
-        >
-          <TeamOutlined /> Teams
-        </Button>
         {isSignedIn ? (
-          <Button
-            onClick={handleLogout}
-            className={`${styles.appHeader__logoutButton} ${styles.appHeader__button}`}
-          >
-            {logoutIcon} Logout
-          </Button>
-        ) : (
+          <>
             <Button
-              onClick={() => router.push('/login')}
-              className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
+              onClick={handleLogout}
+              className={`${styles.appHeader__logoutButton} ${styles.appHeader__button}`}
             >
-              Login
+              {logoutIcon} Logout
             </Button>
-          )}
+            <Button
+              className={`${styles.appHeader__teamsButton} ${styles.appHeader__button}`}
+              onClick={toggleTeamsVisibility}
+            >
+              <TeamOutlined /> Teams
+            </Button>
+          </>
+        ) : (
+          <Button
+            onClick={() => router.push('/login')}
+            className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
+          >
+            Login
+          </Button>
+        )}
       </div>
       <Divider />
     </>

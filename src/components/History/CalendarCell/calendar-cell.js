@@ -8,7 +8,6 @@ const CalendarCell = ({
   date = moment(),
   selectedDate = moment(),
 } = {}) => {
-  console.log(selectedDate.dayOfYear() === date.dayOfYear());
   const selected =
     selectedDate.dayOfYear() === date.dayOfYear()
       ? `history__calendarCell_selected`

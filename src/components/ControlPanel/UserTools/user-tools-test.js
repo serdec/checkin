@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe } from 'riteway';
 import render from 'riteway/render-component';
-import styles from '../styles.module.css';
+import styles from '../control-panel.module.css';
 import UserControls from './user-tools';
 
 describe('user controls', async (assert) => {
