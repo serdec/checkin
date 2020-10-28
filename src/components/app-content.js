@@ -7,10 +7,7 @@ import {
   createNewCheckin,
   getCheckinInitialData,
 } from './Checkins/NewCheckin/reducer';
-import {
-  saveCheckin,
-  saveCheckinSimulateError,
-} from './Checkins/Collection/save-checkin-states-reducer';
+import { saveCheckin } from './Checkins/Collection/save-checkin-states-reducer';
 import ControlPanel from './ControlPanel/control-panel';
 import { getTeams } from './Teams/reducer';
 import { getSaveStatus } from './Checkins/Collection/save-checkin-states-reducer';
@@ -24,9 +21,10 @@ import {
 import { setFeedback } from './Checkins/NewCheckin/feedback-reducer';
 import withUser from '../lib/magic/with-user';
 import { useCheckinFeatures } from './use-checkin-features';
+import styles from './app.module.css';
 
 const mapStateToProps = (state) => ({
-  teams: getTeams(state),
+  teams: getTeams(state.teams),
   saveStatus: getSaveStatus(state),
   checkin: getCheckinInitialData(state),
 });
@@ -37,7 +35,6 @@ const mapDispatchStateToProps = {
   toggleItem,
   setFeedback,
   saveCheckin,
-  saveCheckinSimulateError,
 };
 
 const AppContent = ({
@@ -62,7 +59,7 @@ const AppContent = ({
     save: saveCheckinEnancher.save,
   };
   return (
-    <>
+    <div className={styles.appContent}>
       <ControlPanel
         teams={teams}
         createNewCheckin={dispatchActions.createNewCheckin}
@@ -80,7 +77,7 @@ const AppContent = ({
           user={user}
         />
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,18 @@
+.appHeader{
+  margin: 2em 0;
+
+  display: flex;
+  justify-content: space-between;
+}
+.appHeader__button{
+  border: none;
+}
+.appHeader__loginButton{
+  margin: 0;
+}
+.appHeader__logoutButton{
+  margin: 0;
+}
+.appHeader__teamsButton{
+  margin: 0;
+}

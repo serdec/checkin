@@ -3,15 +3,18 @@ import {
   teamReducer,
   createTeam,
   deleteTeam,
-  addMember,
-  removeMember,
-  getMembers,
   updateTeam,
+  addMember,
+  getMembers,
+  removeMember,
+  toggleTeamsVisibility,
+  getTeamsVisibility,
 } from './reducer';
 
-const createState = () => {
-  return [];
-};
+const createState = ({ visible = false, items = [] } = {}) => ({
+  visible,
+  items,
+});
 const newTeam = ({
   id = '',
   creationDate = 0,
@@ -44,7 +47,7 @@ describe('teamReducer', async (assert) => {
       given: 'a create team action',
       should: 'add a new team to the state',
       actual: teamReducer(undefined, createTeam(team)),
-      expected: [team],
+      expected: createState({ items: [team] }),
     });
   }
   {
@@ -52,7 +55,10 @@ describe('teamReducer', async (assert) => {
     assert({
       given: 'a team name',
       should: 'delete the team from the state',
-      actual: teamReducer([newTeam({ id: teamId })], deleteTeam(teamId)),
+      actual: teamReducer(
+        createState({ items: [newTeam({ id: teamId })] }),
+        deleteTeam(teamId)
+      ),
       expected: teamReducer(),
     });
   }
@@ -67,10 +73,12 @@ describe('teamReducer', async (assert) => {
       given: 'a new member',
       should: 'add a new member to the team',
       actual: teamReducer(
-        [newTeam({ id: teamId, owner: teamOwner })],
+        createState({ items: [newTeam({ id: teamId, owner: teamOwner })] }),
         addMember({ teamId, userId: user2 })
       ),
-      expected: [newTeam({ id: teamId, owner: teamOwner, members })],
+      expected: createState({
+        items: [newTeam({ id: teamId, owner: teamOwner, members })],
+      }),
     });
   }
 
@@ -104,7 +112,27 @@ describe('teamReducer', async (assert) => {
       given: 'an updated team',
       should: 'change the name of the team',
       actual: actions.reduce(teamReducer, teamReducer()),
-      expected: [updatedTeam],
+      expected: createState({ items: [updatedTeam] }),
+    });
+  }
+  {
+    assert({
+      given: 'a toggle action and the initial team visibility',
+      should: 'change the visibility to true',
+      expected: true,
+      actual: getTeamsVisibility(
+        teamReducer(teamReducer(), toggleTeamsVisibility())
+      ),
+    });
+  }
+  {
+    assert({
+      given: 'a toggle action and the visible teams',
+      should: 'change the visibility to false',
+      expected: false,
+      actual: getTeamsVisibility(
+        teamReducer(createState({ visible: true }), toggleTeamsVisibility())
+      ),
     });
   }
 });

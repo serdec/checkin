@@ -2,24 +2,36 @@
   background: white;
 }
 
+
 .siteLayoutContent{
   background-color: white;
-  width: 80vw;
+ 
+  display: flex;
+  justify-content: center; 
+  min-width: 70vw;
+
+}
+@media(max-width: 600px){
+  .siteLayoutContent{
+    width: 95vw;
+  }
 }
 
 .siteLayoutSider{
   box-sizing: border-box;
   background-color: white;
+  
 }
 
-.centralBox{
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  padding: 10em;
+.appContent{
+    padding: 0em 2em;
+    min-width: 75vw;
+    background-color: white;
 }
 
-.centralBox__button{
-  margin: .3em;
-  border-radius: .5em;
+@media (max-width: 600px){
+  .appContent{
+    padding: 0 0;
+  }
 }
+

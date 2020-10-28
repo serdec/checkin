@@ -7,6 +7,9 @@ const CHANGE_NAME = 'TEAM::CHANGE_NAME';
 const ADD_MEMBER = 'TEAM::ADD_MEMBER';
 const REMOVE_MEMBER = 'TEAM::REMOVE_MEMBER';
 const LOAD_TEAMS = 'TEAMS::LOAD_TEAMS';
+const TOGGLE_VISIBILITY = 'TEAMS::TOGGLE_VISIBILITY';
+
+const initialState = { visible: false, items: [] };
 
 export const createTeam = ({
   id = cuid(),
@@ -51,69 +54,96 @@ export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
     userId,
   },
 });
+export const getTeams = (state) => state.items;
 
-export const getTeams = (state) => state.teams;
-
-export const getTeam = (state = [], teamId = '') => {
-  return { ...state.filter((team) => team.id === teamId) };
+export const getTeam = (state = initialState, teamId = '') => {
+  return { ...state.items.filter((team) => team.id === teamId) };
 };
 export const loadTeams = ({ payload = [] } = {}) => ({
   type: LOAD_TEAMS,
   payload,
 });
-export const getTeamName = (state = [], teamId = '') => {
-  const teamArr = state.filter((team) => team.id === teamId);
+export const getTeamName = (state = initialState, teamId = '') => {
+  const teamArr = state.items.filter((team) => team.id === teamId);
 
   if (teamArr.length === 0) return '';
 
   return teamArr[0].name;
 };
 export const getMembers = (state, teamId) => {
-  const [team] = state.filter((team) => team.id === teamId);
+  const [team] = state.items.filter((team) => team.id === teamId);
   return team.members;
 };
 
-export const teamReducer = (state = [], { type = '', payload = {} } = {}) => {
+export const toggleTeamsVisibility = () => ({
+  type: TOGGLE_VISIBILITY,
+});
+export const getTeamsVisibility = (state) => state.visible;
+
+export const teamReducer = (
+  state = initialState,
+  { type = '', payload = {} } = {}
+) => {
   switch (type) {
     case createTeam().type:
-      return [...state, payload];
+      return { ...state, items: [...state.items, payload] };
     case deleteTeam().type:
-      return state.filter((team) => team.id != payload);
+      return {
+        ...state,
+        items: state.items.filter((team) => team.id != payload),
+      };
     case updateTeam().type:
-      return state.map((team) => {
-        if (team.id === payload.id) {
-          return {
-            ...payload,
-          };
-        }
-        return team;
-      });
+      return {
+        ...state,
+        items: state.items.map((team) => {
+          if (team.id === payload.id) {
+            return {
+              ...payload,
+            };
+          }
+          return team;
+        }),
+      };
     case addMember().type:
-      return state.map((team) => {
-        if (team.id === payload.teamId) {
-          const newMembers = [...team.members, payload.userId];
-          return {
-            ...team,
-            members: newMembers,
-          };
-        }
-        return team;
-      });
+      return {
+        ...state,
+        items: state.items.map((team) => {
+          if (team.id === payload.teamId) {
+            const newMembers = [...team.members, payload.userId];
+            return {
+              ...team,
+              members: newMembers,
+            };
+          }
+          return team;
+        }),
+      };
     case removeMember().type:
-      return state.map((team) => {
-        if (team.id === payload.teamId) {
-          const newMembers = team.members.filter(
-            (member) => member !== payload.userId
-          );
-          return {
-            ...team,
-            members: newMembers,
-          };
-        }
-        return team;
-      });
+      return {
+        ...state,
+        items: state.items.map((team) => {
+          if (team.id === payload.teamId) {
+            const newMembers = team.members.filter(
+              (member) => member !== payload.userId
+            );
+            return {
+              ...team,
+              members: newMembers,
+            };
+          }
+          return team;
+        }),
+      };
     case loadTeams().type:
-      return payload;
+      return {
+        ...state,
+        items: payload,
+      };
+    case toggleTeamsVisibility().type:
+      return {
+        ...state,
+        visible: !state.visible,
+      };
     default:
       return state;
   }

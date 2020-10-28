@@ -4,11 +4,25 @@
   margin-top: 2em;
 }
 
-.checkboxItem{}
+.checkboxItem{
+  width: 25vw;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+@media (max-width: 700px){
+
+.checkboxItem{
+  width: 70vw;
+}
+}
 
 .checkboxItem__label{
   display: inline-block;
-  width: 16em;
+  width: 15em;
   word-break: break-all;
   font-size: 1.3em;
 }

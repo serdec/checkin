@@ -19,9 +19,8 @@ const CheckboxItem = ({
 }) => {
   return (
     <div className={styles.checkboxItem}>
-      <Checkbox id={id} name="checkin" checked={checked} onChange={onChange}>
-        <label className={styles.checkboxItem__label}>{label}</label>
-      </Checkbox>
+      <Checkbox id={id} name="checkin" checked={checked} onChange={onChange} />
+      <label className={styles.checkboxItem__label}>{label}</label>
       <MinusCircleOutlined
         onClick={() => {
           onDeleteClick(id);

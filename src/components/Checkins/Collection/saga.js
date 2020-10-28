@@ -4,7 +4,6 @@ import { clearNewCheckin } from '../NewCheckin/list-reducer';
 import { addCheckin, loadCheckins } from './reducer';
 import {
   saveCheckin,
-  saveCheckinSimulateError,
   reportSaveCheckinError,
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
@@ -32,10 +31,6 @@ export function* saveCheckinSaga(action) {
   }
 }
 
-export function* saveCheckinSagaSimulateError(action) {
-  yield put(reportSaveCheckinError({ ...action.payload }));
-}
-
 export function* getCheckins(action) {
   try {
     let { status, payload } = yield call(database.getCheckins, action.payload);
@@ -57,10 +52,4 @@ export function* watchGetCheckins() {
 
 export function* watchSaveCheckin() {
   yield takeEvery(saveCheckin().type, saveCheckinSaga);
-}
-export function* watchSaveCheckinSimulateError() {
-  yield takeEvery(
-    saveCheckinSimulateError().type,
-    saveCheckinSagaSimulateError
-  );
 }

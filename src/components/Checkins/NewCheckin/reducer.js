@@ -1,5 +1,6 @@
 import { getActiveTeam } from '../../ActiveTeam/reducer';
 import { getTeamName, getTeams } from '../../Teams/reducer';
+import feedbackReducer from './feedback-reducer';
 import { listReducer } from './list-reducer';
 
 const CREATE_NEW_CHECKIN = 'CHECKIN::CREATE_NEW_CHECKIN';
@@ -59,5 +60,7 @@ export const previousTasksReducer = listReducer(previousTasks);
 export const currentTasksReducer = listReducer(currentTasks);
 export const previousBlockersReducer = listReducer(previousBlockers);
 export const currentBlockersReducer = listReducer(currentBlockers);
-export const doingWellFeedbackReducer = () => '';
-export const needsImprovementFeedbackReducer = () => '';
+export const doingWellFeedbackReducer = feedbackReducer(doingWellFeedback);
+export const needsImprovementFeedbackReducer = feedbackReducer(
+  needsImprovementFeedback
+);

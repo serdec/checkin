@@ -4,7 +4,7 @@ import { describe } from 'riteway';
 import render from 'riteway/render-component';
 import match from 'riteway/match';
 import TeamDayCheckins from './team-daily-summary';
-import styles from '../../History/history.module.css';
+import styles from '../checkins.module.css';
 
 const _tasks = {
   previousTasks: [

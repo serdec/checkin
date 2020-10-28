@@ -1,4 +1,5 @@
 import { describe } from 'riteway';
+import { setFeedback } from './feedback-reducer';
 import { addItem } from './list-reducer';
 import {
   previousTasksReducer,
@@ -21,13 +22,15 @@ const newItem = ({ id = '', checked = false, value = 'NOT_EMPTY' } = {}) => ({
   value,
 });
 
+const newFeedback = ({ value = 'some feedback' } = {}) => ({ value });
+
 const getListsReducers = () => [
   previousTasksReducer,
   currentTasksReducer,
   previousBlockersReducer,
   currentBlockersReducer,
 ];
-const getLists = () => [
+const getListsNames = () => [
   previousTasks,
   currentTasks,
   previousBlockers,
@@ -37,19 +40,15 @@ const getFeedbacksReducers = () => [
   doingWellFeedbackReducer,
   needsImprovementFeedbackReducer,
 ];
-const getFeedbacks = () => ({
-  doingWellFeedback,
-  needsImprovementFeedback,
-});
+const getFeedbacksNames = () => [doingWellFeedback, needsImprovementFeedback];
 
-const createInitialState = () => ({
+const createListsInitialState = () => ({
   previousTasks: [],
   currentTasks: [],
   previousBlockers: [],
   currentBlockers: [],
 });
-
-const createState = (item = {}) => ({
+const createListsState = (item = {}) => ({
   previousTasks: [item],
   currentTasks: [item],
   previousBlockers: [item],
@@ -61,27 +60,45 @@ const createFeedbacksState = (feedback = '') => ({
 });
 
 describe('new checkin', async (assert) => {
-  assert({
-    given: 'no arguments',
-    should: 'return a valid initial state',
-    expected: Object.values(createInitialState()),
-    actual: getListsReducers().map((reducer) => reducer()),
-  });
-  assert({
-    given: 'no arguments',
-    should: 'return a valid initial state',
-    expected: Object.values(createFeedbacksState()),
-    actual: getFeedbacksReducers().map((reducer) => reducer()),
-  });
   {
-    const lists = getLists();
+    assert({
+      given: 'no arguments',
+      should: 'return a valid initial state for lists',
+      expected: Object.values(createListsInitialState()),
+      actual: getListsReducers().map((reducer) => reducer()),
+    });
+  }
+  {
+    const lists = getListsNames();
     const reducers = getListsReducers();
     assert({
       given: 'a new item',
       should: 'add it to the specialized lists',
-      expected: Object.values(createState(newItem())),
+      expected: Object.values(createListsState(newItem())),
       actual: reducers.map((reducer, index) =>
         reducer(reducer(), addItem({ ...newItem(), listName: lists[index] }))
+      ),
+    });
+  }
+
+  assert({
+    given: 'no arguments',
+    should: 'return a valid initial state for feedbacks',
+    expected: Object.values(createFeedbacksState()),
+    actual: getFeedbacksReducers().map((reducer) => reducer()),
+  });
+  {
+    const feedbacks = getFeedbacksNames();
+    const reducers = getFeedbacksReducers();
+    assert({
+      given: 'a new feedback',
+      should: 'add it to all feedbacks',
+      expected: Object.values(createFeedbacksState(newFeedback().value)),
+      actual: reducers.map((reducer, index) =>
+        reducer(
+          reducer(),
+          setFeedback({ ...newFeedback(), feedbackName: feedbacks[index] })
+        )
       ),
     });
   }
