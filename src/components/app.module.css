@@ -35,3 +35,16 @@
   }
 }
 
+.centralBox{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 10em;
+}
+
+.centralBox__button{
+  margin: .3em;
+  border-radius: .5em;
+}
+
+
