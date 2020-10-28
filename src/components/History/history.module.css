@@ -1,5 +1,9 @@
 .history{
   overflow: auto;
+
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
 .teamDayCheckins{
   display: flex;
@@ -16,13 +20,42 @@
   overflow: auto;
 
 }
-.history__datePicker{
+.history__calendar{
   border-radius: .5em;
   margin: .3em;
+  max-width: 50vw;
 }
 @media (max-width: 700px){
-.history__datePicker{
+.history__calendar{
   border-radius: .5em;
   margin: 0 3em;
+  max-width: 80vw;
 }
+}
+
+.history__calendarCell{
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  color: #fff;
+}
+.history__calendarCell_disabled{
+  background-color:#fff;
+  color: #a5a5a8
+}
+.history__calendarCell_0{
+  background-color:#fff;
+  color: #5b5b5e
+}
+.history__calendarCell_1{
+  background-color: #6C63FF;
+}
+.history__calendarCell_2{
+  background-color: #6157ff;
+}
+.history__calendarCell_3{
+  background-color: #524da1;
+}
+.history__calendarCell_4{
+  background-color: #453dba;
 }

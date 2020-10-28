@@ -28,7 +28,7 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => {
         />
       </Header>
       <Layout>
-        {isSignedIn && (
+        {isUserSignedIn && (
           <Content
             style={{
               backgroundColor: 'white',

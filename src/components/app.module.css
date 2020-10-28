@@ -4,28 +4,22 @@
 
 .siteLayoutContent{
   background-color: white;
+ 
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   min-width: 70vw;
 
+}
+@media(max-width: 600px){
+  .siteLayoutContent{
+    width: 95vw;
+  }
 }
 
 .siteLayoutSider{
   box-sizing: border-box;
   background-color: white;
   
-}
-
-.centralBox{
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  padding: 10em;
-}
-
-.centralBox__button{
-  margin: .3em;
-  border-radius: .5em;
 }
 
 .appContent{
