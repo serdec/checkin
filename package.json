@@ -24,7 +24,7 @@
     "esm": "^3.2.25",
     "firebase": "^7.17.1",
     "magic-sdk": "^2.4.7",
-    "moment": "^2.27.0",
+    "moment": "^2.29.1",
     "next": "latest",
     "next-redux-wrapper": "^6.0.2",
     "postcss-preset-env": "^6.7.0",

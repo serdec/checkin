@@ -1,0 +1,17 @@
+.teamDayCheckins{
+  margin: 2em 2em;
+  min-width: 35vw;
+  overflow: auto;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.checkinView{
+  /* max-width:90vw; */
+  overflow: auto;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}

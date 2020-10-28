@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
-import { createTeam, getTeams } from './Teams/reducer';
+import { createTeam, getTeams, getTeamsVisibility } from './Teams/reducer';
 import withUser from '../lib/magic/with-user';
 import styles from './app.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
@@ -10,7 +10,8 @@ import { getActiveTeam, setActiveTeam } from './ActiveTeam/reducer';
 const { Sider } = Layout;
 
 const mapStateToProps = (state) => ({
-  teams: getTeams(state),
+  teams: getTeams(state.teams),
+  visible: getTeamsVisibility(state.teams),
   activeTeam: getActiveTeam(state),
 });
 
@@ -25,6 +26,7 @@ const AppSider = ({
   setActiveTeam,
   teams = [],
   activeTeam = '',
+  visible = true,
   user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
@@ -43,7 +45,13 @@ const AppSider = ({
   };
 
   return (
-    <Sider defaultCollapsed theme="light" breakpoint="xxl" collapsedWidth="0">
+    <Sider
+      collapsible
+      collapsed={!visible}
+      trigger={null}
+      theme="light"
+      collapsedWidth="0"
+    >
       <div className={styles.siteLayoutSider}>
         <Menu
           mode="inline"
@@ -81,6 +89,7 @@ AppSider.propTypes = {
   createTeam: PropTypes.func,
   setActiveTeam: PropTypes.func,
   teams: PropTypes.array,
+  visible: PropTypes.bool,
   user: PropTypes.object,
 };
 

@@ -1,6 +1,5 @@
 import cuid from 'cuid';
 
-const EMPTY_ITEM = 'CHECKIN::EMPTY_ITEM';
 const ADD_ITEM = 'CHECKIN::ADD_ITEM';
 const DELETE_ITEM = 'CHECKIN::DELETE_ITEM';
 const TOGGLE_ITEM = 'CHECKIN::TOGGLE_ITEM';
@@ -14,7 +13,7 @@ export const addItem = ({
   checked = false,
   value = NOT_EMPTY,
 } = {}) => {
-  if (value === '') return { type: `${EMPTY_ITEM}` };
+  if (value === '') return { type: '' };
   return {
     type: `${ADD_ITEM}_${listName}`,
     payload: {
