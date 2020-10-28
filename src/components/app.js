@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AppHeader from './app-header';
+import AppHeader from './Header/app-header';
 import AppContent from './app-content';
 import AppSider from './app-sider';
 import { Layout } from 'antd';
@@ -19,19 +19,28 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => {
 
   return (
     <Layout>
-      {isSignedIn && <AppSider />}
-      <Layout style={{ background: 'white' }}>
-        <Header className={styles.header}>
-          <AppHeader
-            isSignedIn={isUserSignedIn}
-            isUserReady={isUserReady}
-            signOut={signOut}
-            user={user}
-          />
-        </Header>
+      <Header className={styles.header}>
+        <AppHeader
+          isSignedIn={isUserSignedIn}
+          isUserReady={isUserReady}
+          signOut={signOut}
+          user={user}
+        />
+      </Header>
+      <Layout>
         {isSignedIn && (
-          <Content theme="light" className={styles.siteLayoutContent}>
-            <AppContent />
+          <Content
+            style={{
+              backgroundColor: 'white',
+              padding: '2em 0',
+            }}
+          >
+            <Layout>
+              <Content theme="light" className={styles.siteLayoutContent}>
+                <AppContent />
+              </Content>
+              <AppSider />
+            </Layout>
           </Content>
         )}
       </Layout>

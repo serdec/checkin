@@ -31,11 +31,4 @@ export const {
   actionStates: saveCheckinsStates,
 });
 
-const obj = dsm({
-  component: 'Checkin',
-  description: 'save checkin',
-  actionStates: saveCheckinsStates,
-});
-
-console.log({ obj });
 export default { reducer };

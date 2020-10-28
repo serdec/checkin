@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import styles from '../../History/history.module.css';
+import styles from '../checkins.module.css';
 import ListSummaryCard from '../../Cards/SummaryCards/list-summary-card';
 import FeedbackSummaryCard from '../../Cards/SummaryCards/feedback-summary-card';
 const { TabPane } = Tabs;
@@ -38,18 +38,18 @@ const TeamDayCheckins = ({ checkins = [] } = {}) => {
   ];
   return (
     <div className={styles.teamDayCheckins}>
-      <Tabs tabPosition={'left'}>
+      <Tabs tabPosition={'top'}>
         {checkins.map((checkin) => (
           <TabPane
             key={checkin.id}
             style={{ maxWidth: '70em' }}
             tab={
               <span>
-                <UserOutlined /> {checkin.user}{' '}
+                <UserOutlined /> {checkin.user.split('@')[0]}{' '}
               </span>
             }
           >
-            <div className={styles.checkinHistoryView}>
+            <div className={styles.checkinView}>
               {listsCards.map((list) => (
                 <ListSummaryCard
                   key={list.title}

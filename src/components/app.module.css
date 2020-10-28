@@ -4,12 +4,16 @@
 
 .siteLayoutContent{
   background-color: white;
-  width: 80vw;
+  display: flex;
+  justify-content: center;
+  min-width: 70vw;
+
 }
 
 .siteLayoutSider{
   box-sizing: border-box;
   background-color: white;
+  
 }
 
 .centralBox{
@@ -23,3 +27,15 @@
   margin: .3em;
   border-radius: .5em;
 }
+
+.appContent{
+    padding: 0em 2em;
+    min-width: 75vw;
+}
+
+@media (max-width: 600px){
+  .appContent{
+    padding: 0 0;
+  }
+}
+
