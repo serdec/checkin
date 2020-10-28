@@ -42,13 +42,13 @@ export const AppHeader = ({ isSignedIn, signOut, toggleTeamsVisibility }) => {
             {logoutIcon} Logout
           </Button>
         ) : (
-          <Button
-            onClick={() => router.push('/login')}
-            className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
-          >
-            Login
-          </Button>
-        )}
+            <Button
+              onClick={() => router.push('/login')}
+              className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
+            >
+              Login
+            </Button>
+          )}
       </div>
       <Divider />
     </>

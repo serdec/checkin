@@ -18,35 +18,33 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => {
   }, [isSignedIn]);
 
   return (
-    <div className={styles.siteContainer}>
+    <Layout>
+      <Header className={styles.header}>
+        <AppHeader
+          isSignedIn={isUserSignedIn}
+          isUserReady={isUserReady}
+          signOut={signOut}
+          user={user}
+        />
+      </Header>
       <Layout>
-        <Header className={styles.header}>
-          <AppHeader
-            isSignedIn={isUserSignedIn}
-            isUserReady={isUserReady}
-            signOut={signOut}
-            user={user}
-          />
-        </Header>
-        <Layout>
-          {isUserSignedIn && (
-            <Content
-              style={{
-                backgroundColor: 'white',
-                padding: '2em 0',
-              }}
-            >
-              <Layout>
-                <AppSider />
-                <Content theme="light">
-                  <AppContent />
-                </Content>
-              </Layout>
-            </Content>
-          )}
-        </Layout>
+        {isUserSignedIn && (
+          <Content
+            style={{
+              backgroundColor: 'white',
+              padding: '2em 0',
+            }}
+          >
+            <Layout>
+              <AppSider />
+              <Content theme="light" className={styles.siteLayoutContent}>
+                <AppContent />
+              </Content>
+            </Layout>
+          </Content>
+        )}
       </Layout>
-    </div>
+    </Layout>
   );
 };
 
