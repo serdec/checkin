@@ -36,10 +36,10 @@ const App = ({ isSignedIn, isUserReady, signOut, user }) => {
             }}
           >
             <Layout>
+              <AppSider />
               <Content theme="light" className={styles.siteLayoutContent}>
                 <AppContent />
               </Content>
-              <AppSider />
             </Layout>
           </Content>
         )}

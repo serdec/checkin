@@ -1,5 +1,11 @@
 .appHeader{
-  margin: 0;
+  margin: 2em 0;
+
+  display: flex;
+  justify-content: space-between;
+}
+.appHeader__button{
+  border: none;
 }
 .appHeader__loginButton{
   margin: 0;

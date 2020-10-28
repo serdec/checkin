@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { Menu } from 'antd';
+import { Button, Divider } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './app-header.module.css';
 import {
@@ -10,76 +9,49 @@ import {
 } from '@ant-design/icons';
 import { toggleTeamsVisibility } from '../Teams/reducer';
 import { connect } from 'react-redux';
-
-const menuStyle = {
-  position: 'relative',
-  display: 'flex',
-  justifyContent: 'flex-end',
-  marginRight: '',
-};
-const LOGOUT = 'logout';
-const LOGIN = 'signIn';
-const TEAMS = 'teams';
+import { useRouter } from 'next/dist/client/router';
 
 const mapDispatchToProps = {
   toggleTeamsVisibility,
 };
 
 export const AppHeader = ({ isSignedIn, signOut, toggleTeamsVisibility }) => {
+  const router = useRouter();
   const [isLoggingOut, setLoggingOut] = useState(false);
 
-  const signedInMenu = [
-    {
-      key: TEAMS,
-      icon: <TeamOutlined />,
-      label: 'Teams',
-      className: styles.appHeader__teamsButton,
-    },
-    {
-      key: LOGOUT,
-      icon: isLoggingOut ? <LoadingOutlined /> : <LogoutOutlined />,
-      label: 'Logout',
-      className: styles.appHeader__logoutButton,
-    },
-  ];
+  const logoutIcon = isLoggingOut ? <LoadingOutlined /> : <LogoutOutlined />;
 
-  const handleClick = async ({ key }) => {
-    if (key === LOGOUT) {
-      setLoggingOut(true);
-      signOut();
-    }
-    if (key === TEAMS) {
-      toggleTeamsVisibility();
-    }
+  const handleLogout = () => {
+    setLoggingOut(true);
+    signOut();
   };
   return (
-    <div className={styles.appHeader}>
-      <Menu
-        style={menuStyle}
-        theme="light"
-        mode="horizontal"
-        onClick={handleClick}
-        selectedKeys={null}
-      >
+    <>
+      <div className={styles.appHeader}>
+        <Button
+          className={`${styles.appHeader__teamsButton} ${styles.appHeader__button}`}
+          onClick={toggleTeamsVisibility}
+        >
+          <TeamOutlined /> Teams
+        </Button>
         {isSignedIn ? (
-          signedInMenu.map((item) => (
-            <Menu.Item
-              key={item.key}
-              icon={item.icon}
-              className={item.className}
-            >
-              {item.label}
-            </Menu.Item>
-          ))
+          <Button
+            onClick={handleLogout}
+            className={`${styles.appHeader__logoutButton} ${styles.appHeader__button}`}
+          >
+            {logoutIcon} Logout
+          </Button>
         ) : (
-          <Menu.Item key={LOGIN} className={styles.appHeader__loginButton}>
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </Menu.Item>
-        )}
-      </Menu>
-    </div>
+            <Button
+              onClick={() => router.push('/login')}
+              className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
+            >
+              Login
+            </Button>
+          )}
+      </div>
+      <Divider />
+    </>
   );
 };
 
