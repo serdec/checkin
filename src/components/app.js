@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppHeader from './Header/app-header';
 import AppContent from './app-content';
-import AppSider from './app-sider';
 import { Layout } from 'antd';
 import withUser from '../lib/magic/with-user';
 
 import styles from './app.module.css';
+import AppSider from './Sider/app-sider';
 
 const { Header, Content } = Layout;
 const App = ({ isSignedIn, isUserReady, signOut, user }) => {

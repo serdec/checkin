@@ -5,6 +5,7 @@ const CREATE_TEAM = 'TEAM::CREATE_TEAM';
 const DELETE_TEAM = 'TEAM::DELETE_TEAM';
 const CHANGE_NAME = 'TEAM::CHANGE_NAME';
 const ADD_MEMBER = 'TEAM::ADD_MEMBER';
+const ADD_MEMBERS = 'TEAM::ADD_MEMBERS';
 const REMOVE_MEMBER = 'TEAM::REMOVE_MEMBER';
 const LOAD_TEAMS = 'TEAMS::LOAD_TEAMS';
 const TOGGLE_VISIBILITY = 'TEAMS::TOGGLE_VISIBILITY';
@@ -45,6 +46,13 @@ export const addMember = ({ teamId = '', userId = '' } = {}) => ({
   payload: {
     teamId,
     userId,
+  },
+});
+export const addMembers = ({ teamId = '', users = [] } = {}) => ({
+  type: ADD_MEMBERS,
+  payload: {
+    teamId,
+    users,
   },
 });
 export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
@@ -110,6 +118,20 @@ export const teamReducer = (
         items: state.items.map((team) => {
           if (team.id === payload.teamId) {
             const newMembers = [...team.members, payload.userId];
+            return {
+              ...team,
+              members: newMembers,
+            };
+          }
+          return team;
+        }),
+      };
+    case addMembers().type:
+      return {
+        ...state,
+        items: state.items.map((team) => {
+          if (team.id === payload.teamId) {
+            const newMembers = [...team.members, ...payload.users];
             return {
               ...team,
               members: newMembers,

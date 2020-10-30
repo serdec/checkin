@@ -1,14 +1,17 @@
 const SET_ACTIVE_TEAM = 'TEAM::SET_ACTIVE_TEAM';
 
-export const setActiveTeam = (id) => ({
+const initialState = { id: '', name: '', owner: '' };
+export const setActiveTeam = (team) => ({
   type: SET_ACTIVE_TEAM,
-  payload: id,
+  payload: team,
 });
 
-export const getActiveTeam = (state) => state.activeTeam;
+export const getActiveTeam = (state) => state;
+export const getActiveTeamId = (state) => state.id;
+export const getActiveTeamOwner = (state) => state.owner;
 
 export const activeTeamReducer = (
-  state = '',
+  state = initialState,
   { type = '', payload = '' } = {}
 ) => {
   switch (type) {

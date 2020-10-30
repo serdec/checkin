@@ -22,8 +22,10 @@ import { setFeedback } from './Checkins/NewCheckin/feedback-reducer';
 import withUser from '../lib/magic/with-user';
 import { useCheckinFeatures } from './use-checkin-features';
 import styles from './app.module.css';
+import { getActiveTeamId } from './ActiveTeam/reducer';
 
 const mapStateToProps = (state) => ({
+  activeTeamId: getActiveTeamId(state.activeTeam),
   teams: getTeams(state.teams),
   saveStatus: getSaveStatus(state),
   checkin: getCheckinInitialData(state),
@@ -38,6 +40,7 @@ const mapDispatchStateToProps = {
 };
 
 const AppContent = ({
+  activeTeamId = '',
   teams = [],
   checkin = {},
   saveStatus = '',
@@ -49,6 +52,7 @@ const AppContent = ({
     saveStatus,
     checkin,
     user,
+    activeTeamId,
   });
 
   const checkinActions = {
@@ -63,8 +67,6 @@ const AppContent = ({
       <ControlPanel
         teams={teams}
         createNewCheckin={dispatchActions.createNewCheckin}
-        simulateNetServError={dispatchActions.simulateNetServError}
-        setSimulateNetServError={dispatchActions.setSimulateNetServError}
         setVisibleCheckinHistory={history.setVisible}
       />
       {loading && <Loading />}
@@ -82,6 +84,7 @@ const AppContent = ({
 };
 
 AppContent.propTypes = {
+  activeTeamId: PropTypes.string,
   checkin: PropTypes.object,
   user: PropTypes.object,
   saveStatus: PropTypes.object,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const noop = () => { };
+const noop = () => {};
 
 const useSaveCheckin = ({
   checkin = {},
@@ -40,8 +40,16 @@ const useLoading = ({ saveStatus }) => {
 };
 
 // Set whether the checkins history should be visible or not
-const useHistory = () => {
+// Make it visible every time a user selects a new team
+const useHistory = (activeTeamId) => {
   const [visible, setVisible] = useState(true);
+  const [currentTeam, setCurrentTeam] = useState(activeTeamId);
+
+  useEffect(() => {
+    if (currentTeam !== activeTeamId) setVisible(true);
+    setCurrentTeam(activeTeamId);
+  }, [activeTeamId, currentTeam]);
+
   return {
     visible,
     setVisible,
@@ -54,8 +62,9 @@ export const useCheckinFeatures = ({
   user,
   checkinActions = {},
   saveStatus = {},
+  activeTeamId = '',
 } = {}) => {
-  const history = useHistory();
+  const history = useHistory(activeTeamId);
   const loading = useLoading({ saveStatus });
   const retry = useRetry({
     saveStatus,

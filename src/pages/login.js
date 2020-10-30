@@ -5,12 +5,21 @@ import LoginForm from '../components/LoginForm/login-form';
 import React from 'react';
 import PropType from 'prop-types';
 import withUser from '../lib/magic/with-user';
-import { loginUser } from '../components/Checkins/Collection/saga';
+import { loginUser } from '../components/Teams/saga';
+import * as database from '../services/database/database';
+import firebaseConfig from '../services/database/firebase.config';
 
 const mapDispatchToProps = {
   onLogin: loginUser,
 };
-const Login = ({ isUserReady, isSignedIn, onLogin, signIn, user }) => {
+const Login = ({
+  isUserReady,
+  isSignedIn,
+  onLogin,
+  signIn,
+  user,
+  dbConfig,
+}) => {
   // useUser({ redirectTo: '/', redirectIfFound: true });
 
   const [errorMsg, setErrorMsg] = useState('');
@@ -28,6 +37,7 @@ const Login = ({ isUserReady, isSignedIn, onLogin, signIn, user }) => {
     e.preventDefault();
     if (errorMsg) setErrorMsg('');
     const email = e.currentTarget.email.value;
+    database.initDB(dbConfig);
     try {
       if (isUserReady) {
         await signIn(email);
@@ -54,6 +64,13 @@ const Login = ({ isUserReady, isSignedIn, onLogin, signIn, user }) => {
   );
 };
 
+export const getStaticProps = () => {
+  return {
+    props: {
+      dbConfig: firebaseConfig,
+    },
+  };
+};
 Login.propTypes = {
   isUserReady: PropType.bool,
   isSignedIn: PropType.bool,
