@@ -1,37 +1,35 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
-import firebaseConfig from './firebase.config';
-
 const USERS_COLLECTION = 'USERS';
 const TEAMS_COLLECTION = 'TEAMS';
 const CHECKINS = 'CHECKINS';
 
 let db;
 
-const init = () => {
+export const initDB = (config) => {
   try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
+    console.log({ config });
+    firebase.initializeApp(config);
   } catch (err) {
     // ignore 'already exists' message
     if (/already exists/.test(err.message)) return;
     else throw err;
   }
-  return db;
+  db = firebase.firestore();
 };
-init();
 
-export const getTeams = async () => {
+export const getTeams = async (user) => {
   let response = {};
   let data = [];
   await db
     .collection(TEAMS_COLLECTION)
+    .where('members', 'array-contains', user)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
+        // console.log(doc.id, ' => ', doc.data());
         data.push(doc.data());
       });
       response.status = 200;
@@ -45,61 +43,65 @@ export const getTeams = async () => {
   return response;
 };
 
-const updateMembers = async ({ user, name, id }) => {
-  let response = {};
+export const addTeamToUser = async ({ teamId = '', user = '' } = {}) => {
   await db
     .collection(USERS_COLLECTION)
     .doc(user)
-    .collection(TEAMS_COLLECTION)
-    .doc(name)
     .set(
-      {
-        name,
-        id,
-      },
+      { teams: firebase.firestore.FieldValue.arrayUnion(teamId) },
       { merge: true }
-    )
-    .then(() => {
-      response.status = 200;
-    })
-    .catch((error) => {
-      console.log(`Error updating team member ${user}, error: ${error}`);
-      response.status = 500;
-    });
+    );
+};
+export const addTeamToUsers = async ({ teamId = '', users = [] } = {}) => {
+  users.forEach(async (user) => {
+    addTeamToUser({ teamId, user });
+  });
+};
+export const addUsersToTeam = async ({ teamId, users }) => {
+  users.forEach(async (user) => {
+    await db
+      .collection(TEAMS_COLLECTION)
+      .doc(teamId)
+      .update({
+        members: firebase.firestore.FieldValue.arrayUnion(user),
+      })
+      .then(() => {
+        console.log('Document successfully written!');
+      })
+      .catch((error) => {
+        console.log(
+          `Error updating team members ${user}, tean: ${teamId}, error: ${error}`
+        );
+      });
+  });
 };
 
-export const saveTeam = async (action) => {
+export const saveTeam = async (team) => {
   let saveTeamResponse = {};
-  let updateMembersResponse = {};
 
   await db
     .collection(TEAMS_COLLECTION)
-    .doc(action.payload.name)
+    .doc(team.id)
     .set({
-      ...action.payload,
+      ...team,
     })
     .then(function () {
-      console.log('Document written', action.payload);
+      console.log('Document written', team);
       saveTeamResponse.status = 200;
     })
     .catch(function (error) {
       console.error('Error adding document: ', error);
       saveTeamResponse.status = 500;
     });
-
-  updateMembersResponse = updateMembers(action.payload);
-
-  if (updateMembersResponse !== 200) return updateMembersResponse;
-
   return saveTeamResponse;
 };
 
-export const getCheckins = async (user) => {
+export const getCheckins = async (teamId) => {
   let response = {};
   let data = [];
   await db
-    .collection(USERS_COLLECTION)
-    .doc(user)
+    .collection(TEAMS_COLLECTION)
+    .doc(teamId)
     .collection(CHECKINS)
     .get()
     .then(function (querySnapshot) {
@@ -121,8 +123,8 @@ export const saveCheckin = async ({ payload }) => {
   let response = {};
 
   await db
-    .collection(USERS_COLLECTION)
-    .doc(payload.user)
+    .collection(TEAMS_COLLECTION)
+    .doc(payload.teamId)
     .collection(CHECKINS)
     .doc(payload.id)
     .set({

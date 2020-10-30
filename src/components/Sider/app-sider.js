@@ -2,52 +2,56 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
-import { createTeam, getTeams, getTeamsVisibility } from './Teams/reducer';
-import withUser from '../lib/magic/with-user';
-import styles from './app.module.css';
-import TeamCreationInput from './Sider/team-creation-input';
-import { getActiveTeam, setActiveTeam } from './ActiveTeam/reducer';
+import styles from '../ControlPanel/control-panel.module.css';
+import TeamCreationInput from './team-creation-input';
+import { getActiveTeamId, setActiveTeam } from '../ActiveTeam/reducer';
+import withUser from '../../lib/magic/with-user';
+import { createTeam, getTeams, getTeamsVisibility } from '../Teams/reducer';
 const { Sider } = Layout;
 
 const mapStateToProps = (state) => ({
   teams: getTeams(state.teams),
   visible: getTeamsVisibility(state.teams),
-  activeTeam: getActiveTeam(state),
+  activeTeamId: getActiveTeamId(state.activeTeam),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  createTeam: (owner) => (teamName) =>
-    dispatch(createTeam({ name: teamName, owner })),
-  setActiveTeam: (team) => dispatch(setActiveTeam(team)),
-});
+const mapDispatchToProps = {
+  createTeam,
+  setActiveTeam,
+};
 
 const AppSider = ({
   createTeam,
   setActiveTeam,
   teams = [],
-  activeTeam = '',
+  activeTeamId = '',
   visible = true,
   user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
+  const [visibleSideBar, setVisibleSideBar] = useState(false);
+
   useEffect(() => {
-    if (teams.length > 0 && activeTeam.length === 0) {
-      setActiveTeam(teams[0].id);
+    setVisibleSideBar(visible);
+    if (teams.length > 0 && activeTeamId.length === 0) {
+      setActiveTeam(teams[0]);
     }
-  }, [teams, setActiveTeam, activeTeam]);
+    if (teams.length === 0) setVisibleSideBar(true);
+  }, [teams, setActiveTeam, activeTeamId, visible]);
 
   const handleCreate = () => {
     setInputTeamName(true);
   };
 
   const handleMenuClick = ({ key }) => {
-    setActiveTeam(key);
+    const team = teams.filter((item) => item.id === key)[0];
+    setActiveTeam(team);
   };
 
   return (
     <Sider
       collapsible
-      collapsed={!visible}
+      collapsed={!visibleSideBar}
       trigger={null}
       theme="light"
       collapsedWidth="0"
@@ -55,7 +59,7 @@ const AppSider = ({
       <div className={styles.siteLayoutSider}>
         <Menu
           mode="inline"
-          selectedKeys={activeTeam}
+          selectedKeys={activeTeamId}
           style={{ height: '100%', borderRight: 0, backgroundColor: 'white' }}
           onClick={handleMenuClick}
         >
@@ -65,27 +69,28 @@ const AppSider = ({
         </Menu>
         {inputTeamName ? (
           <TeamCreationInput
-            createTeam={createTeam(user.email)}
+            user={user.email}
+            createTeam={createTeam}
             onDone={() => {
               setInputTeamName(false);
             }}
           />
         ) : (
-          <Button
-            className={styles.controlPanelButton}
-            style={{ margin: '0.5em' }}
-            onClick={handleCreate}
-          >
-            Create New Team
-          </Button>
-        )}
+            <Button
+              className={styles.controlPanel__button}
+              style={{ margin: '0.5em' }}
+              onClick={handleCreate}
+            >
+              Create New Team
+            </Button>
+          )}
       </div>
     </Sider>
   );
 };
 
 AppSider.propTypes = {
-  activeTeam: PropTypes.string,
+  activeTeamId: PropTypes.string,
   createTeam: PropTypes.func,
   setActiveTeam: PropTypes.func,
   teams: PropTypes.array,

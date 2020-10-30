@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InputWithAction from './input-with-action';
 
-const TeamCreationInput = ({ createTeam, onDone } = {}) => {
+const TeamCreationInput = ({ createTeam, onDone, user } = {}) => {
   const handleCreate = (teamName) => {
-    createTeam(teamName);
+    createTeam({ name: teamName, owner: user });
   };
   return (
     <div>
@@ -22,5 +22,6 @@ const TeamCreationInput = ({ createTeam, onDone } = {}) => {
 TeamCreationInput.propTypes = {
   createTeam: PropTypes.func,
   onDone: PropTypes.func,
+  user: PropTypes.string,
 };
 export default TeamCreationInput;

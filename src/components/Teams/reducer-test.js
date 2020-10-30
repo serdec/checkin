@@ -5,6 +5,7 @@ import {
   deleteTeam,
   updateTeam,
   addMember,
+  addMembers,
   getMembers,
   removeMember,
   toggleTeamsVisibility,
@@ -64,10 +65,10 @@ describe('teamReducer', async (assert) => {
   }
   {
     const teamId = 'myTeam';
-    const userId = 'user1';
-    const teamOwner = userId;
+    const user1 = 'user1';
+    const teamOwner = user1;
     const user2 = 'user2';
-    const members = [userId, user2];
+    const members = [user1, user2];
 
     assert({
       given: 'a new member',
@@ -79,6 +80,25 @@ describe('teamReducer', async (assert) => {
       expected: createState({
         items: [newTeam({ id: teamId, owner: teamOwner, members })],
       }),
+    });
+  }
+  {
+    const teamId = 'myTeam';
+    const user1 = 'user1';
+    const user2 = 'user2';
+    const user3 = 'user3';
+    const teamOwner = user1;
+    const members = [user1, user2, user3];
+    const actualState = teamReducer(
+      createState({ items: [newTeam({ id: teamId, owner: teamOwner })] }),
+      addMembers({ teamId, users: members })
+    );
+    const actualMembers = getMembers(actualState, teamId).sort();
+    assert({
+      given: 'a list of members',
+      should: 'add a them to the team',
+      expected: true,
+      actual: actualMembers.includes(user1, user2, user3),
     });
   }
 
