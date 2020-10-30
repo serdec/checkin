@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
 import { createTeam, getTeams, getTeamsVisibility } from './Teams/reducer';
 import withUser from '../lib/magic/with-user';
-import styles from './app.module.css';
+import styles from './ControlPanel/control-panel.module.css';
 import TeamCreationInput from './Sider/team-creation-input';
-import { getActiveTeam, setActiveTeam } from './ActiveTeam/reducer';
+import { getActiveTeamId, setActiveTeam } from './ActiveTeam/reducer';
 const { Sider } = Layout;
 
 const mapStateToProps = (state) => ({
   teams: getTeams(state.teams),
   visible: getTeamsVisibility(state.teams),
-  activeTeam: getActiveTeam(state),
+  activeTeamId: getActiveTeamId(state.activeTeam),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -25,23 +25,26 @@ const AppSider = ({
   createTeam,
   setActiveTeam,
   teams = [],
-  activeTeam = '',
+  activeTeamId = '',
   visible = true,
   user = {},
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
   useEffect(() => {
-    if (teams.length > 0 && activeTeam.length === 0) {
-      setActiveTeam(teams[0].id);
+    if (teams.length > 0 && activeTeamId.length === 0) {
+      setActiveTeam(teams[0]);
     }
-  }, [teams, setActiveTeam, activeTeam]);
+  }, [teams, setActiveTeam, activeTeamId]);
 
   const handleCreate = () => {
     setInputTeamName(true);
   };
 
   const handleMenuClick = ({ key }) => {
-    setActiveTeam(key);
+    const team = teams.filter((item) => item.id === key)[0];
+    console.log({ teams });
+    console.log({ team });
+    setActiveTeam(team);
   };
 
   return (
@@ -55,7 +58,7 @@ const AppSider = ({
       <div className={styles.siteLayoutSider}>
         <Menu
           mode="inline"
-          selectedKeys={activeTeam}
+          selectedKeys={activeTeamId}
           style={{ height: '100%', borderRight: 0, backgroundColor: 'white' }}
           onClick={handleMenuClick}
         >
@@ -72,7 +75,7 @@ const AppSider = ({
           />
         ) : (
           <Button
-            className={styles.controlPanelButton}
+            className={styles.controlPanel__button}
             style={{ margin: '0.5em' }}
             onClick={handleCreate}
           >
@@ -85,7 +88,7 @@ const AppSider = ({
 };
 
 AppSider.propTypes = {
-  activeTeam: PropTypes.string,
+  activeTeamId: PropTypes.string,
   createTeam: PropTypes.func,
   setActiveTeam: PropTypes.func,
   teams: PropTypes.array,

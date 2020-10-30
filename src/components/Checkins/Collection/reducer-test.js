@@ -151,14 +151,16 @@ describe('checkins collection', async (assert) => {
   }
 
   {
-    const latestCheckin = newCheckin({ id: 'latest' });
-    const actions = [newCheckin(), newCheckin(), latestCheckin].map(addCheckin);
+    const teamId = cuid();
+    const firstCheckin = newCheckin({ id: 'first', teamId });
+    const latestCheckin = newCheckin({ id: 'latest', teamId });
+    const actions = [firstCheckin, newCheckin(), latestCheckin].map(addCheckin);
     const actualState = actions.reduce(checkinsReducer, checkinsReducer());
 
     assert({
       given: 'no arguments',
       should: 'return latest checkin',
-      actual: getLatestCheckin(actualState),
+      actual: getLatestCheckin(actualState, latestCheckin.teamId),
       expected: latestCheckin,
     });
 

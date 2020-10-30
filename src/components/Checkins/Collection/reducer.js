@@ -37,9 +37,12 @@ export const deleteCheckin = (id) => ({
   type: DELETE_CHECKIN,
   payload: id,
 });
-export const getLatestCheckin = (checkins = []) => {
-  if (checkins.length === 0) return {};
-  return checkins[checkins.length - 1];
+export const getLatestCheckin = (checkins = [], team) => {
+  const teamCheckins = checkins.filter((checkin) => checkin.teamId == team);
+
+  if (teamCheckins.length === 0) return {};
+
+  return teamCheckins[teamCheckins.length - 1];
 };
 
 export const loadCheckins = ({ payload = [] } = {}) => ({

@@ -1,4 +1,4 @@
-import { getActiveTeam } from '../../ActiveTeam/reducer';
+import { getActiveTeamId } from '../../ActiveTeam/reducer';
 import { getTeamName, getTeams } from '../../Teams/reducer';
 import feedbackReducer from './feedback-reducer';
 import { listReducer } from './list-reducer';
@@ -52,8 +52,8 @@ export const getCheckinInitialData = (state) => ({
   currentBlockers: state.currentBlockers,
   doingWellFeedback: state.doingWellFeedback,
   needsImprovementFeedback: state.needsImprovementFeedback,
-  teamId: getActiveTeam(state),
-  teamName: getTeamName(getTeams(state), getActiveTeam(state)),
+  teamId: getActiveTeamId(state.activeTeam),
+  teamName: getTeamName(getTeams(state), getActiveTeamId(state.activeTeam)),
 });
 
 export const previousTasksReducer = listReducer(previousTasks);

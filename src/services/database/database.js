@@ -21,17 +21,36 @@ const init = () => {
   return db;
 };
 init();
-
-export const getTeams = async () => {
+const getUserTeamList = async ({ user }) => {
+  let teams;
+  console.log('GEEEEEET TEAMS');
+  console.log({ user });
+  await db
+    .collection(USERS_COLLECTION)
+    .doc(user)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        teams = doc.data().teams;
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return teams;
+};
+export const getTeams = async ({ user }) => {
   let response = {};
   let data = [];
+  let teams = getUserTeamList({ user });
   await db
     .collection(TEAMS_COLLECTION)
+    .where('id', 'in', teams)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
+        // console.log(doc.id, ' => ', doc.data());
         data.push(doc.data());
       });
       response.status = 200;
@@ -45,52 +64,56 @@ export const getTeams = async () => {
   return response;
 };
 
-const updateMembers = async ({ user, name, id }) => {
-  let response = {};
+export const updateUserWithTeam = async ({ teamId = '', user = '' } = {}) => {
   await db
     .collection(USERS_COLLECTION)
     .doc(user)
-    .collection(TEAMS_COLLECTION)
-    .doc(name)
     .set(
-      {
-        name,
-        id,
-      },
+      { teams: firebase.firestore.FieldValue.arrayUnion(teamId) },
       { merge: true }
-    )
-    .then(() => {
-      response.status = 200;
-    })
-    .catch((error) => {
-      console.log(`Error updating team member ${user}, error: ${error}`);
-      response.status = 500;
-    });
+    );
+};
+export const updateUsersWithTeam = async ({ teamId = '', users = [] } = {}) => {
+  users.forEach(async (user) => {
+    updateUserWithTeam({ teamId, user });
+  });
+};
+export const addMembers = async ({ teamId, users }) => {
+  users.forEach(async (user) => {
+    await db
+      .collection(TEAMS_COLLECTION)
+      .doc(teamId)
+      .update({
+        members: firebase.firestore.FieldValue.arrayUnion(user),
+      })
+      .then(() => {
+        console.log('Document successfully written!');
+      })
+      .catch((error) => {
+        console.log(
+          `Error updating team members ${user}, tean: ${teamId}, error: ${error}`
+        );
+      });
+  });
 };
 
-export const saveTeam = async (action) => {
+export const saveTeam = async (team) => {
   let saveTeamResponse = {};
-  let updateMembersResponse = {};
 
   await db
     .collection(TEAMS_COLLECTION)
-    .doc(action.payload.name)
+    .doc(team.id)
     .set({
-      ...action.payload,
+      ...team,
     })
     .then(function () {
-      console.log('Document written', action.payload);
+      console.log('Document written', team);
       saveTeamResponse.status = 200;
     })
     .catch(function (error) {
       console.error('Error adding document: ', error);
       saveTeamResponse.status = 500;
     });
-
-  updateMembersResponse = updateMembers(action.payload);
-
-  if (updateMembersResponse !== 200) return updateMembersResponse;
-
   return saveTeamResponse;
 };
 

@@ -1,25 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useRouter } from 'next/dist/client/router';
+import { getActiveTeamId, getActiveTeamOwner } from '../ActiveTeam/reducer';
 import { Button, Divider } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './app-header.module.css';
 import {
   LoadingOutlined,
   LogoutOutlined,
+  PlusOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { toggleTeamsVisibility } from '../Teams/reducer';
-import { connect } from 'react-redux';
-import { useRouter } from 'next/dist/client/router';
+import { addMembers, toggleTeamsVisibility } from '../Teams/reducer';
 
+const mapStateToProps = (state) => ({
+  activeTeamId: getActiveTeamId(state.activeTeam),
+  activeTeamOwner: getActiveTeamOwner(state.activeTeam),
+});
 const mapDispatchToProps = {
   toggleTeamsVisibility,
+  addMembers,
 };
 
-export const AppHeader = ({ isSignedIn, signOut, toggleTeamsVisibility }) => {
+export const AppHeader = ({
+  activeTeamId,
+  activeTeamOwner,
+  user,
+  isSignedIn,
+  signOut,
+  addMembers,
+  toggleTeamsVisibility,
+}) => {
   const router = useRouter();
   const [isLoggingOut, setLoggingOut] = useState(false);
+  const [idActiveTeam, setActiveTeamId] = useState(null);
+  const [logoutIcon, setLogoutIcon] = useState(null);
 
-  const logoutIcon = isLoggingOut ? <LoadingOutlined /> : <LogoutOutlined />;
+  useEffect(() => {
+    isLoggingOut
+      ? setLogoutIcon(<LoadingOutlined />)
+      : setLogoutIcon(<LogoutOutlined />);
+  }, [isLoggingOut]);
+
+  useEffect(() => {
+    setActiveTeamId(activeTeamId);
+  }, [activeTeamId]);
 
   const handleLogout = () => {
     setLoggingOut(true);
@@ -30,18 +55,32 @@ export const AppHeader = ({ isSignedIn, signOut, toggleTeamsVisibility }) => {
       <div className={styles.appHeader}>
         {isSignedIn ? (
           <>
-            <Button
-              onClick={handleLogout}
-              className={`${styles.appHeader__logoutButton} ${styles.appHeader__button}`}
-            >
-              {logoutIcon} Logout
-            </Button>
-            <Button
-              className={`${styles.appHeader__teamsButton} ${styles.appHeader__button}`}
-              onClick={toggleTeamsVisibility}
-            >
-              <TeamOutlined /> Teams
-            </Button>
+            <div>
+              <Button
+                onClick={handleLogout}
+                className={`${styles.appHeader__logoutButton} ${styles.appHeader__button}`}
+              >
+                {logoutIcon} Logout
+              </Button>
+            </div>
+            <div>
+              <Button
+                className={`${styles.appHeader__teamsButton} ${styles.appHeader__button}`}
+                onClick={toggleTeamsVisibility}
+              >
+                <TeamOutlined /> Teams
+              </Button>
+              {activeTeamOwner === user.email && idActiveTeam && (
+                <Button
+                  className={`${styles.appHeader__addMemberButton} ${styles.appHeader__button}`}
+                  onClick={() =>
+                    addMembers({ teamId: activeTeamId, users: ['testuser'] })
+                  }
+                >
+                  <PlusOutlined /> Invite New Members
+                </Button>
+              )}
+            </div>
           </>
         ) : (
           <Button
@@ -58,8 +97,13 @@ export const AppHeader = ({ isSignedIn, signOut, toggleTeamsVisibility }) => {
 };
 
 AppHeader.propTypes = {
+  activeTeam: PropTypes.object,
+  activeTeamId: PropTypes.string,
+  activeTeamOwner: PropTypes.string,
   isSignedIn: PropTypes.bool,
   signOut: PropTypes.func,
+  user: PropTypes.object,
+  addMembers: PropTypes.func,
   toggleTeamsVisibility: PropTypes.func,
 };
-export default connect(null, mapDispatchToProps)(AppHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

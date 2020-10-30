@@ -10,11 +10,11 @@ import {
 } from './reducer';
 
 export const getPreviousBlockersFromCollection = (state = {}) => {
-  const checkin = getLatestCheckin(state.checkins);
+  const checkin = getLatestCheckin(state.checkins, state.activeTeam);
   return checkin.currentBlockers || [];
 };
 export const getPreviousTasksFromCollection = (state = {}) => {
-  const checkin = getLatestCheckin(state.checkins);
+  const checkin = getLatestCheckin(state.checkins, state.activeTeam);
   return checkin.currentTasks || [];
 };
 
