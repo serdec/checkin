@@ -78,6 +78,7 @@ Login.propTypes = {
   signIn: PropType.func,
   user: PropType.object,
   publicAddress: PropType.string,
+  dbConfig: PropType.object,
 };
 
 export default connect(null, mapDispatchToProps)(withUser(Login));
