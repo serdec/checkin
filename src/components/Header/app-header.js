@@ -12,6 +12,7 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import { addMembers, toggleTeamsVisibility } from '../Teams/reducer';
+import AppHeader__Modal from './Modal/app-header__modal';
 
 const mapStateToProps = (state) => ({
   activeTeamId: getActiveTeamId(state.activeTeam),
@@ -35,6 +36,7 @@ export const AppHeader = ({
   const [isLoggingOut, setLoggingOut] = useState(false);
   const [idActiveTeam, setActiveTeamId] = useState(null);
   const [logoutIcon, setLogoutIcon] = useState(null);
+  const [addMembersVisible, setAddMembersVisible] = useState(false);
 
   useEffect(() => {
     isLoggingOut
@@ -71,14 +73,20 @@ export const AppHeader = ({
                 <TeamOutlined /> Teams
               </Button>
               {activeTeamOwner === user.email && idActiveTeam && (
-                <Button
-                  className={`${styles.appHeader__addMemberButton} ${styles.appHeader__button}`}
-                  onClick={() =>
-                    addMembers({ teamId: activeTeamId, users: ['testuser'] })
-                  }
-                >
-                  <PlusOutlined /> Invite New Members
-                </Button>
+                <>
+                  <Button
+                    className={`${styles.appHeader__addMemberButton} ${styles.appHeader__button}`}
+                    onClick={() => setAddMembersVisible(true)}
+                  >
+                    <PlusOutlined /> Invite New Members
+                  </Button>
+                  <AppHeader__Modal
+                    visible={addMembersVisible}
+                    setVisible={setAddMembersVisible}
+                    addMembers={addMembers}
+                    teamId={activeTeamId}
+                  />
+                </>
               )}
             </div>
           </>

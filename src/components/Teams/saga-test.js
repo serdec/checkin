@@ -26,13 +26,13 @@ describe('teams saga', async (assert) => {
     const createTeamAction = createTeam();
     const iterator = saveTeam(createTeamAction);
     assert({
-      given: 'a login action',
-      should: 'get the remote teams',
+      given: 'a create action',
+      should: 'save the remote teams',
       expected: call(database.saveTeam, createTeamAction.payload),
       actual: iterator.next().value,
     });
     assert({
-      given: 'a login action',
+      given: 'a create action',
       should: 'update the user teams',
       expected: call(database.updateUserWithTeam, {
         teamId: createTeamAction.payload.id,

@@ -1,51 +1,30 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
-import firebaseConfig from './firebase.config';
-
 const USERS_COLLECTION = 'USERS';
 const TEAMS_COLLECTION = 'TEAMS';
 const CHECKINS = 'CHECKINS';
 
 let db;
 
-const init = () => {
+export const initDB = (config) => {
   try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
+    console.log({ config });
+    firebase.initializeApp(config);
   } catch (err) {
     // ignore 'already exists' message
     if (/already exists/.test(err.message)) return;
     else throw err;
   }
-  return db;
+  db = firebase.firestore();
 };
-init();
-const getUserTeamList = async ({ user }) => {
-  let teams;
-  console.log('GEEEEEET TEAMS');
-  console.log({ user });
-  await db
-    .collection(USERS_COLLECTION)
-    .doc(user)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        teams = doc.data().teams;
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  return teams;
-};
-export const getTeams = async ({ user }) => {
+
+export const getTeams = async (user) => {
   let response = {};
   let data = [];
-  let teams = getUserTeamList({ user });
   await db
     .collection(TEAMS_COLLECTION)
-    .where('id', 'in', teams)
+    .where('members', 'array-contains', user)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -64,7 +43,7 @@ export const getTeams = async ({ user }) => {
   return response;
 };
 
-export const updateUserWithTeam = async ({ teamId = '', user = '' } = {}) => {
+export const addTeamToUser = async ({ teamId = '', user = '' } = {}) => {
   await db
     .collection(USERS_COLLECTION)
     .doc(user)
@@ -73,12 +52,12 @@ export const updateUserWithTeam = async ({ teamId = '', user = '' } = {}) => {
       { merge: true }
     );
 };
-export const updateUsersWithTeam = async ({ teamId = '', users = [] } = {}) => {
+export const addTeamToUsers = async ({ teamId = '', users = [] } = {}) => {
   users.forEach(async (user) => {
-    updateUserWithTeam({ teamId, user });
+    addTeamToUser({ teamId, user });
   });
 };
-export const addMembers = async ({ teamId, users }) => {
+export const addUsersToTeam = async ({ teamId, users }) => {
   users.forEach(async (user) => {
     await db
       .collection(TEAMS_COLLECTION)
@@ -117,12 +96,12 @@ export const saveTeam = async (team) => {
   return saveTeamResponse;
 };
 
-export const getCheckins = async (user) => {
+export const getCheckins = async (teamId) => {
   let response = {};
   let data = [];
   await db
-    .collection(USERS_COLLECTION)
-    .doc(user)
+    .collection(TEAMS_COLLECTION)
+    .doc(teamId)
     .collection(CHECKINS)
     .get()
     .then(function (querySnapshot) {
@@ -144,8 +123,8 @@ export const saveCheckin = async ({ payload }) => {
   let response = {};
 
   await db
-    .collection(USERS_COLLECTION)
-    .doc(payload.user)
+    .collection(TEAMS_COLLECTION)
+    .doc(payload.teamId)
     .collection(CHECKINS)
     .doc(payload.id)
     .set({

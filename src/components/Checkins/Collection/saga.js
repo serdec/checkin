@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../../services/database/database';
+import { setActiveTeam } from '../../ActiveTeam/reducer';
 import { clearNewCheckin } from '../NewCheckin/list-reducer';
 import { addCheckin, loadCheckins } from './reducer';
 import {
@@ -8,12 +9,7 @@ import {
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
 
-const LOGIN = 'LOGIN';
-
-export const loginUser = ({ user = '' } = {}) => ({
-  type: LOGIN,
-  payload: user,
-});
+/******** SAVE CHECKINS ***********/
 export function* saveCheckinSaga(action) {
   try {
     const addCheckinAction = addCheckin({ ...action.payload });
@@ -30,10 +26,18 @@ export function* saveCheckinSaga(action) {
     yield put(reportSaveCheckinError({ ...action.payload }));
   }
 }
+export function* watchSaveCheckin() {
+  yield takeEvery(saveCheckin().type, saveCheckinSaga);
+}
 
+/******** GET CHECKINS ***********/
 export function* getCheckins(action) {
+  console.log('getting Checkins');
   try {
-    let { status, payload } = yield call(database.getCheckins, action.payload);
+    let { status, payload } = yield call(
+      database.getCheckins,
+      action.payload.id
+    );
 
     if (status !== 200) {
       throw new Error('getCheckins failed!');
@@ -44,12 +48,6 @@ export function* getCheckins(action) {
   }
 }
 
-/******** WATCHERS ***********/
-
 export function* watchGetCheckins() {
-  yield takeEvery(loginUser().type, getCheckins);
-}
-
-export function* watchSaveCheckin() {
-  yield takeEvery(saveCheckin().type, saveCheckinSaga);
+  yield takeEvery(setActiveTeam().type, getCheckins);
 }
