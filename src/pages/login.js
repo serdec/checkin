@@ -20,8 +20,6 @@ const Login = ({
   user,
   dbConfig,
 }) => {
-  // useUser({ redirectTo: '/', redirectIfFound: true });
-
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
