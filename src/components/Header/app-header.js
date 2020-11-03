@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
-import { getActiveTeamId, getActiveTeamOwner } from '../ActiveTeam/reducer';
+import { getActiveTeam } from '../ActiveTeam/reducer';
 import { Button, Divider } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './app-header.module.css';
 import {
+  HomeOutlined,
   LoadingOutlined,
+  LoginOutlined,
   LogoutOutlined,
-  PlusOutlined,
   TeamOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons';
 import { addMembers, toggleTeamsVisibility } from '../Teams/reducer';
-import AppHeader__Modal from './Modal/app-header__modal';
+import AppHeader__LinkButton from './__LinkButton/app-header__link-button';
 
 const mapStateToProps = (state) => ({
-  activeTeamId: getActiveTeamId(state.activeTeam),
-  activeTeamOwner: getActiveTeamOwner(state.activeTeam),
+  activeTeam: getActiveTeam(state.activeTeam),
 });
 const mapDispatchToProps = {
   toggleTeamsVisibility,
@@ -24,19 +26,16 @@ const mapDispatchToProps = {
 };
 
 export const AppHeader = ({
-  activeTeamId,
-  activeTeamOwner,
+  activeTeam,
   user,
   isSignedIn,
   signOut,
-  addMembers,
   toggleTeamsVisibility,
 }) => {
   const router = useRouter();
   const [isLoggingOut, setLoggingOut] = useState(false);
   const [idActiveTeam, setActiveTeamId] = useState(null);
   const [logoutIcon, setLogoutIcon] = useState(null);
-  const [addMembersVisible, setAddMembersVisible] = useState(false);
 
   useEffect(() => {
     isLoggingOut
@@ -45,69 +44,67 @@ export const AppHeader = ({
   }, [isLoggingOut]);
 
   useEffect(() => {
-    setActiveTeamId(activeTeamId);
-  }, [activeTeamId]);
+    setActiveTeamId(activeTeam.id);
+  }, [activeTeam]);
 
   const handleLogout = () => {
     setLoggingOut(true);
     signOut();
   };
   return (
-    <>
+    <div>
       <div className={styles.appHeader}>
         {isSignedIn ? (
           <>
             <div>
               <Button
+                icon={logoutIcon}
                 onClick={handleLogout}
                 className={`${styles.appHeader__logoutButton} ${styles.appHeader__button}`}
               >
-                {logoutIcon} Logout
+                Logout
               </Button>
             </div>
-            <div>
+            <div className={`${styles.appHeader__teams}`}>
+              <AppHeader__LinkButton
+                label={'Home'}
+                href={'/'}
+                icon={<HomeOutlined />}
+              />
               <Button
                 className={`${styles.appHeader__teamsButton} ${styles.appHeader__button}`}
                 onClick={toggleTeamsVisibility}
               >
-                <TeamOutlined /> Teams
+                <UnorderedListOutlined /> Teams
               </Button>
-              {activeTeamOwner === user.email && idActiveTeam && (
-                <>
-                  <Button
-                    className={`${styles.appHeader__addMemberButton} ${styles.appHeader__button}`}
-                    onClick={() => setAddMembersVisible(true)}
-                  >
-                    <PlusOutlined /> Invite New Members
-                  </Button>
-                  <AppHeader__Modal
-                    visible={addMembersVisible}
-                    setVisible={setAddMembersVisible}
-                    addMembers={addMembers}
-                    teamId={activeTeamId}
-                  />
-                </>
-              )}
+              <AppHeader__LinkButton
+                label={activeTeam.name}
+                href={`/team/${activeTeam.id}`}
+                as={`/team/${activeTeam.name}`}
+                icon={<TeamOutlined />}
+              />
             </div>
           </>
         ) : (
-          <Button
-            onClick={() => router.push('/login')}
-            className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
-          >
-            Login
-          </Button>
+          <>
+            <div>
+              <Button
+                onClick={() => router.push('/login')}
+                className={`${styles.appHeader__loginButton} ${styles.appHeader__button}`}
+              >
+                <LoginOutlined /> Login
+              </Button>
+            </div>
+          </>
         )}
       </div>
-      <Divider />
-    </>
+      <Divider style={{ margin: '5px' }} />
+    </div>
   );
 };
 
 AppHeader.propTypes = {
   activeTeam: PropTypes.object,
-  activeTeamId: PropTypes.string,
-  activeTeamOwner: PropTypes.string,
   isSignedIn: PropTypes.bool,
   signOut: PropTypes.func,
   user: PropTypes.object,

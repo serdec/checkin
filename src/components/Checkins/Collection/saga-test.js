@@ -1,5 +1,5 @@
 import { describe } from 'riteway';
-import { saveCheckinSaga, getCheckins, loginUser } from './saga';
+import { saveCheckinSaga, getCheckins } from './saga';
 import * as database from '../../../services/database/database';
 import { call, put } from 'redux-saga/effects';
 import { addCheckin, loadCheckins } from './reducer';
@@ -9,6 +9,7 @@ import {
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
 import { clearNewCheckin } from '../NewCheckin/list-reducer';
+import { setActiveTeam } from '../../ActiveTeam/reducer';
 
 const newCheckin = ({
   id = '1',
@@ -84,18 +85,19 @@ describe('checkins saga', async (assert) => {
   }
 
   {
-    const loginAction = loginUser();
-    const iterator = getCheckins(loginAction);
+    const teamId = '1';
+    const setActiveTeamAction = setActiveTeam(teamId);
+    const iterator = getCheckins(setActiveTeamAction);
     const response = { status: 200, payload: [] };
     assert({
       given: 'a user',
       should: 'send the correct action to get his/her data',
-      expected: call(database.getCheckins, loginAction.payload),
+      expected: call(database.getCheckins, setActiveTeamAction.payload.id),
       actual: iterator.next().value,
     });
     assert({
-      given: 'a login action',
-      should: 'load the remote checkins',
+      given: 'a set active team action',
+      should: 'load the team checkins',
       expected: put(loadCheckins()),
       actual: iterator.next(response).value,
     });

@@ -19,7 +19,6 @@ import {
   toggleItem,
 } from './Checkins/NewCheckin/list-reducer';
 import { setFeedback } from './Checkins/NewCheckin/feedback-reducer';
-import withUser from '../lib/magic/with-user';
 import { useCheckinFeatures } from './use-checkin-features';
 import styles from './app.module.css';
 import { getActiveTeamId } from './ActiveTeam/reducer';
@@ -92,7 +91,4 @@ AppContent.propTypes = {
   teams: PropTypes.array,
   createNewCheckin: PropTypes.func,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchStateToProps
-)(withUser(AppContent));
+export default connect(mapStateToProps, mapDispatchStateToProps)(AppContent);

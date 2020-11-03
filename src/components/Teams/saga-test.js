@@ -1,9 +1,8 @@
 import { describe } from 'riteway';
-import { addMembersSaga, getTeams, saveTeam } from './saga';
+import { addMembersSaga, getTeams, loginUser, saveTeam } from './saga';
 import * as database from '../../services/database/database';
 import { call, put } from 'redux-saga/effects';
 import { loadTeams, addMembers, createTeam } from './reducer';
-import { loginUser } from '../Checkins/Collection/saga';
 
 describe('teams saga', async (assert) => {
   {
@@ -27,16 +26,16 @@ describe('teams saga', async (assert) => {
     const iterator = saveTeam(createTeamAction);
     assert({
       given: 'a create action',
-      should: 'save the remote teams',
+      should: 'save the team',
       expected: call(database.saveTeam, createTeamAction.payload),
       actual: iterator.next().value,
     });
     assert({
       given: 'a create action',
-      should: 'update the user teams',
-      expected: call(database.updateUserWithTeam, {
+      should: 'add the team to the right user',
+      expected: call(database.addTeamToUsers, {
         teamId: createTeamAction.payload.id,
-        user: createTeamAction.payload.owner,
+        users: createTeamAction.payload.owners,
       }),
       actual: iterator.next().value,
     });
@@ -47,13 +46,13 @@ describe('teams saga', async (assert) => {
     assert({
       given: 'an add member action',
       should: "add member to the team's members",
-      expected: call(database.addMembers, addMembersAction.payload),
+      expected: call(database.addUsersToTeam, addMembersAction.payload),
       actual: iterator.next().value,
     });
     assert({
       given: 'an add member action',
       should: 'update the user teams',
-      expected: call(database.updateUsersWithTeam, addMembersAction.payload),
+      expected: call(database.addTeamToUsers, addMembersAction.payload),
       actual: iterator.next().value,
     });
   }

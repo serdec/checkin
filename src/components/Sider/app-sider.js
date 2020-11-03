@@ -7,6 +7,7 @@ import TeamCreationInput from './team-creation-input';
 import { getActiveTeamId, setActiveTeam } from '../ActiveTeam/reducer';
 import withUser from '../../lib/magic/with-user';
 import { createTeam, getTeams, getTeamsVisibility } from '../Teams/reducer';
+import { useRouter } from 'next/dist/client/router';
 const { Sider } = Layout;
 
 const mapStateToProps = (state) => ({
@@ -30,6 +31,7 @@ const AppSider = ({
 } = {}) => {
   const [inputTeamName, setInputTeamName] = useState(false);
   const [visibleSideBar, setVisibleSideBar] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setVisibleSideBar(visible);
@@ -46,6 +48,10 @@ const AppSider = ({
   const handleMenuClick = ({ key }) => {
     const team = teams.filter((item) => item.id === key)[0];
     setActiveTeam(team);
+
+    if (router.pathname.includes('/team')) {
+      router.push(`/team/${team.id}`, `${team.name}`);
+    }
   };
 
   return (
@@ -76,14 +82,14 @@ const AppSider = ({
             }}
           />
         ) : (
-            <Button
-              className={styles.controlPanel__button}
-              style={{ margin: '0.5em' }}
-              onClick={handleCreate}
-            >
-              Create New Team
-            </Button>
-          )}
+          <Button
+            className={styles.controlPanel__button}
+            style={{ margin: '0.5em' }}
+            onClick={handleCreate}
+          >
+            Create New Team
+          </Button>
+        )}
       </div>
     </Sider>
   );

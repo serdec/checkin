@@ -26,9 +26,9 @@ export function* watchGetTeams() {
 export function* saveTeam(action) {
   try {
     yield call(database.saveTeam, action.payload);
-    yield call(database.addTeamToUser, {
+    yield call(database.addTeamToUsers, {
       teamId: action.payload.id,
-      user: action.payload.owner,
+      users: action.payload.owners,
     });
   } catch (e) {
     console.log(`Error while saving team ${e}`);

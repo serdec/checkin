@@ -20,16 +20,14 @@ const newTeam = ({
   id = '',
   creationDate = 0,
   name = '',
-  owner = '',
-  user = owner,
-  members = [owner],
+  owners = [],
+  members = [...owners],
   checkIns = [],
 } = {}) => ({
   id,
   creationDate,
   name,
-  owner,
-  user,
+  owners,
   members,
   checkIns,
 });
@@ -66,7 +64,7 @@ describe('teamReducer', async (assert) => {
   {
     const teamId = 'myTeam';
     const user1 = 'user1';
-    const teamOwner = user1;
+    const teamOwners = [user1];
     const user2 = 'user2';
     const members = [user1, user2];
 
@@ -74,11 +72,11 @@ describe('teamReducer', async (assert) => {
       given: 'a new member',
       should: 'add a new member to the team',
       actual: teamReducer(
-        createState({ items: [newTeam({ id: teamId, owner: teamOwner })] }),
+        createState({ items: [newTeam({ id: teamId, owners: teamOwners })] }),
         addMember({ teamId, userId: user2 })
       ),
       expected: createState({
-        items: [newTeam({ id: teamId, owner: teamOwner, members })],
+        items: [newTeam({ id: teamId, owners: teamOwners, members })],
       }),
     });
   }
@@ -87,10 +85,10 @@ describe('teamReducer', async (assert) => {
     const user1 = 'user1';
     const user2 = 'user2';
     const user3 = 'user3';
-    const teamOwner = user1;
+    const teamOwners = [user1];
     const members = [user1, user2, user3];
     const actualState = teamReducer(
-      createState({ items: [newTeam({ id: teamId, owner: teamOwner })] }),
+      createState({ items: [newTeam({ id: teamId, owner: teamOwners })] }),
       addMembers({ teamId, users: members })
     );
     const actualMembers = getMembers(actualState, teamId).sort();
@@ -106,9 +104,9 @@ describe('teamReducer', async (assert) => {
     const teamId = 'myTeam';
     const user1 = 'user1';
     const user2 = 'user2';
-    const teamOwner = user1;
+    const teamOwners = [user1];
     const actions = [
-      createTeam(newTeam({ id: teamId, owner: teamOwner })),
+      createTeam(newTeam({ id: teamId, owner: teamOwners })),
       addMember({ teamId, userId: user2 }),
       removeMember({ teamId, userId: user1 }),
     ];

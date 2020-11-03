@@ -4,7 +4,7 @@ import InputWithAction from './input-with-action';
 
 const TeamCreationInput = ({ createTeam, onDone, user } = {}) => {
   const handleCreate = (teamName) => {
-    createTeam({ name: teamName, owner: user });
+    createTeam({ name: teamName, owners: [user] });
   };
   return (
     <div>

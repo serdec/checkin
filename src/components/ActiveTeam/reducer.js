@@ -8,7 +8,7 @@ export const setActiveTeam = (team) => ({
 
 export const getActiveTeam = (state) => state;
 export const getActiveTeamId = (state) => state.id;
-export const getActiveTeamOwner = (state) => state.owner;
+export const getActiveTeamOwner = (state) => state.owners;
 
 export const activeTeamReducer = (
   state = initialState,

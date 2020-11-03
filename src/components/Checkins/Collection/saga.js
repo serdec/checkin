@@ -32,7 +32,6 @@ export function* watchSaveCheckin() {
 
 /******** GET CHECKINS ***********/
 export function* getCheckins(action) {
-  console.log('getting Checkins');
   try {
     let { status, payload } = yield call(
       database.getCheckins,

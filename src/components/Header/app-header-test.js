@@ -7,17 +7,11 @@ import styles from './app-header.module.css';
 describe('app-header', async (assert) => {
   const createAppHeader = ({
     isSignedIn = true,
-    activeTeamId = '',
-    activeTeamOwner = '',
+    activeTeam = { id: '1', owners: [] },
     user = {},
   } = {}) =>
     render(
-      <AppHeader
-        isSignedIn={isSignedIn}
-        activeTeamId={activeTeamId}
-        activeTeamOwner={activeTeamOwner}
-        user={user}
-      />
+      <AppHeader isSignedIn={isSignedIn} activeTeam={activeTeam} user={user} />
     );
   {
     const $ = createAppHeader();
@@ -56,24 +50,18 @@ describe('app-header', async (assert) => {
     const $ = createAppHeader({ isSignedIn: false });
     assert({
       given: 'a user not logged in',
-      should: 'not render the team button',
+      should: 'not render the teams button',
       expected: 0,
       actual: $(`.${styles.appHeader__teamsButton}`).length,
     });
   }
   {
-    const user2 = { email: 'user2@email.com' };
-
-    const $ = createAppHeader({
-      activeTeamId: '1',
-      activeTeamOwner: user2.email,
-      user2,
-    });
+    const $ = createAppHeader({ isSignedIn: true });
     assert({
-      given: 'a user that is not the owner of the active team',
-      should: 'not render the add-member button',
-      expected: 0,
-      actual: $(`.${styles.appHeader__addMemeberButton}`).length,
+      given: 'a logged in user',
+      should: 'render the links button',
+      expected: 2,
+      actual: $(`.${styles.appHeader__linkButton}`).length,
     });
   }
 });

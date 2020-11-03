@@ -12,13 +12,13 @@ const TOGGLE_VISIBILITY = 'TEAMS::TOGGLE_VISIBILITY';
 
 const initialState = { visible: false, items: [] };
 
+/* ACTIONS */
 export const createTeam = ({
   id = cuid(),
   creationDate = getDateString(new Date()),
   name = '',
-  owner = '',
-  user = owner,
-  members = [owner],
+  owners = [],
+  members = [...owners],
   checkIns = [],
 } = {}) => ({
   type: CREATE_TEAM,
@@ -26,8 +26,7 @@ export const createTeam = ({
     id,
     creationDate,
     name,
-    owner,
-    user,
+    owners,
     members,
     checkIns,
   },
@@ -62,15 +61,21 @@ export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
     userId,
   },
 });
+export const loadTeams = ({ payload = [] } = {}) => ({
+  type: LOAD_TEAMS,
+  payload,
+});
+export const toggleTeamsVisibility = () => ({
+  type: TOGGLE_VISIBILITY,
+});
+
+/* SELECTORS */
 export const getTeams = (state) => state.items;
 
 export const getTeam = (state = initialState, teamId = '') => {
   return { ...state.items.filter((team) => team.id === teamId) };
 };
-export const loadTeams = ({ payload = [] } = {}) => ({
-  type: LOAD_TEAMS,
-  payload,
-});
+
 export const getTeamName = (state = initialState, teamId = '') => {
   const teamArr = state.items.filter((team) => team.id === teamId);
 
@@ -82,12 +87,9 @@ export const getMembers = (state, teamId) => {
   const [team] = state.items.filter((team) => team.id === teamId);
   return team.members;
 };
-
-export const toggleTeamsVisibility = () => ({
-  type: TOGGLE_VISIBILITY,
-});
 export const getTeamsVisibility = (state) => state.visible;
 
+/* REDUCER */
 export const teamReducer = (
   state = initialState,
   { type = '', payload = {} } = {}

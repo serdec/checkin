@@ -1,19 +1,34 @@
 .appHeader{
-  margin: 2em 0;
+  height: 100%; 
 
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
+  align-items: center;
 }
 .appHeader__button{
   border: none;
+  margin: .2em;
+  box-shadow: none;
 }
+
 .appHeader__loginButton{
   margin: 0;
 }
 .appHeader__logoutButton{
   margin: 0;
 }
+.appHeader__teams{
+  display: flex;
+  align-items: center;
+}
 .appHeader__teamsButton{
   margin: 0;
+}
+.appHeader__linkButton{
+  margin: 0 .2em;
+  color: rgb(0,0,0,0.65);
+}
+.test{
+  border: 3px solid black;
 }
