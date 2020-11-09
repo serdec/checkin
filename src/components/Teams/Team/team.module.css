@@ -1,0 +1,30 @@
+.team{
+  width: 70vw;
+  max-width: 1200px;
+  border: 3px solid red;
+}
+@media(max-width: 700px){
+  .team{
+    width: 90vw;
+  }
+}
+
+.team__header{
+  font-size: 5em;
+}
+.team__values{
+  margin: .5em 1em;
+}
+.team__label{
+  margin: 0 1em;
+}
+.team__simpleField{
+  display: flex;
+  flex-flow: row;
+}
+
+.team__arrayField{
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+}

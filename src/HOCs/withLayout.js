@@ -25,15 +25,10 @@ const withLayout = (Component) => (props) => {
       </Header>
       <Layout>
         {isUserSignedIn && (
-          <Content
-            style={{
-              backgroundColor: 'white',
-              padding: '2em 0',
-            }}
-          >
+          <Content className={styles.externalContent}>
             <Layout>
               <AppSider />
-              <Content theme="light" className={styles.siteLayoutContent}>
+              <Content className={styles.siteLayoutContent}>
                 <Component {...props} />
               </Content>
             </Layout>

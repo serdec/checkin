@@ -8,12 +8,14 @@ import { watchLoadPreviousTasksAndBlockers } from '../components/Checkins/NewChe
 import {
   watchAddMembers,
   watchGetTeams,
+  watchRemoveUser,
   watchSaveTeam,
 } from '../components/Teams/saga';
 
 export default function* rootSaga() {
   yield all([
     watchAddMembers(),
+    watchRemoveUser(),
     watchSaveCheckin(),
     watchGetCheckins(),
     watchGetTeams(),

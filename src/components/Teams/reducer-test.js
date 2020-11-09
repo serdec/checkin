@@ -4,10 +4,10 @@ import {
   createTeam,
   deleteTeam,
   updateTeam,
-  addMember,
-  addMembers,
-  getMembers,
-  removeMember,
+  addUser,
+  addUsers,
+  getUsers,
+  removeUser,
   toggleTeamsVisibility,
   getTeamsVisibility,
 } from './reducer';
@@ -31,7 +31,7 @@ const newTeam = ({
   members,
   checkIns,
 });
-describe('teamReducer', async (assert) => {
+describe('team-reducer', async (assert) => {
   {
     assert({
       given: 'no arguments',
@@ -73,7 +73,7 @@ describe('teamReducer', async (assert) => {
       should: 'add a new member to the team',
       actual: teamReducer(
         createState({ items: [newTeam({ id: teamId, owners: teamOwners })] }),
-        addMember({ teamId, userId: user2 })
+        addUser({ teamId, userId: user2, listName: 'members' })
       ),
       expected: createState({
         items: [newTeam({ id: teamId, owners: teamOwners, members })],
@@ -89,9 +89,9 @@ describe('teamReducer', async (assert) => {
     const members = [user1, user2, user3];
     const actualState = teamReducer(
       createState({ items: [newTeam({ id: teamId, owner: teamOwners })] }),
-      addMembers({ teamId, users: members })
+      addUsers({ teamId, users: members, listName: 'members' })
     );
-    const actualMembers = getMembers(actualState, teamId).sort();
+    const actualMembers = getUsers(actualState, teamId, 'members').sort();
     assert({
       given: 'a list of members',
       should: 'add a them to the team',
@@ -99,7 +99,6 @@ describe('teamReducer', async (assert) => {
       actual: actualMembers.includes(user1, user2, user3),
     });
   }
-
   {
     const teamId = 'myTeam';
     const user1 = 'user1';
@@ -107,18 +106,92 @@ describe('teamReducer', async (assert) => {
     const teamOwners = [user1];
     const actions = [
       createTeam(newTeam({ id: teamId, owner: teamOwners })),
-      addMember({ teamId, userId: user2 }),
-      removeMember({ teamId, userId: user1 }),
+      addUser({ teamId, userId: user2, listName: 'members' }),
+      removeUser({ teamId, userId: user1, listName: 'members' }),
     ];
 
     assert({
       given: 'a member id',
       should: 'remove the member from the team',
-      actual: getMembers(actions.reduce(teamReducer, teamReducer()), teamId),
+      actual: getUsers(
+        actions.reduce(teamReducer, teamReducer()),
+        teamId,
+        'members'
+      ),
       expected: [user2],
     });
   }
+  {
+    const teamId = 'myTeam';
+    const user1 = 'user1';
+    const teamOwners = [user1];
+    const user2 = 'user2';
+    const expectedOwners = [user1, user2];
 
+    assert({
+      given: 'a new owner',
+      should: 'add a new owner to the team',
+      actual: teamReducer(
+        createState({
+          items: [
+            newTeam({ id: teamId, owners: teamOwners, members: [user1] }),
+          ],
+        }),
+        addUser({ teamId, userId: user2, listName: 'owners' })
+      ),
+      expected: createState({
+        items: [
+          newTeam({ id: teamId, owners: expectedOwners, members: [user1] }),
+        ],
+      }),
+    });
+  }
+  {
+    const teamId = 'myTeam';
+    const user1 = 'user1';
+    const user2 = 'user2';
+    const user3 = 'user3';
+    const teamOwners = [user1];
+    const expectedOwners = [user2, user1, user3];
+    const actualState = teamReducer(
+      createState({
+        items: [newTeam({ id: teamId, owners: teamOwners })],
+      }),
+      addUsers({ teamId, users: [user2, user3], listName: 'owners' })
+    );
+    const actualOwners = getUsers(actualState, teamId, 'owners');
+    assert({
+      given: 'a list of owners',
+      should: 'add a them to the team',
+      expected: expectedOwners.sort(),
+      actual: actualOwners.sort(),
+    });
+  }
+  {
+    const teamId = 'myTeam';
+    const user1 = 'user1';
+    const user2 = 'user2';
+    const teamOwners = [user1, user2];
+    const expectedOwners = [user1];
+
+    assert({
+      given: 'an owner',
+      should: 'remove the owner from the team',
+      actual: teamReducer(
+        createState({
+          items: [
+            newTeam({ id: teamId, owners: teamOwners, members: [user1] }),
+          ],
+        }),
+        removeUser({ teamId, userId: user2, listName: 'owners' })
+      ),
+      expected: createState({
+        items: [
+          newTeam({ id: teamId, owners: expectedOwners, members: [user1] }),
+        ],
+      }),
+    });
+  }
   {
     const teamName = 'myTeam';
     const newName = 'newName';

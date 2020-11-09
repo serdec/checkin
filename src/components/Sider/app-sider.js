@@ -50,7 +50,7 @@ const AppSider = ({
     setActiveTeam(team);
 
     if (router.pathname.includes('/team')) {
-      router.push(`/team/${team.id}`, `${team.name}`);
+      router.push(`/team/${team.id}`);
     }
   };
 

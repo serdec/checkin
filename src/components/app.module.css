@@ -2,8 +2,12 @@
   height: 6em;
   background: white;
 }
+.externalContent{
+  background-color: #fff;
+  padding: 2em 0;
+}
 .siteLayoutContent{
-  background-color: white;
+  background-color: #fff;
  
   display: flex;
   justify-content: center; 
@@ -23,7 +27,7 @@
 .appContent{
     padding: 0em 2em;
     min-width: 75vw;
-    background-color: white;
+    background-color: lightgray;
 }
 @media (max-width: 600px){
   .appContent{
