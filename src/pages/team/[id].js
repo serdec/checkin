@@ -1,6 +1,8 @@
 import React from 'react';
-import page from '../../HOCs/page';
+import Team from '../../components/Teams/Team/team';
 
-const Team = () => <div></div>;
+const TeamPage = () => {
+  return <Team />;
+};
 
-export default page(Team);
+export default TeamPage;

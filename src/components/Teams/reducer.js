@@ -4,9 +4,9 @@ import { getDateString } from '../../lib/date/date';
 const CREATE_TEAM = 'TEAM::CREATE_TEAM';
 const DELETE_TEAM = 'TEAM::DELETE_TEAM';
 const CHANGE_NAME = 'TEAM::CHANGE_NAME';
-const ADD_MEMBER = 'TEAM::ADD_MEMBER';
-const ADD_MEMBERS = 'TEAM::ADD_MEMBERS';
-const REMOVE_MEMBER = 'TEAM::REMOVE_MEMBER';
+const ADD_USER = 'TEAM::ADD_USER';
+const ADD_USERS = 'TEAM::ADD_USERS';
+const REMOVE_USERS = 'TEAM::REMOVE_USERS';
 const LOAD_TEAMS = 'TEAMS::LOAD_TEAMS';
 const TOGGLE_VISIBILITY = 'TEAMS::TOGGLE_VISIBILITY';
 
@@ -40,27 +40,35 @@ export const updateTeam = (team = {}) => ({
   type: CHANGE_NAME,
   payload: team,
 });
-export const addMember = ({ teamId = '', userId = '' } = {}) => ({
-  type: ADD_MEMBER,
+export const addUser = ({ teamId = '', userId = '', listName = '' } = {}) => ({
+  type: ADD_USER,
   payload: {
     teamId,
-    userId,
+    users: [userId],
+    listName,
   },
 });
-export const addMembers = ({ teamId = '', users = [] } = {}) => ({
-  type: ADD_MEMBERS,
+export const addUsers = ({ teamId = '', users = [], listName = '' } = {}) => ({
+  type: ADD_USERS,
   payload: {
     teamId,
     users,
+    listName,
   },
 });
-export const removeMember = ({ teamId = '', userId = '' } = {}) => ({
-  type: REMOVE_MEMBER,
+export const removeUser = ({
+  teamId = '',
+  userId = '',
+  listName = '',
+} = {}) => ({
+  type: REMOVE_USERS,
   payload: {
     teamId,
-    userId,
+    users: [userId],
+    listName,
   },
 });
+
 export const loadTeams = ({ payload = [] } = {}) => ({
   type: LOAD_TEAMS,
   payload,
@@ -75,7 +83,6 @@ export const getTeams = (state) => state.items;
 export const getTeam = (state = initialState, teamId = '') => {
   return { ...state.items.filter((team) => team.id === teamId) };
 };
-
 export const getTeamName = (state = initialState, teamId = '') => {
   const teamArr = state.items.filter((team) => team.id === teamId);
 
@@ -83,13 +90,48 @@ export const getTeamName = (state = initialState, teamId = '') => {
 
   return teamArr[0].name;
 };
-export const getMembers = (state, teamId) => {
+export const getUsers = (state, teamId, listName) => {
   const [team] = state.items.filter((team) => team.id === teamId);
-  return team.members;
+  return team[listName];
 };
 export const getTeamsVisibility = (state) => state.visible;
 
 /* REDUCER */
+const addUsersToList = (state, payload) => {
+  const listName = payload.listName;
+  return {
+    ...state,
+    items: state.items.map((team) => {
+      if (team.id === payload.teamId) {
+        const newUsersList = [...team[listName], ...payload.users];
+        return {
+          ...team,
+          [listName]: newUsersList,
+        };
+      }
+      return team;
+    }),
+  };
+};
+const removeUsersFromList = (state, payload) => {
+  const listName = payload.listName;
+  return {
+    ...state,
+    items: state.items.map((team) => {
+      if (team.id === payload.teamId) {
+        const newUsersList = team[listName].filter(
+          (user) => !payload.users.includes(user)
+        );
+        return {
+          ...team,
+          [listName]: newUsersList,
+        };
+      }
+      return team;
+    }),
+  };
+};
+
 export const teamReducer = (
   state = initialState,
   { type = '', payload = {} } = {}
@@ -114,50 +156,11 @@ export const teamReducer = (
           return team;
         }),
       };
-    case addMember().type:
-      return {
-        ...state,
-        items: state.items.map((team) => {
-          if (team.id === payload.teamId) {
-            const newMembers = [...team.members, payload.userId];
-            return {
-              ...team,
-              members: newMembers,
-            };
-          }
-          return team;
-        }),
-      };
-    case addMembers().type:
-      return {
-        ...state,
-        items: state.items.map((team) => {
-          if (team.id === payload.teamId) {
-            const newMembers = [...team.members, ...payload.users];
-            return {
-              ...team,
-              members: newMembers,
-            };
-          }
-          return team;
-        }),
-      };
-    case removeMember().type:
-      return {
-        ...state,
-        items: state.items.map((team) => {
-          if (team.id === payload.teamId) {
-            const newMembers = team.members.filter(
-              (member) => member !== payload.userId
-            );
-            return {
-              ...team,
-              members: newMembers,
-            };
-          }
-          return team;
-        }),
-      };
+    case addUser().type:
+    case addUsers().type:
+      return addUsersToList(state, payload);
+    case removeUser().type:
+      return removeUsersFromList(state, payload);
     case loadTeams().type:
       return {
         ...state,

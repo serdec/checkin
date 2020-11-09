@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Input, Modal } from 'antd';
 import { func, bool, string } from 'prop-types';
-import styles from './app-header__modal.module.css';
+import styles from './team__modal.module.css';
 
-const AppHeader__Modal = ({
-  visible = false,
+const Team__Modal = ({
+  visible,
   setVisible,
-  addMembers,
+  listName,
+  addUsers,
   teamId,
 } = {}) => {
   const [inputValue, setInputValue] = useState('');
+
   const handleOk = () => {
     setVisible(false);
 
@@ -18,7 +20,7 @@ const AppHeader__Modal = ({
     }
 
     const users = inputValue.split(',');
-    addMembers({ teamId, users });
+    addUsers({ teamId, users, listName });
   };
 
   return (
@@ -44,11 +46,12 @@ const AppHeader__Modal = ({
   );
 };
 
-AppHeader__Modal.propTypes = {
+Team__Modal.propTypes = {
   teamId: string,
   visible: bool,
-  addMembers: func,
+  listName: string,
+  addUsers: func,
   setVisible: func,
 };
 
-export default AppHeader__Modal;
+export default Team__Modal;

@@ -14,7 +14,7 @@ import {
   TeamOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { addMembers, toggleTeamsVisibility } from '../Teams/reducer';
+import { toggleTeamsVisibility } from '../Teams/reducer';
 import AppHeader__LinkButton from './__LinkButton/app-header__link-button';
 
 const mapStateToProps = (state) => ({
@@ -22,19 +22,16 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
   toggleTeamsVisibility,
-  addMembers,
 };
 
 export const AppHeader = ({
   activeTeam,
-  user,
   isSignedIn,
   signOut,
   toggleTeamsVisibility,
 }) => {
   const router = useRouter();
   const [isLoggingOut, setLoggingOut] = useState(false);
-  const [idActiveTeam, setActiveTeamId] = useState(null);
   const [logoutIcon, setLogoutIcon] = useState(null);
 
   useEffect(() => {
@@ -42,10 +39,6 @@ export const AppHeader = ({
       ? setLogoutIcon(<LoadingOutlined />)
       : setLogoutIcon(<LogoutOutlined />);
   }, [isLoggingOut]);
-
-  useEffect(() => {
-    setActiveTeamId(activeTeam.id);
-  }, [activeTeam]);
 
   const handleLogout = () => {
     setLoggingOut(true);
@@ -80,7 +73,6 @@ export const AppHeader = ({
               <AppHeader__LinkButton
                 label={activeTeam.name}
                 href={`/team/${activeTeam.id}`}
-                as={`/team/${activeTeam.name}`}
                 icon={<TeamOutlined />}
               />
             </div>
@@ -108,7 +100,7 @@ AppHeader.propTypes = {
   isSignedIn: PropTypes.bool,
   signOut: PropTypes.func,
   user: PropTypes.object,
-  addMembers: PropTypes.func,
+  addUsers: PropTypes.func,
   toggleTeamsVisibility: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

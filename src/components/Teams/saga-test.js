@@ -1,10 +1,26 @@
 import { describe } from 'riteway';
-import { addMembersSaga, getTeams, loginUser, saveTeam } from './saga';
+import {
+  addUsersSaga,
+  getTeams,
+  loginUser,
+  removeUsersSaga,
+  saveTeam,
+  watchGetTeams,
+} from './saga';
 import * as database from '../../services/database/database';
-import { call, put } from 'redux-saga/effects';
-import { loadTeams, addMembers, createTeam } from './reducer';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { loadTeams, addUsers, createTeam, removeUser } from './reducer';
 
 describe('teams saga', async (assert) => {
+  {
+    const iterator = watchGetTeams();
+    assert({
+      given: 'no arguments',
+      should: 'call the getTeamSaga',
+      expected: takeEvery(loginUser().type, getTeams),
+      actual: iterator.next().value,
+    });
+  }
   {
     const loginAction = loginUser();
     const iterator = getTeams(loginAction);
@@ -41,8 +57,8 @@ describe('teams saga', async (assert) => {
     });
   }
   {
-    const addMembersAction = addMembers();
-    const iterator = addMembersSaga(addMembers());
+    const addMembersAction = addUsers();
+    const iterator = addUsersSaga(addUsers());
     assert({
       given: 'an add member action',
       should: "add member to the team's members",
@@ -54,6 +70,38 @@ describe('teams saga', async (assert) => {
       should: 'update the user teams',
       expected: call(database.addTeamToUsers, addMembersAction.payload),
       actual: iterator.next().value,
+    });
+  }
+  {
+    const removeUserAction = removeUser({ listName: 'members' });
+    const iterator = removeUsersSaga(removeUserAction);
+    assert({
+      given: 'a remove member action, a team id and a user id',
+      should: "remove the user from the team's members",
+      expected: call(database.removeUsersFromTeam, removeUserAction.payload),
+      actual: iterator.next().value,
+    });
+    assert({
+      given: 'a remove member action, a team id and a user id',
+      should: 'remove the team from the user',
+      expected: call(database.removeTeamFromUsers, removeUserAction.payload),
+      actual: iterator.next().value,
+    });
+  }
+  {
+    const removeUserAction = removeUser({ listName: 'owners' });
+    const iterator = removeUsersSaga(removeUserAction);
+    assert({
+      given: 'a remove owner action, a team id and a user id',
+      should: "remove the owner from the team's owners",
+      expected: call(database.removeUsersFromTeam, removeUserAction.payload),
+      actual: iterator.next().value,
+    });
+    assert({
+      given: 'a remove owner action, a team id and a user id',
+      should: 'be done after removing the user from the owners list',
+      expected: true,
+      actual: iterator.next().done,
     });
   }
 });

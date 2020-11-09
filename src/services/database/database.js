@@ -9,16 +9,27 @@ let db;
 
 export const initDB = (config) => {
   try {
-    console.log({ config });
     firebase.initializeApp(config);
   } catch (err) {
     // ignore 'already exists' message
-    if (/already exists/.test(err.message)) return;
-    else throw err;
+    if (!/already exists/.test(err.message)) throw err;
   }
   db = firebase.firestore();
 };
 
+export const getTeam = async (teamId) => {
+  let team = {};
+  await db
+    .collection(TEAMS_COLLECTION)
+    .where('id', '==', teamId)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        team = doc.data();
+      });
+    });
+  return team;
+};
 export const getTeams = async (user) => {
   let response = {};
   let data = [];
@@ -43,39 +54,88 @@ export const getTeams = async (user) => {
   return response;
 };
 
-export const addTeamToUser = async ({ teamId = '', user = '' } = {}) => {
+export const addTeamToUser = async ({ teamId = '', userId = '' } = {}) => {
   await db
     .collection(USERS_COLLECTION)
-    .doc(user)
+    .doc(userId)
     .set(
       { teams: firebase.firestore.FieldValue.arrayUnion(teamId) },
       { merge: true }
     );
 };
-export const addTeamToUsers = async ({ teamId = '', users = [] } = {}) => {
-  users.forEach(async (user) => {
-    addTeamToUser({ teamId, user });
+export const addTeamToUsers = async ({
+  teamId = '',
+  users = [],
+  listName = '',
+} = {}) => {
+  users.forEach(async (userId) => {
+    addTeamToUser({ teamId, userId, listName });
   });
 };
-export const addUsersToTeam = async ({ teamId, users }) => {
-  users.forEach(async (user) => {
-    await db
-      .collection(TEAMS_COLLECTION)
-      .doc(teamId)
-      .update({
-        members: firebase.firestore.FieldValue.arrayUnion(user),
-      })
-      .then(() => {
-        console.log('Document successfully written!');
-      })
-      .catch((error) => {
-        console.log(
-          `Error updating team members ${user}, tean: ${teamId}, error: ${error}`
-        );
-      });
+export const removeTeamFromUser = async ({ teamId = '', userId = '' } = {}) => {
+  await db
+    .collection(USERS_COLLECTION)
+    .doc(userId)
+    .set(
+      { teams: firebase.firestore.FieldValue.arrayRemove(teamId) },
+      { merge: true }
+    );
+};
+export const removeTeamFromUsers = async ({ teamId = '', users = [] } = {}) => {
+  await users.forEach((userId) => removeTeamFromUser({ teamId, userId }));
+};
+
+export const addUserToTeam = async ({ teamId, userId, listName }) => {
+  await db
+    .collection(TEAMS_COLLECTION)
+    .doc(teamId)
+    .update({
+      [listName]: firebase.firestore.FieldValue.arrayUnion(userId),
+    })
+    .then(() => {
+      console.log('Document successfully written!');
+    })
+    .catch((error) => {
+      console.log(
+        `Error updating team members, team: ${teamId}, error: ${error}`
+      );
+    });
+};
+export const addUsersToTeam = async ({ teamId, users, listName }) => {
+  users.forEach(async (userId) => {
+    await addUserToTeam({ teamId, userId, listName });
   });
 };
 
+export const removeUserFromTeam = async ({
+  teamId = '',
+  userId = '',
+  listName = '',
+} = {}) => {
+  await db
+    .collection(TEAMS_COLLECTION)
+    .doc(teamId)
+    .update({
+      [listName]: firebase.firestore.FieldValue.arrayRemove(userId),
+    })
+    .then(() => {
+      console.log('Document successfully written!');
+    })
+    .catch((error) => {
+      console.log(
+        `Error updating team members ${userId}, tean: ${teamId}, error: ${error}`
+      );
+    });
+};
+export const removeUsersFromTeam = async ({
+  teamId = '',
+  users = [],
+  listName = '',
+} = {}) => {
+  users.forEach(async (userId) =>
+    removeUserFromTeam({ teamId, userId, listName })
+  );
+};
 export const saveTeam = async (team) => {
   let saveTeamResponse = {};
 
