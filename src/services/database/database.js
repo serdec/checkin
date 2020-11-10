@@ -16,6 +16,44 @@ export const initDB = (config) => {
   }
   db = firebase.firestore();
 };
+export const saveTeam = async (team) => {
+  let saveTeamResponse = {};
+
+  await db
+    .collection(TEAMS_COLLECTION)
+    .doc(team.id)
+    .set({
+      ...team,
+    })
+    .then(function () {
+      console.log('Document written', team);
+      saveTeamResponse.status = 200;
+    })
+    .catch(function (error) {
+      console.error('Error adding document: ', error);
+      saveTeamResponse.status = 500;
+    });
+  return saveTeamResponse;
+};
+export const deleteTeamFromUsers = async (teamId) => {
+  const users = db.collection(USERS_COLLECTION);
+  await users
+    .where('teams', 'array-contains', teamId)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) =>
+        users
+          .doc(doc.id)
+          .set(
+            { teams: firebase.firestore.FieldValue.arrayRemove(teamId) },
+            { merge: true }
+          )
+      );
+    });
+};
+export const deleteTeam = async (teamId) => {
+  await db.collection(TEAMS_COLLECTION).doc(teamId).delete();
+};
 
 export const getTeam = async (teamId) => {
   let team = {};
@@ -85,7 +123,11 @@ export const removeTeamFromUsers = async ({ teamId = '', users = [] } = {}) => {
   await users.forEach((userId) => removeTeamFromUser({ teamId, userId }));
 };
 
-export const addUserToTeam = async ({ teamId, userId, listName }) => {
+export const addUserToTeam = async ({
+  teamId = '',
+  userId = '',
+  listName = '',
+} = {}) => {
   await db
     .collection(TEAMS_COLLECTION)
     .doc(teamId)
@@ -101,7 +143,11 @@ export const addUserToTeam = async ({ teamId, userId, listName }) => {
       );
     });
 };
-export const addUsersToTeam = async ({ teamId, users, listName }) => {
+export const addUsersToTeam = async ({
+  teamId = '',
+  users = '',
+  listName = '',
+} = {}) => {
   users.forEach(async (userId) => {
     await addUserToTeam({ teamId, userId, listName });
   });
@@ -136,25 +182,6 @@ export const removeUsersFromTeam = async ({
     removeUserFromTeam({ teamId, userId, listName })
   );
 };
-export const saveTeam = async (team) => {
-  let saveTeamResponse = {};
-
-  await db
-    .collection(TEAMS_COLLECTION)
-    .doc(team.id)
-    .set({
-      ...team,
-    })
-    .then(function () {
-      console.log('Document written', team);
-      saveTeamResponse.status = 200;
-    })
-    .catch(function (error) {
-      console.error('Error adding document: ', error);
-      saveTeamResponse.status = 500;
-    });
-  return saveTeamResponse;
-};
 
 export const getCheckins = async (teamId) => {
   let response = {};
@@ -179,7 +206,7 @@ export const getCheckins = async (teamId) => {
     });
   return response;
 };
-export const saveCheckin = async ({ payload }) => {
+export const saveCheckin = async ({ payload = {} } = {}) => {
   let response = {};
 
   await db

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
-import { getActiveTeam } from '../ActiveTeam/reducer';
+import { getActiveTeam } from '../Teams/ActiveTeam/reducer';
 import { Button, Divider } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './app-header.module.css';

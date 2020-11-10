@@ -1,6 +1,6 @@
 const SET_ACTIVE_TEAM = 'TEAM::SET_ACTIVE_TEAM';
 
-const initialState = { id: '', name: '', owner: '' };
+const initialState = { id: '' };
 export const setActiveTeam = (team) => ({
   type: SET_ACTIVE_TEAM,
   payload: team,

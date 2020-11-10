@@ -1,4 +1,5 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
+import { getActiveTeamId } from '../../Teams/ActiveTeam/reducer';
 import { getLatestCheckin } from '../Collection/reducer';
 import { addItem, clearNewCheckin } from './list-reducer';
 
@@ -10,11 +11,17 @@ import {
 } from './reducer';
 
 export const getPreviousBlockersFromCollection = (state = {}) => {
-  const checkin = getLatestCheckin(state.checkins, state.activeTeam);
+  const checkin = getLatestCheckin(
+    state.checkins,
+    getActiveTeamId(state.activeTeam)
+  );
   return checkin.currentBlockers || [];
 };
 export const getPreviousTasksFromCollection = (state = {}) => {
-  const checkin = getLatestCheckin(state.checkins, state.activeTeam);
+  const checkin = getLatestCheckin(
+    state.checkins,
+    getActiveTeamId(state.activeTeam)
+  );
   return checkin.currentTasks || [];
 };
 

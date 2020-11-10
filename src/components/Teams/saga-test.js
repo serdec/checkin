@@ -5,11 +5,19 @@ import {
   loginUser,
   removeUsersSaga,
   saveTeam,
+  deleteTeamSaga,
+  watchDeleteTeam,
   watchGetTeams,
 } from './saga';
 import * as database from '../../services/database/database';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { loadTeams, addUsers, createTeam, removeUser } from './reducer';
+import {
+  loadTeams,
+  addUsers,
+  createTeam,
+  deleteTeam,
+  removeUser,
+} from './reducer';
 
 describe('teams saga', async (assert) => {
   {
@@ -53,6 +61,31 @@ describe('teams saga', async (assert) => {
         teamId: createTeamAction.payload.id,
         users: createTeamAction.payload.owners,
       }),
+      actual: iterator.next().value,
+    });
+  }
+  {
+    const iterator = watchDeleteTeam();
+    assert({
+      given: 'no arguments',
+      should: 'call the deleteTeamSaga',
+      expected: takeEvery(deleteTeam().type, deleteTeamSaga),
+      actual: iterator.next().value,
+    });
+  }
+  {
+    const deleteTeamAction = deleteTeam();
+    const iterator = deleteTeamSaga(deleteTeamAction);
+    assert({
+      given: 'a create action',
+      should: 'save the team',
+      expected: call(database.deleteTeam, deleteTeamAction.payload),
+      actual: iterator.next().value,
+    });
+    assert({
+      given: 'a deleteTeam action',
+      should: 'remove the team from the users',
+      expected: call(database.deleteTeamFromUsers, deleteTeamAction.payload),
       actual: iterator.next().value,
     });
   }

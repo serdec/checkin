@@ -1,6 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../services/database/database';
-import { createTeam, loadTeams, addUsers, removeUser } from './reducer';
+import {
+  createTeam,
+  deleteTeam,
+  loadTeams,
+  addUsers,
+  removeUser,
+} from './reducer';
 
 /************* GET TEAM *****************/
 export const loginUser = ({ user = '' } = {}) => ({
@@ -37,6 +43,20 @@ export function* saveTeam(action) {
 
 export function* watchSaveTeam() {
   yield takeEvery([createTeam().type], saveTeam);
+}
+
+/************* DELETE TEAM *****************/
+export function* deleteTeamSaga(action) {
+  try {
+    yield call(database.deleteTeam, action.payload);
+    yield call(database.deleteTeamFromUsers, action.payload);
+  } catch (e) {
+    console.log(`Error while deleting team ${e}`);
+  }
+}
+
+export function* watchDeleteTeam() {
+  yield takeEvery(deleteTeam().type, deleteTeamSaga);
 }
 
 /************* ADD MEMBER *****************/

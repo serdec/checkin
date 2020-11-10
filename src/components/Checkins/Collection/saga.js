@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as database from '../../../services/database/database';
-import { setActiveTeam } from '../../ActiveTeam/reducer';
+import { setActiveTeam } from '../../Teams/ActiveTeam/reducer';
 import { clearNewCheckin } from '../NewCheckin/list-reducer';
 import { addCheckin, loadCheckins } from './reducer';
 import {

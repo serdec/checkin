@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { getCheckinsByDay } from '../Checkins/Collection/reducer';
 import styles from './history.module.css';
 import TeamDayCheckins from '../Checkins/Collection/team-daily-summary';
-import { getActiveTeamId } from '../ActiveTeam/reducer';
+import { getActiveTeamId } from '../Teams/ActiveTeam/reducer';
 import CalendarCell from './CalendarCell/calendar-cell';
 
 const mapStateToProps = (state) => ({
