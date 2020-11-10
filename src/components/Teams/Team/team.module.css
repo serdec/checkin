@@ -12,6 +12,8 @@
 .team__header{
   font-size: 5em;
 }
+.team__delete{
+}
 .team__values{
   margin: .5em 1em;
 }

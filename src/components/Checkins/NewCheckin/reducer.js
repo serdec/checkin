@@ -1,4 +1,4 @@
-import { getActiveTeamId } from '../../ActiveTeam/reducer';
+import { getActiveTeamId } from '../../Teams/ActiveTeam/reducer';
 import { getTeamName, getTeams } from '../../Teams/reducer';
 import feedbackReducer from './feedback-reducer';
 import { listReducer } from './list-reducer';

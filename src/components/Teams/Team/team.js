@@ -1,30 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { func, object } from 'prop-types';
 import styles from './team.module.css';
 import Team__SimpleField from './__SimpleField/team__simple-field';
 import Team__ArrayField from './__ArrayField/team__array-field';
-import { removeUser, addUsers } from '../reducer';
-import { getActiveTeam } from '../../ActiveTeam/reducer';
+import { addUsers, deleteTeam, getTeam, removeUser } from '../reducer';
+import { getActiveTeamId, setActiveTeam } from '../ActiveTeam/reducer';
 import page from '../../../HOCs/page';
-import { Divider } from 'antd';
+import { Button, Divider } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import Modal from 'antd/lib/modal/Modal';
+import { useRouter } from 'next/dist/client/router';
 
 const _team = { name: '', id: '', members: [], owners: [] };
 const teamProperties = ['members', 'owners'];
 
 const mapStateToProps = (state) => ({
-  team: getActiveTeam(state.activeTeam),
+  team: getTeam(state.teams, getActiveTeamId(state.activeTeam)),
 });
 const mapDispatchToProps = {
-  removeUser,
   addUsers,
+  deleteTeam,
+  removeUser,
+  setActiveTeam,
 };
 
-const Team = ({ team = _team, addUsers, removeUser, user } = {}) => {
+export const Team = ({
+  team = _team,
+  addUsers,
+  deleteTeam,
+  setActiveTeam,
+  removeUser,
+  user,
+} = {}) => {
+  const [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
+  const router = useRouter();
   return (
     <div className={styles.team}>
       <div className={styles.team__header}>
         <h2>{team.name} Team</h2>
+      </div>
+      <div className={styles.team__delete}>
+        <Button
+          style={{ margin: '1em', borderRadius: '4px' }}
+          onClick={() => setVisibleDeleteModal(true)}
+        >
+          <DeleteOutlined />
+          Delete Team
+        </Button>
+        <Modal
+          visible={visibleDeleteModal}
+          onOk={() => {
+            setVisibleDeleteModal(false);
+            setActiveTeam({ id: '' });
+            deleteTeam(team.id);
+            router.push('/');
+          }}
+          onCancel={() => setVisibleDeleteModal(false)}
+        >
+          <p>Are you sure you want to permanently delete this team?</p>
+        </Modal>
       </div>
       {teamProperties.map((key) => {
         if (Array.isArray(team[key])) {
@@ -58,7 +93,9 @@ Team.propTypes = {
   team: object,
   user: object,
   addUsers: func,
+  deleteTeam: func,
   removeUser: func,
+  setActiveTeam: func,
 };
 const ConnectedTeam = connect(mapStateToProps, mapDispatchToProps)(Team);
 export default page(ConnectedTeam);

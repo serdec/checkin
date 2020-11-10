@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import History from './History/history';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ import {
 import { setFeedback } from './Checkins/NewCheckin/feedback-reducer';
 import { useCheckinFeatures } from './use-checkin-features';
 import styles from './app.module.css';
-import { getActiveTeamId } from './ActiveTeam/reducer';
+import { setActiveTeam, getActiveTeamId } from './Teams/ActiveTeam/reducer';
 
 const mapStateToProps = (state) => ({
   activeTeamId: getActiveTeamId(state.activeTeam),
@@ -30,6 +30,7 @@ const mapStateToProps = (state) => ({
   checkin: getCheckinInitialData(state),
 });
 const mapDispatchStateToProps = {
+  setActiveTeam,
   createNewCheckin,
   addItem,
   deleteItem,
@@ -44,8 +45,13 @@ const AppContent = ({
   checkin = {},
   saveStatus = '',
   user = {},
+  setActiveTeam,
   ...dispatchActions
 } = {}) => {
+  useEffect(() => {
+    if (activeTeamId === '' && teams.length > 0) setActiveTeam(teams[0]);
+  }, [activeTeamId, setActiveTeam, teams]);
+
   const { saveCheckin, loading, retry, history } = useCheckinFeatures({
     checkinActions: dispatchActions,
     saveStatus,
@@ -88,6 +94,7 @@ AppContent.propTypes = {
   user: PropTypes.object,
   saveStatus: PropTypes.object,
   saveCheckinEnancher: PropTypes.object,
+  setActiveTeam: PropTypes.func,
   teams: PropTypes.array,
   createNewCheckin: PropTypes.func,
 };

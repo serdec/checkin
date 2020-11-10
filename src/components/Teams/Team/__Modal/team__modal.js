@@ -26,7 +26,7 @@ const Team__Modal = ({
   return (
     <>
       <Modal
-        className={styles.appHeader__modal}
+        className={styles.team__modal}
         title="Invite New Members to the Team"
         visible={visible}
         onOk={handleOk}

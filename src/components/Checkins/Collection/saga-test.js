@@ -9,7 +9,7 @@ import {
   reportSaveCheckinSuccess,
 } from './save-checkin-states-reducer';
 import { clearNewCheckin } from '../NewCheckin/list-reducer';
-import { setActiveTeam } from '../../ActiveTeam/reducer';
+import { setActiveTeam } from '../../Teams/ActiveTeam/reducer';
 
 const newCheckin = ({
   id = '1',

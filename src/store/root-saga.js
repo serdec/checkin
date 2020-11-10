@@ -9,6 +9,7 @@ import {
   watchAddMembers,
   watchGetTeams,
   watchRemoveUser,
+  watchDeleteTeam,
   watchSaveTeam,
 } from '../components/Teams/saga';
 
@@ -19,6 +20,7 @@ export default function* rootSaga() {
     watchSaveCheckin(),
     watchGetCheckins(),
     watchGetTeams(),
+    watchDeleteTeam(),
     watchSaveTeam(),
     watchLoadPreviousTasksAndBlockers(),
   ]);

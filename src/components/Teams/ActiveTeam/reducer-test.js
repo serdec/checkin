@@ -1,10 +1,8 @@
 import { describe } from 'riteway';
-import { activeTeamReducer, setActiveTeam } from './reducer';
+import { activeTeamReducer, getActiveTeam, setActiveTeam } from './reducer';
 
-const createState = ({ id = '', name = '', owner = '' } = {}) => ({
+const createState = ({ id = '' } = {}) => ({
   id,
-  name,
-  owner,
 });
 describe('active team', async (assert) => {
   {
@@ -19,13 +17,26 @@ describe('active team', async (assert) => {
   {
     const activeTeam = createState({
       id: '1',
-      name: 'activeTeam',
-      owner: 'owner@email.com',
     });
     assert({
       given: 'an active team',
       should: 'set the active team',
       actual: activeTeamReducer(activeTeamReducer(), setActiveTeam(activeTeam)),
+      expected: activeTeam,
+    });
+  }
+  {
+    const activeTeam = createState({
+      id: '1',
+    });
+    const state = activeTeamReducer(
+      activeTeamReducer(),
+      setActiveTeam(activeTeam)
+    );
+    assert({
+      given: 'an active team',
+      should: 'get the active team',
+      actual: getActiveTeam(state),
       expected: activeTeam,
     });
   }

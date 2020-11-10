@@ -32,7 +32,7 @@ export const createTeam = ({
   },
 });
 
-export const deleteTeam = (id) => ({
+export const deleteTeam = (id = '') => ({
   type: DELETE_TEAM,
   payload: id,
 });
@@ -81,7 +81,7 @@ export const toggleTeamsVisibility = () => ({
 export const getTeams = (state) => state.items;
 
 export const getTeam = (state = initialState, teamId = '') => {
-  return { ...state.items.filter((team) => team.id === teamId) };
+  return [...state.items.filter((team) => team.id === teamId)][0];
 };
 export const getTeamName = (state = initialState, teamId = '') => {
   const teamArr = state.items.filter((team) => team.id === teamId);

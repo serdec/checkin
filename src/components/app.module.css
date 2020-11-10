@@ -7,11 +7,11 @@
   padding: 2em 0;
 }
 .siteLayoutContent{
-  background-color: #fff;
+  background-color: #5c1eed;
+  min-width: 70vw;
  
   display: flex;
   justify-content: center; 
-  min-width: 70vw;
 }
 @media(max-width: 600px){
   .siteLayoutContent{
@@ -25,9 +25,12 @@
 }
 
 .appContent{
+    margin: 0.7em;
     padding: 0em 2em;
     min-width: 75vw;
-    background-color: lightgray;
+    background-color: #fff;
+    border: 0px #5c1eed solid;
+    border-radius: 20px;
 }
 @media (max-width: 600px){
   .appContent{

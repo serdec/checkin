@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Layout, Menu } from 'antd';
 import styles from '../ControlPanel/control-panel.module.css';
 import TeamCreationInput from './team-creation-input';
-import { getActiveTeamId, setActiveTeam } from '../ActiveTeam/reducer';
+import { getActiveTeamId, setActiveTeam } from '../Teams/ActiveTeam/reducer';
 import withUser from '../../lib/magic/with-user';
 import { createTeam, getTeams, getTeamsVisibility } from '../Teams/reducer';
 import { useRouter } from 'next/dist/client/router';
@@ -33,6 +33,9 @@ const AppSider = ({
   const [visibleSideBar, setVisibleSideBar] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    if (activeTeamId === '' && teams.length > 0) setActiveTeam(teams[0]);
+  }, [activeTeamId, setActiveTeam, teams]);
   useEffect(() => {
     setVisibleSideBar(visible);
     if (teams.length > 0 && activeTeamId.length === 0) {
