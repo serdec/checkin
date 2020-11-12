@@ -73,6 +73,7 @@ const AppContent = ({
         teams={teams}
         createNewCheckin={dispatchActions.createNewCheckin}
         setVisibleCheckinHistory={history.setVisible}
+        setRetry={retry.setRetry}
       />
       {loading && <Loading />}
       {!loading && retry.visible && <Retry retryAction={retry.onClick} />}

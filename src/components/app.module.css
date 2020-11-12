@@ -13,11 +13,6 @@
   display: flex;
   justify-content: center; 
 }
-@media(max-width: 600px){
-  .siteLayoutContent{
-    width: 95vw;
-  }
-}
 
 .siteLayoutSider{
   box-sizing: border-box;
@@ -27,12 +22,18 @@
 .appContent{
     margin: 0.7em;
     padding: 0em 2em;
-    min-width: 75vw;
+    min-width: 50%;
+    max-width: 1200px;
     background-color: #fff;
     border: 0px #5c1eed solid;
     border-radius: 20px;
 }
-@media (max-width: 600px){
+@media (max-width: 1500px){
+  .appContent{
+    min-width: 80%;
+  }
+}
+@media (max-width: 900px){
   .appContent{
     padding: 0 0;
   }

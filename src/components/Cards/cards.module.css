@@ -1,17 +1,23 @@
 .card {
-  display: flex;
-  flex-flow: column;
-  width: 30em;
+  width: 40%;
   height: 70vh;
   max-height: 600px;
   border: 1px solid #5c1eed;
   border-radius: 1em;
   list-style: none;
   overflow: hidden;
+
+  display: flex;
+  flex-flow: column;
+}
+@media (max-width: 900px){
+  .card{
+    width: 48%;
+  }
 }
 @media (max-width: 700px){
   .card{
-    width: 80vw;
+    width: 90%;
   }
 }
 .card_margin_1 {

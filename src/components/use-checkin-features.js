@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const noop = () => {};
+const noop = () => { };
 
 const useSaveCheckin = ({
   checkin = {},
@@ -22,6 +22,7 @@ const useRetry = ({ saveStatus = {}, saveCheckin = noop } = {}) => {
 
   return {
     visible: retry,
+    setRetry,
     onClick: () => saveCheckin(saveStatus.payload),
   };
 };
