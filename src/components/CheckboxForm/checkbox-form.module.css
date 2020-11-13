@@ -5,7 +5,7 @@
 }
 
 .checkboxItem{
-  width: 25em;
+  width: 100%;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
@@ -15,7 +15,7 @@
 
 @media (max-width: 700px){
   .checkboxItem{
-    width: 70vw;
+    width: 93%;
   }
 }
 

@@ -1,11 +1,13 @@
 .team{
-  width: 70vw;
+  margin: .7em 0;
+  width: 70%;
   max-width: 1200px;
-  border: 3px solid red;
+  background-color: white;
+  border-radius: 20px;
 }
 @media(max-width: 700px){
   .team{
-    width: 90vw;
+    width: 99%;
   }
 }
 
@@ -14,8 +16,12 @@
 }
 .team__delete{
 }
-.team__values{
+.team__members{
   margin: .5em 1em;
+  
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
 .team__label{
   margin: 0 1em;
@@ -27,6 +33,13 @@
 
 .team__arrayField{
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   align-items: flex-start;
 }
+.team__userCard{
+  margin: 1em 1em;
+  padding: 1em;
+  width: 150px;
+  height: 150px;
+}
+

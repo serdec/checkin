@@ -8,7 +8,8 @@
 }
 .siteLayoutContent{
   background-color: #5c1eed;
-  min-width: 70vw;
+  width: 100%;
+  /* max-width: 1200px; */
  
   display: flex;
   justify-content: center; 
@@ -22,7 +23,7 @@
 .appContent{
     margin: 0.7em;
     padding: 0em 2em;
-    min-width: 50%;
+    width: 90%;
     max-width: 1200px;
     background-color: #fff;
     border: 0px #5c1eed solid;
@@ -30,7 +31,7 @@
 }
 @media (max-width: 1500px){
   .appContent{
-    min-width: 80%;
+    width: 99%;
   }
 }
 @media (max-width: 900px){

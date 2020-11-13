@@ -8,7 +8,7 @@ import { addUsers, deleteTeam, getTeam, removeUser } from '../reducer';
 import { getActiveTeamId, setActiveTeam } from '../ActiveTeam/reducer';
 import page from '../../../HOCs/page';
 import { Button, Divider } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LogoutOutlined } from '@ant-design/icons';
 import Modal from 'antd/lib/modal/Modal';
 import { useRouter } from 'next/dist/client/router';
 
@@ -31,10 +31,12 @@ export const Team = ({
   deleteTeam,
   setActiveTeam,
   removeUser,
-  user,
+  user = {},
 } = {}) => {
   const [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
+  const [visibleLeaveGroupModal, setVisibleLeaveTeamModal] = useState(false);
   const router = useRouter();
+  const isOwner = team.owners.includes(user.email);
   return (
     <div className={styles.team}>
       <div className={styles.team__header}>
@@ -43,23 +45,50 @@ export const Team = ({
       <div className={styles.team__delete}>
         <Button
           style={{ margin: '1em', borderRadius: '4px' }}
-          onClick={() => setVisibleDeleteModal(true)}
+          onClick={() => setVisibleLeaveTeamModal(true)}
         >
-          <DeleteOutlined />
-          Delete Team
+          <LogoutOutlined />
+          Leave Group
         </Button>
         <Modal
-          visible={visibleDeleteModal}
+          visible={visibleLeaveGroupModal}
           onOk={() => {
-            setVisibleDeleteModal(false);
+            setVisibleLeaveTeamModal(false);
             setActiveTeam({ id: '' });
-            deleteTeam(team.id);
+            removeUser({
+              teamId: team.id,
+              userId: user.email,
+              listName: 'members',
+            });
             router.push('/');
           }}
-          onCancel={() => setVisibleDeleteModal(false)}
+          onCancel={() => setVisibleLeaveTeamModal(false)}
         >
-          <p>Are you sure you want to permanently delete this team?</p>
+          <p>Are you sure you want to leave this team?</p>
         </Modal>
+        {isOwner && (
+          <>
+            <Button
+              style={{ margin: '1em', borderRadius: '4px' }}
+              onClick={() => setVisibleDeleteModal(true)}
+            >
+              <DeleteOutlined />
+              Delete Team
+            </Button>
+            <Modal
+              visible={visibleDeleteModal}
+              onOk={() => {
+                setVisibleDeleteModal(false);
+                setActiveTeam({ id: '' });
+                deleteTeam(team.id);
+                router.push('/');
+              }}
+              onCancel={() => setVisibleDeleteModal(false)}
+            >
+              <p>Are you sure you want to permanently delete this team?</p>
+            </Modal>
+          </>
+        )}
       </div>
       {teamProperties.map((key) => {
         if (Array.isArray(team[key])) {
