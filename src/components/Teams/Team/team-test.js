@@ -5,8 +5,10 @@ import match from 'riteway/match';
 import { Team } from './team';
 import styles from './team.module.css';
 describe('team', async (assert) => {
-  const createTeam = ({ user = { email: '' }, team = { name: '' } } = {}) =>
-    render(<Team user={user} team={team} />);
+  const createTeam = ({
+    user = { email: '' },
+    team = { name: '', owners: [] },
+  } = {}) => render(<Team user={user} team={team} />);
   {
     const $ = createTeam();
     assert({
@@ -27,7 +29,7 @@ describe('team', async (assert) => {
   }
   {
     const name = 'TeamName';
-    const team = { name };
+    const team = { name, owners: [] };
     const $ = createTeam({ team });
     const contains = match($.html());
     assert({

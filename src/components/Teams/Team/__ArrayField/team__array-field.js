@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { array, bool, func, string } from 'prop-types';
 import styles from '../team.module.css';
+import UserCard from '../../../UserCard/user-card';
 import Team__Modal from '../__Modal/team__modal';
 
 export const Team__ArrayField = ({
@@ -13,7 +14,7 @@ export const Team__ArrayField = ({
   removeUser,
 } = {}) => {
   const [visible, setVisible] = useState(false);
-  const handleRemoveMember = (member) => {
+  const handleRemoveUser = (member) => {
     if (members.length === 1) {
       alert('cannot remove member, a team must have at least a member');
       return;
@@ -36,16 +37,25 @@ export const Team__ArrayField = ({
       <div className={styles.team__label}>
         <h2>{listName}: </h2>
       </div>
-      <div className={styles.team__values}>
+      <div className={styles.team__members}>
         {members.map((member) => (
-          <div key={member}>
-            {member}
-            <button onClick={() => handleRemoveMember(member)}>x</button>
-          </div>
+          <UserCard
+            key={member}
+            label={member.split('@')[0]}
+            member={member}
+            img={'/user.svg'}
+            handleRemoveUser={handleRemoveUser}
+            className={styles.team__userCard}
+          />
         ))}
         {isOwner && (
-          <div>
-            <button onClick={handleAddUser}>+ Add user</button>
+          <>
+            <UserCard
+              label={'+ Add users'}
+              img={'/addUser.svg'}
+              onClick={handleAddUser}
+              className={styles.team__userCard}
+            />
             <Team__Modal
               visible={visible}
               setVisible={setVisible}
@@ -53,7 +63,7 @@ export const Team__ArrayField = ({
               addUsers={addUsers}
               teamId={teamId}
             />
-          </div>
+          </>
         )}
       </div>
     </div>

@@ -11,12 +11,18 @@ const noop = () => {
 
 const layout = {
   labelCol: { xs: { span: 20 }, sm: { span: 8 } },
-  wrapperCol: { span: 0 },
+  wrapperCol: { span: 18 },
 };
 const tailLayout = {
   wrapperCol: {
-    span: 18,
-    offset: 1,
+    xs: {
+      span: 20,
+      offset: 1,
+    },
+    sm: {
+      span: 20,
+      offset: 1,
+    },
   },
 };
 

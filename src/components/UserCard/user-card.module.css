@@ -1,0 +1,32 @@
+.userCard{
+  padding: 1em;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  position: relative;
+  
+
+
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.userCard:hover{
+  border-color:  #5c1eed;
+}
+.userCard:active{
+  border-color:  #5c1eed;
+  box-shadow: 1px 1px 2px #666;
+  scale: 0.99;
+
+}
+.userCard__controls{
+  /* width: 100%; */
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+.userCard__label{
+  max-width: 100%;
+  overflow: auto;
+}

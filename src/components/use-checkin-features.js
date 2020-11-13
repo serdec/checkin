@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const noop = () => { };
+const noop = () => {};
 
 const useSaveCheckin = ({
   checkin = {},
